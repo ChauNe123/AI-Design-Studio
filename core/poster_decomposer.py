@@ -178,6 +178,8 @@ class PosterDecomposer:
             layer_type=layer_type,
             source_file=rel_img,
             mask_file=rel_msk,
+            mask_x=x,
+            mask_y=y,
             x=x,
             y=y,
             width=bw,
@@ -249,6 +251,20 @@ class PosterDecomposer:
             shadow_enabled=False,
             gradient_enabled=False,
         )
+        # Strip excess transparent render padding and clamp strictly inside canvas bounds
+        h_canv, w_canv = src_rgb.shape[:2]
+        bbox = ed_im.getchannel("A").getbbox()
+        if bbox:
+            cx1 = max(0, bbox[0] - 2)
+            cy1 = max(0, bbox[1] - 2)
+            cx2 = min(ed_im.width, bbox[2] + 2)
+            cy2 = min(ed_im.height, bbox[3] + 2)
+            ed_im = ed_im.crop((cx1, cy1, cx2, cy2))
+        ex_clamped = max(0, min(int(edit_x), max(0, w_canv - ed_im.width)))
+        ey_clamped = max(0, min(int(edit_y), max(0, h_canv - ed_im.height)))
+        if ed_im.width > w_canv - ex_clamped or ed_im.height > h_canv - ey_clamped:
+            ed_im = ed_im.crop((0, 0, min(ed_im.width, max(1, w_canv - ex_clamped)), min(ed_im.height, max(1, h_canv - ey_clamped))))
+
         safe = re.sub(r"[^A-Za-z0-9_\-]", "_", edit_name)
         rel = f"layers/{safe}.png"
         ed_im.save(os.path.join(self.project_dir, rel))
@@ -257,8 +273,8 @@ class PosterDecomposer:
             name=edit_name,
             layer_type="text",
             source_file=rel,
-            x=max(0, edit_x),
-            y=max(0, edit_y),
+            x=ex_clamped,
+            y=ey_clamped,
             width=ed_im.width,
             height=ed_im.height,
             z_index=z_edit,
@@ -944,59 +960,85 @@ class PosterDecomposer:
         # A. Reconstruct Clean Twilight Sky Gradient (`01_Background_Sky_Twilight_Clean`, z=1)
         dil_sky = np.zeros((h, w), dtype=np.uint8)
         top_left_ui = np.zeros((h, w), dtype=np.uint8)
-        top_left_ui[12:285, 0:312] = cv2.dilate(ui_claimed[12:285, 0:312], np.ones((11, 11), np.uint8), iterations=1)
-        dil_sky = cv2.bitwise_or(dil_sky, top_left_ui)  # mask ONLY logo/text/ribbon glyphs, keeping authentic TL sky gradient
-        dil_sky[62:545, 372:665] = 255        # iPhone + drop-shadow halo
-        dil_sky[100:355, 635:w] = 255         # right Ferris wheel landmark
+        top_left_ui[12:285, 0:312] = cv2.dilate(ui_claimed[12:285, 0:312], np.ones((17, 17), np.uint8), iterations=1)
+        dil_sky = cv2.bitwise_or(dil_sky, top_left_ui)
+        # Keep genuine twilight glow bands between TL UI rows as clean harmonic anchors
+        dil_sky[18:106, 22:308] = 255         # brand logo + MELBOURNE XPRESS CABS
+        dil_sky[122:222, 20:296] = 255        # Taxi Service + Me Cabs + pin halo
+        dil_sky[236:276, 0:260] = 255         # "We are available at:" ribbon bar
+        dil_sky[58:548, 370:666] = 255        # iPhone + drop-shadow halo
+        dil_sky[96:356, 635:w] = 255          # right Ferris wheel landmark + bridge
         dil_sky = cv2.bitwise_or(
             dil_sky,
-            cv2.dilate(cv2.bitwise_or(route_mask, pin_left_mask), np.ones((23, 23), np.uint8)),
+            cv2.dilate(cv2.bitwise_or(route_mask, pin_left_mask), np.ones((25, 25), np.uint8)),
         )
         dil_sky[352:h, 45:668] = 255          # hero yellow taxi & road contact zone
         dil_sky[495:h, :] = 255               # road & footer wedges below horizon
 
-        sky_work = bgr.copy()
-        clean_sky = (dil_sky == 0) & (gray > 145)
-        clean_rows = np.where(np.sum(clean_sky, axis=1) >= 12)[0]
-        # Pure horizon lavender fog median from verified clear left horizon (`x: 8..55, y: 420..490`)
-        horizon_cand = bgr[420:490, 8:55]
-        horizon_gray = gray[420:490, 8:55]
-        horizon_bgr = (
-            np.median(horizon_cand[horizon_gray > 145], axis=0).astype(np.uint8)
-            if np.any(horizon_gray > 145)
-            else np.array([238, 214, 210], dtype=np.uint8)
-        )
-        for ry in range(h):
-            mx = np.where(dil_sky[ry, :] > 0)[0]
-            if len(mx) == 0:
-                continue
-            if ry >= 490:
-                sky_work[ry, mx] = horizon_bgr
-                continue
-            ux = np.where(clean_sky[ry, :])[0]
-            if len(ux) >= 8:
-                for ch in range(3):
-                    sky_work[ry, mx, ch] = np.clip(
-                        np.interp(mx.astype(np.float32), ux.astype(np.float32), bgr[ry, ux, ch].astype(np.float32)),
-                        0,
-                        255,
-                    ).astype(np.uint8)
-            elif len(clean_rows) > 0:
-                nr = int(clean_rows[np.argmin(np.abs(clean_rows - ry))])
-                ux2 = np.where(clean_sky[nr, :])[0]
-                for ch in range(3):
-                    sky_work[ry, mx, ch] = np.clip(
-                        np.interp(mx.astype(np.float32), ux2.astype(np.float32), bgr[nr, ux2, ch].astype(np.float32)),
-                        0,
-                        255,
-                    ).astype(np.uint8)
+        clean_sky = (dil_sky == 0) & (gray > 148) & (hsv[:, :, 1] < 85)
+        bgr_f = bgr.astype(np.float32)
 
-        sky_dil_blend = cv2.dilate(dil_sky, np.ones((9, 9), np.uint8), iterations=1)
-        sky_smooth_tl = cv2.GaussianBlur(sky_work, (17, 17), 0)
-        sky_smooth_big = cv2.GaussianBlur(sky_work, (45, 45), 0)
-        tl_zone = (np.arange(h)[:, None] < 295) & (np.arange(w)[None, :] < 330)
-        sky_blended = np.where(tl_zone[:, :, None], sky_smooth_tl, sky_smooth_big)
-        sky_work = np.where(sky_dil_blend[:, :, None] > 0, sky_blended, bgr)
+        # Warm-start altitude twilight profile + coarse-to-fine Harmonic/Laplace diffusion for C1 seamless sky
+        c0 = np.zeros((h, 3), dtype=np.float32)
+        c1 = np.zeros((h, 3), dtype=np.float32)
+        row_has_data = np.zeros(h, dtype=bool)
+        for ry in range(494):
+            ux = np.where(clean_sky[ry, :])[0]
+            if len(ux) >= 16:
+                x_norm = ux.astype(np.float32) / float(w)
+                x_mean = float(np.mean(x_norm))
+                dx = x_norm - x_mean
+                denom = float(np.sum(dx * dx))
+                for ch in range(3):
+                    vals = bgr_f[ry, ux, ch]
+                    v_mean = float(np.mean(vals))
+                    slope = float(np.sum(dx * (vals - v_mean)) / denom) if denom > 1e-4 and (ux.max() - ux.min()) > 120 else 0.0
+                    slope = float(np.clip(slope, -26.0, 26.0))
+                    c1[ry, ch] = slope
+                    c0[ry, ch] = v_mean - slope * x_mean
+                row_has_data[ry] = True
+
+        valid_rows = np.where(row_has_data)[0]
+        if len(valid_rows) > 0:
+            for ch in range(3):
+                c0[:, ch] = np.interp(np.arange(h), valid_rows, c0[valid_rows, ch])
+                c1[:, ch] = np.interp(np.arange(h), valid_rows, c1[valid_rows, ch])
+        c0_sm = cv2.GaussianBlur(c0.reshape(h, 1, 3), (1, 15), 0).reshape(h, 3)
+        c1_sm = cv2.GaussianBlur(c1.reshape(h, 1, 3), (1, 25), 0).reshape(h, 3)
+        x_frac = (np.arange(w, dtype=np.float32) / float(w))[None, :, None]
+        sky_cur = np.clip(c0_sm[:, None, :] + c1_sm[:, None, :] * x_frac, 0.0, 255.0)
+        sky_cur[488:, :, :] = np.broadcast_to(sky_cur[487:488, :, :], (h - 488, w, 3))
+
+        # Anchor valid horizon mist below y=488 during multiscale harmonic diffusion
+        valid_sky_mask = clean_sky.copy()
+        valid_sky_mask[490:, :] = True
+        anchor_f = bgr_f.copy()
+        anchor_f[490:, :, :] = sky_cur[490:, :, :]
+
+        for scale_sz, n_iter in [(92, 40), (184, 30), (368, 20), (w, 12)]:
+            if scale_sz != w:
+                cur_s = cv2.resize(sky_cur, (scale_sz, scale_sz), interpolation=cv2.INTER_LINEAR)
+                anc_s = cv2.resize(anchor_f, (scale_sz, scale_sz), interpolation=cv2.INTER_AREA)
+                val_s = cv2.resize(valid_sky_mask.astype(np.float32), (scale_sz, scale_sz), interpolation=cv2.INTER_AREA) > 0.75
+            else:
+                cur_s = sky_cur
+                anc_s = anchor_f
+                val_s = valid_sky_mask
+            for _ in range(n_iter):
+                cur_s = cv2.GaussianBlur(cur_s, (5, 5), 0)
+                cur_s[val_s] = anc_s[val_s]
+            sky_cur = cur_s if scale_sz == w else cv2.resize(cur_s, (w, h), interpolation=cv2.INTER_CUBIC)
+
+        # Gentle de-speckle on reconstructed sky holes + natural sensor micro-dither
+        sky_holes = (dil_sky > 0).astype(np.float32)
+        sky_blend_w = cv2.GaussianBlur(sky_holes, (15, 15), 0)[:, :, None]
+        rng_sky = np.random.default_rng(17)
+        sky_dither = rng_sky.normal(0.0, 0.65, (h, w, 3)).astype(np.float32)
+        sky_work = np.clip(
+            bgr_f * (1.0 - sky_blend_w) + (sky_cur + sky_dither) * sky_blend_w,
+            0,
+            255,
+        ).astype(np.uint8)
 
         sky_rgb = cv2.cvtColor(sky_work, cv2.COLOR_BGR2RGB)
         sky_rel = "layers/01_Background_Sky_Twilight_Clean.png"
@@ -1012,20 +1054,28 @@ class PosterDecomposer:
             z_index=1,
             group="1_BG_&_Atmosphere",
             ai_reconstructed=True,
-            reconstruction_history=[{"timestamp": datetime.now().isoformat(timespec="seconds"), "pixel_origin": "smooth_sky_gradient_row_interp", "engine": "twilight_sky_grad"}],
-            confidence_score=0.95,
+            reconstruction_history=[{"timestamp": datetime.now().isoformat(timespec="seconds"), "pixel_origin": "2d_normalized_gaussian_twilight_surface", "engine": "twilight_sky_grad_v3"}],
+            confidence_score=0.96,
         ))
 
         # B. Ferris Wheel & Pier Landmark on Right Horizon (`02_Ferris_Wheel_Landmark_Right`, z=2)
+        # Strictly exclude iPhone's right metallic bezel & drop shadow (`x <= 657`, dark bezel at x=649..653)
         ferris_work = bgr.copy()
         fw_diff = np.linalg.norm(bgr.astype(np.float32) - sky_work.astype(np.float32), axis=2)
         fw_alpha = np.zeros((h, w), dtype=np.uint8)
-        fw_alpha[108:342, 649:w] = np.clip((fw_diff[108:342, 649:w] - 8.0) * 6.5, 0, 255).astype(np.uint8)
-        # Mirror-pad 12px behind iPhone's right edge (`x: 637..649`) so moving the phone reveals continuous rim
-        for col in range(637, 650):
-            src_col = min(w - 1, 650 + (650 - col))
-            ferris_work[108:342, col] = bgr[108:342, src_col]
-            fw_alpha[108:342, col] = (fw_alpha[108:342, src_col] * 0.85).astype(np.uint8)
+        fw_alpha[98:342, 658:w] = np.clip((fw_diff[98:342, 658:w] - 8.0) * 6.5, 0, 255).astype(np.uint8)
+        # Reconstruct 22px left circular rim (`x: 636..657`) shifting downward smoothly along wheel tangent
+        for col in range(636, 658):
+            dist_l = 658 - col
+            src_col = min(w - 1, 658 + dist_l)
+            taper = 0.5 - 0.5 * float(np.cos(np.pi * float(col - 635) / 23.0))
+            for row in range(98, 342):
+                row_w = max(0.0, min(1.0, (235.0 - float(row)) / 125.0))
+                dy_row = int(round(dist_l * 0.42 * row_w))
+                src_row = min(341, max(98, row - dy_row))
+                ferris_work[row, col] = bgr[src_row, src_col]
+                a_src = float(fw_alpha[src_row, src_col])
+                fw_alpha[row, col] = np.clip(a_src * (0.15 + 0.78 * taper), 0, 255).astype(np.uint8)
         self._add_raster_layer(
             name="02_Ferris_Wheel_Landmark_Right",
             layer_type="object",
@@ -1034,20 +1084,25 @@ class PosterDecomposer:
             mask_u8=fw_alpha,
             cat="background_landmark",
             z_index=2,
-            confidence=0.89,
+            confidence=0.91,
             ai_reconstructed=True,
             decontaminate=False,
         )
 
         # C. Amodal Curved Asphalt Road Surface (`03_Asphalt_Road_Curved_Track`, z=3)
-        # Use RGB chroma so jet-black car shadows under bumper [1, 4, 8] are 100% included in dark asphalt road
+        # Smooth perspective road horizon curve connecting left rim (x=55, y=514) to right rim (x=655, y=610)
+        xx_arr = np.arange(w, dtype=np.float32)
+        xx_grid = np.arange(w)[None, :]
+        yy_grid = np.arange(h)[:, None]
+        road_top_curve = np.round(514.0 + 96.0 * (np.clip((xx_arr - 55.0) / 600.0, 0.0, 1.0) ** 1.22)).astype(np.int32)
+
         rgb_chroma = np.ptp(bgr.astype(np.int16), axis=2)
         road_line_l = ((hsv[:, :, 0] >= 18) & (hsv[:, :, 0] <= 34) & (hsv[:, :, 1] >= 75) & (gray > 80)).astype(np.uint8) * 255
         road_line_l[:, 85:] = 0
         road_cand = (((gray < 145) & ((rgb_chroma < 26) | (hsv[:, :, 1] < 48))) | (road_line_l > 0)).astype(np.uint8) * 255
         road_cand[:498, :] = 0
         road_cand[712:, :] = 0
-        # Zero blue & orange footer overlaps briefly to get top road shoulder edge, then extend cleanly behind wedges
+
         blue_tri_mask = np.zeros((h, w), dtype=np.uint8)
         cv2.fillPoly(blue_tri_mask, [np.array([[0, 623], [542, 736], [0, 736]], dtype=np.int32)], 255)
         orange_tri_mask = np.zeros((h, w), dtype=np.uint8)
@@ -1056,52 +1111,77 @@ class PosterDecomposer:
 
         road_vis = cv2.subtract(road_cand, wedges_all)
         road_vis = cv2.subtract(road_vis, taxi_bin)
-        car_or_shad_band = np.where(((taxi_bin > 0) | (shad_alpha > 5)) & (np.arange(h)[:, None] >= 518), 255, 0).astype(np.uint8)
-        road_vis = cv2.bitwise_or(road_vis, car_or_shad_band)
+        corridor_fill = np.where(
+            (xx_grid >= 52) & (xx_grid <= 656) & (yy_grid >= road_top_curve[None, :]) & (yy_grid <= 676),
+            255,
+            0,
+        ).astype(np.uint8)
+        road_vis = cv2.bitwise_or(road_vis, corridor_fill)
         road_vis = cv2.morphologyEx(road_vis, cv2.MORPH_CLOSE, np.ones((9, 9), np.uint8))
         road_mask_full = _flood_seal_holes(road_vis)
-        # Extend road base cleanly slightly below wedge diagonals so edges behind wedges never show gaps
-        road_base_band = np.zeros((h, w), dtype=np.uint8)
-        road_base_band[518:706, :] = np.where((road_mask_full[518:706, :] > 0) | (wedges_all[518:706, :] > 0), 255, 0).astype(np.uint8)
+        wedges_dil15 = cv2.dilate(wedges_all, np.ones((15, 15), np.uint8), iterations=1)
+        road_base_band = np.where(
+            (yy_grid >= 518) & (yy_grid <= 706) & ((road_mask_full > 0) | (wedges_all > 0) | (wedges_dil15 > 0)),
+            255,
+            0,
+        ).astype(np.uint8)
         road_mask_full = cv2.bitwise_or(road_mask_full, road_base_band)
+        road_mask_full = np.where((xx_grid >= 54) & (yy_grid < road_top_curve[None, :]), 0, road_mask_full).astype(np.uint8)
         road_mask_full[:500, :] = 0
         road_mask_full[708:, :] = 0
 
-        # Amodal Road Fill underneath Taxi & Shadow sampling ONLY clean neutral gray asphalt (no yellow center stripe smear)
-        taxi_dil9 = cv2.dilate(taxi_bin, np.ones((9, 9), np.uint8), iterations=1)
-        car_shad_hole = (taxi_dil9 > 0) | (shad_alpha > 8) | (wedges_all > 0) | (phone_bin > 0)
-        inpaint_road_mask = np.where((road_mask_full > 0) & car_shad_hole, 255, 0).astype(np.uint8)
-        clean_asphalt = (
-            (road_mask_full > 0)
-            & (inpaint_road_mask == 0)
-            & (rgb_chroma < 18)
-            & (gray >= 34)
-            & (gray <= 92)
-        )
-        road_work = bgr.copy()
-        for ry in range(498, 708):
-            mx = np.where(inpaint_road_mask[ry, :] > 0)[0]
-            if len(mx) == 0:
-                continue
-            t_frac = float(np.clip((ry - 505.0) / 160.0, 0.0, 1.0))
-            grad_col = np.array([
-                60.0 - 16.0 * t_frac,
-                62.0 - 16.0 * t_frac,
-                66.0 - 16.0 * t_frac,
-            ], dtype=np.float32)
-            if int(np.sum(clean_asphalt[ry, :])) >= 6:
-                row_col = np.median(bgr[ry, clean_asphalt[ry, :]], axis=0).astype(np.float32)
-                fill_col = np.clip(0.6 * row_col + 0.4 * grad_col, 0, 255).astype(np.uint8)
-            else:
-                fill_col = grad_col.astype(np.uint8)
-            road_work[ry, mx] = fill_col
+        # Identify full unmasked occlusion zone (NOT clipped to road_mask_full, so edge feathering never pulls yellow car or footer text)
+        taxi_dil17 = cv2.dilate(taxi_bin, np.ones((17, 17), np.uint8), iterations=1)
+        wedges_dil19 = cv2.dilate(wedges_all, np.ones((19, 19), np.uint8), iterations=1)
+        shad_bin = np.where(shad_alpha > 6, 255, 0).astype(np.uint8)
+        shad_dil = cv2.dilate(shad_bin, np.ones((9, 9), np.uint8), iterations=1)
+        hole_full = (taxi_dil17 > 0) | (shad_dil > 0) | (wedges_dil19 > 0) | (phone_bin > 0) | (yy_grid >= 622)
+        inpaint_road_mask = np.where((road_mask_full > 0) & hole_full, 255, 0).astype(np.uint8)
 
-        road_sm = cv2.GaussianBlur(road_work, (19, 19), 0)
-        road_work = np.where(inpaint_road_mask[:, :, None] > 0, road_sm, road_work)
-        # Add subtle organic asphalt grain inside reconstructed zone so road looks completely realistic
-        rng = np.random.default_rng(42)
-        noise = rng.normal(0.0, 1.8, (h, w, 3)).astype(np.float32)
-        road_textured = np.clip(road_work.astype(np.float32) + np.where(inpaint_road_mask[:, :, None] > 0, noise, 0.0), 0, 255).astype(np.uint8)
+        # Build independent perspective asphalt shading field + non-periodic procedural multi-scale pavement texture
+        rel_y = np.clip((yy_grid.astype(np.float32) - road_top_curve[None, :].astype(np.float32)) / 120.0, 0.0, 1.0)
+        shade_v = 70.0 - 27.0 * (rel_y ** 0.85)
+        shading_bgr = np.stack([shade_v, shade_v, shade_v + 1.0], axis=2)
+
+        rng_rd = np.random.default_rng(42)
+        coarse_grain = cv2.GaussianBlur(rng_rd.normal(0.0, 3.8, (h, w)).astype(np.float32), (5, 3), 0)[:, :, None]
+        streak_grain = cv2.GaussianBlur(rng_rd.normal(0.0, 3.2, (h, w)).astype(np.float32), (11, 1), 0)[:, :, None]
+        fine_grain = rng_rd.normal(0.0, 1.4, (h, w, 3)).astype(np.float32)
+        road_synth = np.clip(shading_bgr + coarse_grain + streak_grain + fine_grain, 0.0, 255.0)
+
+        # Smooth curved yellow lane line continuation behind/under the taxi (softly joining shaded x=48..56 end)
+        for lx in range(48, 440):
+            dx = float(lx - 48)
+            yc = 566.8 + 0.235 * dx - 0.00024 * (dx ** 2)
+            fade = float(np.exp(-((dx / 170.0) ** 1.35)))
+            join_ramp = float(np.clip((dx + 1.0) / 8.0, 0.25, 1.0))
+            half_w = 2.5 * max(0.45, 1.0 - dx / 480.0)
+            y_lo = max(0, int(np.floor(yc - half_w - 1)))
+            y_hi = min(h, int(np.ceil(yc + half_w + 2)))
+            for ly in range(y_lo, y_hi):
+                if inpaint_road_mask[ly, lx] == 0 or ly >= 645:
+                    continue
+                dist_y = abs(float(ly) - yc)
+                aa = float(np.clip((half_w + 0.8 - dist_y) / 1.4, 0.0, 1.0)) * fade * join_ramp
+                if aa > 0.01:
+                    lane_col = np.array([86.0, 148.0, 162.0], dtype=np.float32)
+                    road_synth[ly, lx] = road_synth[ly, lx] * (1.0 - 0.85 * aa) + lane_col * (0.85 * aa)
+
+        # Feather cleanly across visible-asphalt seam (erode taxi_dil17 back inside taxi body so boundary feathers naturally)
+        hole_core = (
+            (cv2.erode(taxi_dil17, np.ones((15, 15), np.uint8), iterations=1) > 0)
+            | (wedges_dil15 > 0)
+            | (yy_grid >= 622)
+        )
+        blend_w = np.maximum(
+            cv2.GaussianBlur(hole_full.astype(np.float32), (25, 25), 0),
+            hole_core.astype(np.float32),
+        )
+        road_textured = np.clip(
+            bgr_f * (1.0 - blend_w[:, :, None]) + road_synth * blend_w[:, :, None],
+            0,
+            255,
+        ).astype(np.uint8)
 
         road_alpha = _smooth_contour_alpha(road_mask_full, feather_px=3)
         self._add_raster_layer(
@@ -1112,12 +1192,12 @@ class PosterDecomposer:
             mask_u8=road_alpha,
             cat="asphalt_road_amodal",
             z_index=3,
-            confidence=0.93,
+            confidence=0.95,
             ai_reconstructed=True,
             reconstruction_history=[{
                 "timestamp": datetime.now().isoformat(timespec="seconds"),
-                "pixel_origin": "amodal_row_interp_asphalt_grain",
-                "note": "Reconstructed continuous dark charcoal road surface behind yellow taxi and contact shadow.",
+                "pixel_origin": "amodal_curved_horizon_procedural_asphalt_lane_v3",
+                "note": "Reconstructed smooth perspective asphalt road with procedural multi-scale grain, curved yellow lane continuation, and zero-bleed feathered seam.",
             }],
             decontaminate=False,
         )

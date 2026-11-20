@@ -158,6 +158,8 @@ class BannerDecomposer:
             layer_type=layer_type,
             source_file=rel_img,
             mask_file=rel_msk,
+            mask_x=x,
+            mask_y=y,
             x=x,
             y=y,
             width=bw,
@@ -221,6 +223,13 @@ class BannerDecomposer:
             gradient_enabled=gradient_enabled,
             gradient_c2=tuple(g_c2[:3]),
         )
+        bbox = ed_im.getchannel("A").getbbox()
+        if bbox:
+            cx1 = max(0, bbox[0] - 2)
+            cy1 = max(0, bbox[1] - 2)
+            cx2 = min(ed_im.width, bbox[2] + 2)
+            cy2 = min(ed_im.height, bbox[3] + 2)
+            ed_im = ed_im.crop((cx1, cy1, cx2, cy2))
         safe = re.sub(r"[^A-Za-z0-9_\-]", "_", name)
         rel = f"layers/{safe}_{uuid.uuid4().hex[:4]}.png"
         ed_im.save(os.path.join(self.project_dir, rel))

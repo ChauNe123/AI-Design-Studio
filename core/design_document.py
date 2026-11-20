@@ -97,6 +97,8 @@ def make_layer(
     warnings: Optional[List[str]] = None,
     clipping: bool = False,
     mask_default_color: int = 0,
+    mask_x: Optional[int] = None,
+    mask_y: Optional[int] = None,
     adjustment_data: Optional[Dict[str, Any]] = None,
     psd_effects: Optional[Dict[str, Any]] = None,
 ) -> Dict[str, Any]:
@@ -104,6 +106,8 @@ def make_layer(
     bmode = blend_mode if blend_mode in VALID_BLEND_MODES else "normal"
     adj = {**default_adjustments(), **(adjustments or {})}
     eff = {**default_effects(), **(effects or {})}
+    resolved_mask_x = (0 if ltype == "adjustment" else int(round(x if mask_x is None else mask_x))) if mask_file else None
+    resolved_mask_y = (0 if ltype == "adjustment" else int(round(y if mask_y is None else mask_y))) if mask_file else None
     return {
         "id": layer_id or f"lyr_{uuid.uuid4().hex[:8]}",
         "name": name,
@@ -123,6 +127,8 @@ def make_layer(
         "blend_mode": bmode,
         "clipping": bool(clipping),
         "mask_file": mask_file,
+        "mask_x": resolved_mask_x,
+        "mask_y": resolved_mask_y,
         "mask_default_color": int(mask_default_color),
         "adjustment_data": adjustment_data,
         "psd_effects": psd_effects,

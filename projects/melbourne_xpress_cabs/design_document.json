@@ -7,8 +7,8 @@
   "height": 736,
   "dpi": 72,
   "color_mode": "RGB",
-  "created_at": "2026-11-19T13:49:40",
-  "updated_at": "2026-11-19T13:49:40",
+  "created_at": "2026-11-20T13:57:13",
+  "updated_at": "2026-11-20T13:57:13",
   "source_image": "source_reference.png",
   "brand": {
     "pipeline": "commercial_service_poster_6group_v1_5",
@@ -52,7 +52,7 @@
       "source_asset": "layers/13_Pin_Origin_Red_Left.png",
       "reconstruction_status": "extracted_poster_element",
       "editability_status": "layer_and_fx_editable",
-      "linked_layer_id": "lyr_de92b4e6"
+      "linked_layer_id": "lyr_311a4c38"
     },
     {
       "object_id": "obj_14_Pin_Destination_Red_Glow",
@@ -72,7 +72,7 @@
       "source_asset": "layers/14_Pin_Destination_Red_Glow.png",
       "reconstruction_status": "extracted_poster_element",
       "editability_status": "layer_and_fx_editable",
-      "linked_layer_id": "lyr_82b87216"
+      "linked_layer_id": "lyr_90edf03c"
     },
     {
       "object_id": "obj_12_GPS_Route_Path_Blue",
@@ -92,7 +92,7 @@
       "source_asset": "layers/12_GPS_Route_Path_Blue.png",
       "reconstruction_status": "extracted_poster_element",
       "editability_status": "layer_and_fx_editable",
-      "linked_layer_id": "lyr_e96e049b"
+      "linked_layer_id": "lyr_2c96ef9b"
     },
     {
       "object_id": "obj_09_Yellow_Taxi_Cab_Hero",
@@ -112,7 +112,7 @@
       "source_asset": "layers/09_Yellow_Taxi_Cab_Hero.png",
       "reconstruction_status": "extracted_poster_element",
       "editability_status": "layer_and_fx_editable",
-      "linked_layer_id": "lyr_87b8eb23"
+      "linked_layer_id": "lyr_d097c9a1"
     },
     {
       "object_id": "obj_08_Taxi_Contact_Shadow_Road",
@@ -132,7 +132,7 @@
       "source_asset": "layers/08_Taxi_Contact_Shadow_Road.png",
       "reconstruction_status": "extracted_poster_element",
       "editability_status": "raster_editable",
-      "linked_layer_id": "lyr_d974b3c5"
+      "linked_layer_id": "lyr_d4e97001"
     },
     {
       "object_id": "obj_10_Taxi_Checkered_Decal_Strip",
@@ -152,7 +152,7 @@
       "source_asset": "layers/10_Taxi_Checkered_Decal_Strip.png",
       "reconstruction_status": "extracted_poster_element",
       "editability_status": "raster_editable",
-      "linked_layer_id": "lyr_e20327be"
+      "linked_layer_id": "lyr_7a6c5a25"
     },
     {
       "object_id": "obj_11_Taxi_Front_License_Plate_Orange",
@@ -172,7 +172,7 @@
       "source_asset": "layers/11_Taxi_Front_License_Plate_Orange.png",
       "reconstruction_status": "extracted_poster_element",
       "editability_status": "layer_and_fx_editable",
-      "linked_layer_id": "lyr_149b0e1e"
+      "linked_layer_id": "lyr_07f2d8c8"
     },
     {
       "object_id": "obj_06_iPhone_Mockup_Body___Map_Amodal",
@@ -192,7 +192,7 @@
       "source_asset": "layers/06_iPhone_Mockup_Body___Map_Amodal.png",
       "reconstruction_status": "amodal_reconstructed",
       "editability_status": "layer_and_fx_editable",
-      "linked_layer_id": "lyr_5e067dad"
+      "linked_layer_id": "lyr_ba13d37c"
     },
     {
       "object_id": "obj_07_iPhone_Map_Screen_Only",
@@ -212,7 +212,7 @@
       "source_asset": "layers/07_iPhone_Map_Screen_Only.png",
       "reconstruction_status": "amodal_reconstructed",
       "editability_status": "raster_editable",
-      "linked_layer_id": "lyr_a2e8eb51"
+      "linked_layer_id": "lyr_3dc99d12"
     },
     {
       "object_id": "obj_15_Ribbon_Strip_WeAreAvailable_Clean",
@@ -232,7 +232,7 @@
       "source_asset": "layers/15_Ribbon_Strip_WeAreAvailable_Clean.png",
       "reconstruction_status": "amodal_reconstructed",
       "editability_status": "raster_editable",
-      "linked_layer_id": "lyr_0e8a537e"
+      "linked_layer_id": "lyr_a49e42ac"
     },
     {
       "object_id": "obj_18_Icon_Phone_Circle_BottomLeft",
@@ -252,7 +252,7 @@
       "source_asset": "layers/18_Icon_Phone_Circle_BottomLeft.png",
       "reconstruction_status": "extracted_poster_element",
       "editability_status": "raster_editable",
-      "linked_layer_id": "lyr_82d804df"
+      "linked_layer_id": "lyr_b139169d"
     },
     {
       "object_id": "obj_19_Icon_Globe_Cursor_BottomRight",
@@ -272,7 +272,7 @@
       "source_asset": "layers/19_Icon_Globe_Cursor_BottomRight.png",
       "reconstruction_status": "extracted_poster_element",
       "editability_status": "raster_editable",
-      "linked_layer_id": "lyr_dd321615"
+      "linked_layer_id": "lyr_14eaeb5d"
     },
     {
       "object_id": "obj_16_Footer_Wedge_Blue_Left_Clean",
@@ -292,7 +292,7 @@
       "source_asset": "layers/16_Footer_Wedge_Blue_Left_Clean.png",
       "reconstruction_status": "amodal_reconstructed",
       "editability_status": "layer_and_fx_editable",
-      "linked_layer_id": "lyr_ac1f6c99"
+      "linked_layer_id": "lyr_8fb37a93"
     },
     {
       "object_id": "obj_17_Footer_Wedge_Orange_Right_Clean",
@@ -312,7 +312,7 @@
       "source_asset": "layers/17_Footer_Wedge_Orange_Right_Clean.png",
       "reconstruction_status": "amodal_reconstructed",
       "editability_status": "layer_and_fx_editable",
-      "linked_layer_id": "lyr_bb255716"
+      "linked_layer_id": "lyr_93f09ccf"
     },
     {
       "object_id": "obj_20_Logo_Taxi_Silhouette___Wings",
@@ -332,7 +332,7 @@
       "source_asset": "layers/20_Logo_Taxi_Silhouette___Wings.png",
       "reconstruction_status": "extracted_poster_element",
       "editability_status": "raster_editable",
-      "linked_layer_id": "lyr_681040cd"
+      "linked_layer_id": "lyr_c7d98cdc"
     },
     {
       "object_id": "obj_21_Text_Brand_Title_OrigFX",
@@ -352,7 +352,7 @@
       "source_asset": "layers/21_Text_Brand_Title_OrigFX.png",
       "reconstruction_status": "extracted_poster_element",
       "editability_status": "raster_editable",
-      "linked_layer_id": "lyr_4cc4eb92"
+      "linked_layer_id": "lyr_1b4ae881"
     },
     {
       "object_id": "obj_23_Text_Brand_Sub_OrigFX",
@@ -372,7 +372,7 @@
       "source_asset": "layers/23_Text_Brand_Sub_OrigFX.png",
       "reconstruction_status": "extracted_poster_element",
       "editability_status": "raster_editable",
-      "linked_layer_id": "lyr_e61243e4"
+      "linked_layer_id": "lyr_db7a12c4"
     },
     {
       "object_id": "obj_25_Text_Headline_TaxiService_OrigFX",
@@ -392,7 +392,7 @@
       "source_asset": "layers/25_Text_Headline_TaxiService_OrigFX.png",
       "reconstruction_status": "extracted_poster_element",
       "editability_status": "raster_editable",
-      "linked_layer_id": "lyr_36153b1f"
+      "linked_layer_id": "lyr_b89a3158"
     },
     {
       "object_id": "obj_27_Text_Subhead_MeCabs_OrigFX",
@@ -412,7 +412,7 @@
       "source_asset": "layers/27_Text_Subhead_MeCabs_OrigFX.png",
       "reconstruction_status": "extracted_poster_element",
       "editability_status": "raster_editable",
-      "linked_layer_id": "lyr_3bd65809"
+      "linked_layer_id": "lyr_f6c29c81"
     },
     {
       "object_id": "obj_29_Text_Badge_WeAreAvailable_OrigFX",
@@ -432,7 +432,7 @@
       "source_asset": "layers/29_Text_Badge_WeAreAvailable_OrigFX.png",
       "reconstruction_status": "extracted_poster_element",
       "editability_status": "raster_editable",
-      "linked_layer_id": "lyr_724a878f"
+      "linked_layer_id": "lyr_b55a999c"
     },
     {
       "object_id": "obj_31_Text_CallUs_Label_OrigFX",
@@ -452,7 +452,7 @@
       "source_asset": "layers/31_Text_CallUs_Label_OrigFX.png",
       "reconstruction_status": "extracted_poster_element",
       "editability_status": "raster_editable",
-      "linked_layer_id": "lyr_50c61cc8"
+      "linked_layer_id": "lyr_1ae11950"
     },
     {
       "object_id": "obj_33_Text_Phone_Number_OrigFX",
@@ -472,7 +472,7 @@
       "source_asset": "layers/33_Text_Phone_Number_OrigFX.png",
       "reconstruction_status": "extracted_poster_element",
       "editability_status": "raster_editable",
-      "linked_layer_id": "lyr_056569d1"
+      "linked_layer_id": "lyr_4bbc9e3a"
     },
     {
       "object_id": "obj_35_Text_VisitWebsite_Label_OrigFX",
@@ -492,7 +492,7 @@
       "source_asset": "layers/35_Text_VisitWebsite_Label_OrigFX.png",
       "reconstruction_status": "extracted_poster_element",
       "editability_status": "raster_editable",
-      "linked_layer_id": "lyr_fa85c518"
+      "linked_layer_id": "lyr_37931666"
     },
     {
       "object_id": "obj_37_Text_Website_URL_OrigFX",
@@ -512,27 +512,27 @@
       "source_asset": "layers/37_Text_Website_URL_OrigFX.png",
       "reconstruction_status": "extracted_poster_element",
       "editability_status": "raster_editable",
-      "linked_layer_id": "lyr_bb967bae"
+      "linked_layer_id": "lyr_62a21f38"
     },
     {
       "object_id": "obj_02_Ferris_Wheel_Landmark_Right",
       "object_name": "02_Ferris_Wheel_Landmark_Right",
       "object_category": "background_landmark",
       "bounding_box": [
-        635,
-        106,
-        101,
-        238
+        634,
+        102,
+        102,
+        242
       ],
       "segmentation_mask": "masks/m_02_Ferris_Wheel_Landmark_Right.png",
-      "confidence_score": 0.89,
+      "confidence_score": 0.91,
       "z_index": 2,
       "parent_object_id": null,
       "overlap_relationships": [],
       "source_asset": "layers/02_Ferris_Wheel_Landmark_Right.png",
       "reconstruction_status": "amodal_reconstructed",
       "editability_status": "raster_editable",
-      "linked_layer_id": "lyr_b1d3e76e"
+      "linked_layer_id": "lyr_36ba00bc"
     },
     {
       "object_id": "obj_03_Asphalt_Road_Curved_Track",
@@ -540,24 +540,24 @@
       "object_category": "asphalt_road_amodal",
       "bounding_box": [
         0,
-        497,
+        511,
         736,
-        212
+        199
       ],
       "segmentation_mask": "masks/m_03_Asphalt_Road_Curved_Track.png",
-      "confidence_score": 0.93,
+      "confidence_score": 0.95,
       "z_index": 3,
       "parent_object_id": null,
       "overlap_relationships": [],
       "source_asset": "layers/03_Asphalt_Road_Curved_Track.png",
       "reconstruction_status": "amodal_reconstructed",
       "editability_status": "raster_editable",
-      "linked_layer_id": "lyr_20cc5fd3"
+      "linked_layer_id": "lyr_f74f9fe1"
     }
   ],
   "layers": [
     {
-      "id": "lyr_e08678e1",
+      "id": "lyr_45989fd9",
       "name": "00_Original_Flattened_Ref",
       "type": "background",
       "source_file": "layers/00_Original_Flattened_Ref.png",
@@ -575,6 +575,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": null,
+      "mask_x": null,
+      "mask_y": null,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": null,
@@ -648,7 +650,7 @@
       "metadata": {}
     },
     {
-      "id": "lyr_69bc508e",
+      "id": "lyr_9583db39",
       "name": "01_Background_Sky_Twilight_Clean",
       "type": "background",
       "source_file": "layers/01_Background_Sky_Twilight_Clean.png",
@@ -666,6 +668,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": null,
+      "mask_x": null,
+      "mask_y": null,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": null,
@@ -734,26 +738,26 @@
       "text_reconstruction": null,
       "reconstruction_history": [
         {
-          "timestamp": "2026-11-19T13:49:40",
-          "pixel_origin": "smooth_sky_gradient_row_interp",
-          "engine": "twilight_sky_grad"
+          "timestamp": "2026-11-20T13:57:13",
+          "pixel_origin": "2d_normalized_gaussian_twilight_surface",
+          "engine": "twilight_sky_grad_v3"
         }
       ],
-      "confidence_score": 0.95,
+      "confidence_score": 0.96,
       "warnings": [],
       "group": "1_BG_&_Atmosphere",
       "metadata": {}
     },
     {
-      "id": "lyr_b1d3e76e",
+      "id": "lyr_36ba00bc",
       "name": "02_Ferris_Wheel_Landmark_Right",
       "type": "object",
       "source_file": "layers/02_Ferris_Wheel_Landmark_Right.png",
       "original_source_file": "layers/02_Ferris_Wheel_Landmark_Right.png",
-      "x": 635,
-      "y": 106,
-      "width": 101,
-      "height": 238,
+      "x": 634,
+      "y": 102,
+      "width": 102,
+      "height": 242,
       "z_index": 2,
       "opacity": 1.0,
       "visible": true,
@@ -763,6 +767,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": "masks/m_02_Ferris_Wheel_Landmark_Right.png",
+      "mask_x": 634,
+      "mask_y": 102,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": null,
@@ -830,7 +836,7 @@
       "text_data": null,
       "text_reconstruction": null,
       "reconstruction_history": [],
-      "confidence_score": 0.89,
+      "confidence_score": 0.91,
       "warnings": [],
       "group": "1_BG_&_Atmosphere",
       "metadata": {
@@ -838,15 +844,15 @@
       }
     },
     {
-      "id": "lyr_20cc5fd3",
+      "id": "lyr_f74f9fe1",
       "name": "03_Asphalt_Road_Curved_Track",
       "type": "object",
       "source_file": "layers/03_Asphalt_Road_Curved_Track.png",
       "original_source_file": "layers/03_Asphalt_Road_Curved_Track.png",
       "x": 0,
-      "y": 497,
+      "y": 511,
       "width": 736,
-      "height": 212,
+      "height": 199,
       "z_index": 3,
       "opacity": 1.0,
       "visible": true,
@@ -856,6 +862,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": "masks/m_03_Asphalt_Road_Curved_Track.png",
+      "mask_x": 0,
+      "mask_y": 511,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": null,
@@ -924,12 +932,12 @@
       "text_reconstruction": null,
       "reconstruction_history": [
         {
-          "timestamp": "2026-11-19T13:49:40",
-          "pixel_origin": "amodal_row_interp_asphalt_grain",
-          "note": "Reconstructed continuous dark charcoal road surface behind yellow taxi and contact shadow."
+          "timestamp": "2026-11-20T13:57:13",
+          "pixel_origin": "amodal_curved_horizon_procedural_asphalt_lane_v3",
+          "note": "Reconstructed smooth perspective asphalt road with procedural multi-scale grain, curved yellow lane continuation, and zero-bleed feathered seam."
         }
       ],
-      "confidence_score": 0.93,
+      "confidence_score": 0.95,
       "warnings": [],
       "group": "1_BG_&_Atmosphere",
       "metadata": {
@@ -937,7 +945,7 @@
       }
     },
     {
-      "id": "lyr_18ba461c",
+      "id": "lyr_aec8aec5",
       "name": "04_Curves_Sky_Contrast",
       "type": "adjustment",
       "source_file": null,
@@ -955,6 +963,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": null,
+      "mask_x": null,
+      "mask_y": null,
       "mask_default_color": 0,
       "adjustment_data": {
         "type": "curves",
@@ -1053,7 +1063,7 @@
       }
     },
     {
-      "id": "lyr_ffa2ed81",
+      "id": "lyr_ce49ca86",
       "name": "05_ColorBalance_Twilight_Grade",
       "type": "adjustment",
       "source_file": null,
@@ -1071,6 +1081,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": null,
+      "mask_x": null,
+      "mask_y": null,
       "mask_default_color": 0,
       "adjustment_data": {
         "type": "color balance",
@@ -1164,7 +1176,7 @@
       }
     },
     {
-      "id": "lyr_5e067dad",
+      "id": "lyr_ba13d37c",
       "name": "06_iPhone_Mockup_Body_&_Map_Amodal",
       "type": "object",
       "source_file": "layers/06_iPhone_Mockup_Body___Map_Amodal.png",
@@ -1182,6 +1194,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": "masks/m_06_iPhone_Mockup_Body___Map_Amodal.png",
+      "mask_x": 390,
+      "mask_y": 78,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": {
@@ -1265,7 +1279,7 @@
       "text_reconstruction": null,
       "reconstruction_history": [
         {
-          "timestamp": "2026-11-19T13:49:39",
+          "timestamp": "2026-11-20T13:57:12",
           "pixel_origin": "amodal_symmetric_bezel_and_map_extension",
           "note": "Removed GPS route overlay + reconstructed lower-left frame and map hidden behind taxi."
         }
@@ -1278,7 +1292,7 @@
       }
     },
     {
-      "id": "lyr_a2e8eb51",
+      "id": "lyr_3dc99d12",
       "name": "07_iPhone_Map_Screen_Only",
       "type": "object",
       "source_file": "layers/07_iPhone_Map_Screen_Only.png",
@@ -1296,6 +1310,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": "masks/m_07_iPhone_Map_Screen_Only.png",
+      "mask_x": 407,
+      "mask_y": 93,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": null,
@@ -1371,7 +1387,7 @@
       }
     },
     {
-      "id": "lyr_d974b3c5",
+      "id": "lyr_d4e97001",
       "name": "08_Taxi_Contact_Shadow_Road",
       "type": "shadow",
       "source_file": "layers/08_Taxi_Contact_Shadow_Road.png",
@@ -1389,6 +1405,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": "masks/m_08_Taxi_Contact_Shadow_Road.png",
+      "mask_x": 59,
+      "mask_y": 557,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": null,
@@ -1464,7 +1482,7 @@
       }
     },
     {
-      "id": "lyr_87b8eb23",
+      "id": "lyr_d097c9a1",
       "name": "09_Yellow_Taxi_Cab_Hero",
       "type": "product",
       "source_file": "layers/09_Yellow_Taxi_Cab_Hero.png",
@@ -1482,6 +1500,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": "masks/m_09_Yellow_Taxi_Cab_Hero.png",
+      "mask_x": 58,
+      "mask_y": 362,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": {
@@ -1572,7 +1592,7 @@
       }
     },
     {
-      "id": "lyr_e20327be",
+      "id": "lyr_7a6c5a25",
       "name": "10_Taxi_Checkered_Decal_Strip",
       "type": "object",
       "source_file": "layers/10_Taxi_Checkered_Decal_Strip.png",
@@ -1590,6 +1610,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": "masks/m_10_Taxi_Checkered_Decal_Strip.png",
+      "mask_x": 72,
+      "mask_y": 424,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": null,
@@ -1665,7 +1687,7 @@
       }
     },
     {
-      "id": "lyr_149b0e1e",
+      "id": "lyr_07f2d8c8",
       "name": "11_Taxi_Front_License_Plate_Orange",
       "type": "shape",
       "source_file": "layers/11_Taxi_Front_License_Plate_Orange.png",
@@ -1683,6 +1705,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": "masks/m_11_Taxi_Front_License_Plate_Orange.png",
+      "mask_x": 569,
+      "mask_y": 530,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": {
@@ -1786,7 +1810,7 @@
       }
     },
     {
-      "id": "lyr_e96e049b",
+      "id": "lyr_2c96ef9b",
       "name": "12_GPS_Route_Path_Blue",
       "type": "shape",
       "source_file": "layers/12_GPS_Route_Path_Blue.png",
@@ -1804,6 +1828,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": "masks/m_12_GPS_Route_Path_Blue.png",
+      "mask_x": 269,
+      "mask_y": 222,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": {
@@ -1894,7 +1920,7 @@
       }
     },
     {
-      "id": "lyr_de92b4e6",
+      "id": "lyr_311a4c38",
       "name": "13_Pin_Origin_Red_Left",
       "type": "icon",
       "source_file": "layers/13_Pin_Origin_Red_Left.png",
@@ -1912,6 +1938,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": "masks/m_13_Pin_Origin_Red_Left.png",
+      "mask_x": 256,
+      "mask_y": 174,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": {
@@ -2002,7 +2030,7 @@
       }
     },
     {
-      "id": "lyr_82b87216",
+      "id": "lyr_90edf03c",
       "name": "14_Pin_Destination_Red_Glow",
       "type": "icon",
       "source_file": "layers/14_Pin_Destination_Red_Glow.png",
@@ -2020,6 +2048,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": "masks/m_14_Pin_Destination_Red_Glow.png",
+      "mask_x": 568,
+      "mask_y": 304,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": {
@@ -2108,7 +2138,7 @@
       }
     },
     {
-      "id": "lyr_0e8a537e",
+      "id": "lyr_a49e42ac",
       "name": "15_Ribbon_Strip_WeAreAvailable_Clean",
       "type": "shape",
       "source_file": "layers/15_Ribbon_Strip_WeAreAvailable_Clean.png",
@@ -2126,6 +2156,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": "masks/m_15_Ribbon_Strip_WeAreAvailable_Clean.png",
+      "mask_x": 0,
+      "mask_y": 238,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": null,
@@ -2201,7 +2233,7 @@
       }
     },
     {
-      "id": "lyr_ac1f6c99",
+      "id": "lyr_8fb37a93",
       "name": "16_Footer_Wedge_Blue_Left_Clean",
       "type": "shape",
       "source_file": "layers/16_Footer_Wedge_Blue_Left_Clean.png",
@@ -2219,6 +2251,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": "masks/m_16_Footer_Wedge_Blue_Left_Clean.png",
+      "mask_x": 0,
+      "mask_y": 620,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": {
@@ -2309,7 +2343,7 @@
       }
     },
     {
-      "id": "lyr_bb255716",
+      "id": "lyr_93f09ccf",
       "name": "17_Footer_Wedge_Orange_Right_Clean",
       "type": "shape",
       "source_file": "layers/17_Footer_Wedge_Orange_Right_Clean.png",
@@ -2327,6 +2361,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": "masks/m_17_Footer_Wedge_Orange_Right_Clean.png",
+      "mask_x": 256,
+      "mask_y": 622,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": {
@@ -2417,7 +2453,7 @@
       }
     },
     {
-      "id": "lyr_82d804df",
+      "id": "lyr_b139169d",
       "name": "18_Icon_Phone_Circle_BottomLeft",
       "type": "icon",
       "source_file": "layers/18_Icon_Phone_Circle_BottomLeft.png",
@@ -2435,6 +2471,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": "masks/m_18_Icon_Phone_Circle_BottomLeft.png",
+      "mask_x": 27,
+      "mask_y": 686,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": null,
@@ -2510,7 +2548,7 @@
       }
     },
     {
-      "id": "lyr_dd321615",
+      "id": "lyr_14eaeb5d",
       "name": "19_Icon_Globe_Cursor_BottomRight",
       "type": "icon",
       "source_file": "layers/19_Icon_Globe_Cursor_BottomRight.png",
@@ -2528,6 +2566,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": "masks/m_19_Icon_Globe_Cursor_BottomRight.png",
+      "mask_x": 670,
+      "mask_y": 686,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": null,
@@ -2603,7 +2643,7 @@
       }
     },
     {
-      "id": "lyr_681040cd",
+      "id": "lyr_c7d98cdc",
       "name": "20_Logo_Taxi_Silhouette_&_Wings",
       "type": "logo",
       "source_file": "layers/20_Logo_Taxi_Silhouette___Wings.png",
@@ -2621,6 +2661,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": "masks/m_20_Logo_Taxi_Silhouette___Wings.png",
+      "mask_x": 31,
+      "mask_y": 21,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": null,
@@ -2696,7 +2738,7 @@
       }
     },
     {
-      "id": "lyr_4cc4eb92",
+      "id": "lyr_1b4ae881",
       "name": "21_Text_Brand_Title_OrigFX",
       "type": "object",
       "source_file": "layers/21_Text_Brand_Title_OrigFX.png",
@@ -2714,6 +2756,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": "masks/m_21_Text_Brand_Title_OrigFX.png",
+      "mask_x": 30,
+      "mask_y": 65,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": null,
@@ -2789,15 +2833,15 @@
       }
     },
     {
-      "id": "lyr_53361abf",
+      "id": "lyr_7435d25d",
       "name": "22_Text_Brand_Title_Editable",
       "type": "text",
       "source_file": "layers/22_Text_Brand_Title_Editable.png",
       "original_source_file": "layers/22_Text_Brand_Title_Editable.png",
       "x": 33,
       "y": 68,
-      "width": 303,
-      "height": 69,
+      "width": 259,
+      "height": 17,
       "z_index": 22,
       "opacity": 1.0,
       "visible": false,
@@ -2807,6 +2851,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": null,
+      "mask_x": null,
+      "mask_y": null,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": null,
@@ -2905,7 +2951,7 @@
       "metadata": {}
     },
     {
-      "id": "lyr_e61243e4",
+      "id": "lyr_db7a12c4",
       "name": "23_Text_Brand_Sub_OrigFX",
       "type": "object",
       "source_file": "layers/23_Text_Brand_Sub_OrigFX.png",
@@ -2923,6 +2969,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": "masks/m_23_Text_Brand_Sub_OrigFX.png",
+      "mask_x": 129,
+      "mask_y": 88,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": null,
@@ -2998,15 +3046,15 @@
       }
     },
     {
-      "id": "lyr_0ca25403",
+      "id": "lyr_7490b256",
       "name": "24_Text_Brand_Sub_Editable",
       "type": "text",
       "source_file": "layers/24_Text_Brand_Sub_Editable.png",
       "original_source_file": "layers/24_Text_Brand_Sub_Editable.png",
       "x": 134,
       "y": 89,
-      "width": 106,
-      "height": 62,
+      "width": 62,
+      "height": 13,
       "z_index": 24,
       "opacity": 1.0,
       "visible": false,
@@ -3016,6 +3064,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": null,
+      "mask_x": null,
+      "mask_y": null,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": null,
@@ -3114,7 +3164,7 @@
       "metadata": {}
     },
     {
-      "id": "lyr_36153b1f",
+      "id": "lyr_b89a3158",
       "name": "25_Text_Headline_TaxiService_OrigFX",
       "type": "object",
       "source_file": "layers/25_Text_Headline_TaxiService_OrigFX.png",
@@ -3132,6 +3182,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": "masks/m_25_Text_Headline_TaxiService_OrigFX.png",
+      "mask_x": 24,
+      "mask_y": 126,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": null,
@@ -3207,15 +3259,15 @@
       }
     },
     {
-      "id": "lyr_134d34e3",
+      "id": "lyr_ac473cab",
       "name": "26_Text_Headline_TaxiService_Editable",
       "type": "text",
       "source_file": "layers/26_Text_Headline_TaxiService_Editable.png",
       "original_source_file": "layers/26_Text_Headline_TaxiService_Editable.png",
       "x": 26,
       "y": 130,
-      "width": 231,
-      "height": 91,
+      "width": 186,
+      "height": 39,
       "z_index": 26,
       "opacity": 1.0,
       "visible": false,
@@ -3225,6 +3277,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": null,
+      "mask_x": null,
+      "mask_y": null,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": {
@@ -3338,7 +3392,7 @@
       "metadata": {}
     },
     {
-      "id": "lyr_3bd65809",
+      "id": "lyr_f6c29c81",
       "name": "27_Text_Subhead_MeCabs_OrigFX",
       "type": "object",
       "source_file": "layers/27_Text_Subhead_MeCabs_OrigFX.png",
@@ -3356,6 +3410,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": "masks/m_27_Text_Subhead_MeCabs_OrigFX.png",
+      "mask_x": 61,
+      "mask_y": 172,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": null,
@@ -3431,15 +3487,15 @@
       }
     },
     {
-      "id": "lyr_5c4d3406",
+      "id": "lyr_b9989910",
       "name": "28_Text_Subhead_MeCabs_Editable",
       "type": "text",
       "source_file": "layers/28_Text_Subhead_MeCabs_Editable.png",
       "original_source_file": "layers/28_Text_Subhead_MeCabs_Editable.png",
       "x": 63,
       "y": 177,
-      "width": 163,
-      "height": 87,
+      "width": 118,
+      "height": 33,
       "z_index": 28,
       "opacity": 1.0,
       "visible": false,
@@ -3449,6 +3505,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": null,
+      "mask_x": null,
+      "mask_y": null,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": {
@@ -3562,7 +3620,7 @@
       "metadata": {}
     },
     {
-      "id": "lyr_724a878f",
+      "id": "lyr_b55a999c",
       "name": "29_Text_Badge_WeAreAvailable_OrigFX",
       "type": "object",
       "source_file": "layers/29_Text_Badge_WeAreAvailable_OrigFX.png",
@@ -3580,6 +3638,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": "masks/m_29_Text_Badge_WeAreAvailable_OrigFX.png",
+      "mask_x": 36,
+      "mask_y": 242,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": null,
@@ -3655,15 +3715,15 @@
       }
     },
     {
-      "id": "lyr_66c0c301",
+      "id": "lyr_2fd76dcb",
       "name": "30_Text_Badge_WeAreAvailable_Editable",
       "type": "text",
       "source_file": "layers/30_Text_Badge_WeAreAvailable_Editable.png",
       "original_source_file": "layers/30_Text_Badge_WeAreAvailable_Editable.png",
       "x": 36,
       "y": 246,
-      "width": 180,
-      "height": 67,
+      "width": 136,
+      "height": 20,
       "z_index": 30,
       "opacity": 1.0,
       "visible": false,
@@ -3673,6 +3733,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": null,
+      "mask_x": null,
+      "mask_y": null,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": {
@@ -3786,7 +3848,7 @@
       "metadata": {}
     },
     {
-      "id": "lyr_50c61cc8",
+      "id": "lyr_1ae11950",
       "name": "31_Text_CallUs_Label_OrigFX",
       "type": "object",
       "source_file": "layers/31_Text_CallUs_Label_OrigFX.png",
@@ -3804,6 +3866,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": "masks/m_31_Text_CallUs_Label_OrigFX.png",
+      "mask_x": 73,
+      "mask_y": 684,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": null,
@@ -3879,15 +3943,15 @@
       }
     },
     {
-      "id": "lyr_d502087b",
+      "id": "lyr_506567c8",
       "name": "32_Text_CallUs_Label_Editable",
       "type": "text",
       "source_file": "layers/32_Text_CallUs_Label_Editable.png",
       "original_source_file": "layers/32_Text_CallUs_Label_Editable.png",
       "x": 72,
       "y": 682,
-      "width": 170,
-      "height": 64,
+      "width": 126,
+      "height": 15,
       "z_index": 32,
       "opacity": 1.0,
       "visible": false,
@@ -3897,6 +3961,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": null,
+      "mask_x": null,
+      "mask_y": null,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": null,
@@ -3995,7 +4061,7 @@
       "metadata": {}
     },
     {
-      "id": "lyr_056569d1",
+      "id": "lyr_4bbc9e3a",
       "name": "33_Text_Phone_Number_OrigFX",
       "type": "object",
       "source_file": "layers/33_Text_Phone_Number_OrigFX.png",
@@ -4013,6 +4079,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": "masks/m_33_Text_Phone_Number_OrigFX.png",
+      "mask_x": 73,
+      "mask_y": 698,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": null,
@@ -4088,15 +4156,15 @@
       }
     },
     {
-      "id": "lyr_a38d9a25",
+      "id": "lyr_40d9a4fe",
       "name": "34_Text_Phone_Number_Editable",
       "type": "text",
       "source_file": "layers/34_Text_Phone_Number_Editable.png",
       "original_source_file": "layers/34_Text_Phone_Number_Editable.png",
       "x": 72,
       "y": 702,
-      "width": 139,
-      "height": 71,
+      "width": 95,
+      "height": 21,
       "z_index": 34,
       "opacity": 1.0,
       "visible": false,
@@ -4106,6 +4174,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": null,
+      "mask_x": null,
+      "mask_y": null,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": null,
@@ -4204,7 +4274,7 @@
       "metadata": {}
     },
     {
-      "id": "lyr_fa85c518",
+      "id": "lyr_37931666",
       "name": "35_Text_VisitWebsite_Label_OrigFX",
       "type": "object",
       "source_file": "layers/35_Text_VisitWebsite_Label_OrigFX.png",
@@ -4222,6 +4292,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": "masks/m_35_Text_VisitWebsite_Label_OrigFX.png",
+      "mask_x": 543,
+      "mask_y": 686,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": null,
@@ -4297,15 +4369,15 @@
       }
     },
     {
-      "id": "lyr_968c19bb",
+      "id": "lyr_822acba6",
       "name": "36_Text_VisitWebsite_Label_Editable",
       "type": "text",
       "source_file": "layers/36_Text_VisitWebsite_Label_Editable.png",
       "original_source_file": "layers/36_Text_VisitWebsite_Label_Editable.png",
       "x": 545,
       "y": 685,
-      "width": 173,
-      "height": 64,
+      "width": 129,
+      "height": 15,
       "z_index": 36,
       "opacity": 1.0,
       "visible": false,
@@ -4315,6 +4387,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": null,
+      "mask_x": null,
+      "mask_y": null,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": null,
@@ -4413,7 +4487,7 @@
       "metadata": {}
     },
     {
-      "id": "lyr_bb967bae",
+      "id": "lyr_62a21f38",
       "name": "37_Text_Website_URL_OrigFX",
       "type": "object",
       "source_file": "layers/37_Text_Website_URL_OrigFX.png",
@@ -4431,6 +4505,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": "masks/m_37_Text_Website_URL_OrigFX.png",
+      "mask_x": 422,
+      "mask_y": 700,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": null,
@@ -4506,15 +4582,15 @@
       }
     },
     {
-      "id": "lyr_03e33b4c",
+      "id": "lyr_7f171d3c",
       "name": "38_Text_Website_URL_Editable",
       "type": "text",
       "source_file": "layers/38_Text_Website_URL_Editable.png",
       "original_source_file": "layers/38_Text_Website_URL_Editable.png",
       "x": 424,
       "y": 703,
-      "width": 208,
-      "height": 68,
+      "width": 164,
+      "height": 19,
       "z_index": 38,
       "opacity": 1.0,
       "visible": false,
@@ -4524,6 +4600,8 @@
       "blend_mode": "normal",
       "clipping": false,
       "mask_file": null,
+      "mask_x": null,
+      "mask_y": null,
       "mask_default_color": 0,
       "adjustment_data": null,
       "psd_effects": null,
@@ -4634,7 +4712,7 @@
       "qa_sheet": "qa_layers_sheet.png",
       "layers": [
         {
-          "id": "lyr_e08678e1",
+          "id": "lyr_45989fd9",
           "name": "00_Original_Flattened_Ref",
           "type": "background",
           "ok": true,
@@ -4642,7 +4720,7 @@
           "ai_reconstructed": false
         },
         {
-          "id": "lyr_69bc508e",
+          "id": "lyr_9583db39",
           "name": "01_Background_Sky_Twilight_Clean",
           "type": "background",
           "ok": true,
@@ -4650,23 +4728,23 @@
           "ai_reconstructed": true
         },
         {
-          "id": "lyr_b1d3e76e",
+          "id": "lyr_36ba00bc",
           "name": "02_Ferris_Wheel_Landmark_Right",
           "type": "object",
           "ok": true,
-          "alpha_coverage_pct": 96.21,
+          "alpha_coverage_pct": 90.68,
           "ai_reconstructed": true
         },
         {
-          "id": "lyr_20cc5fd3",
+          "id": "lyr_f74f9fe1",
           "name": "03_Asphalt_Road_Curved_Track",
           "type": "object",
           "ok": true,
-          "alpha_coverage_pct": 84.39,
+          "alpha_coverage_pct": 74.59,
           "ai_reconstructed": true
         },
         {
-          "id": "lyr_18ba461c",
+          "id": "lyr_aec8aec5",
           "name": "04_Curves_Sky_Contrast",
           "type": "adjustment",
           "adjustment_type": "curves",
@@ -4677,7 +4755,7 @@
           "ai_reconstructed": false
         },
         {
-          "id": "lyr_ffa2ed81",
+          "id": "lyr_ce49ca86",
           "name": "05_ColorBalance_Twilight_Grade",
           "type": "adjustment",
           "adjustment_type": "color balance",
@@ -4688,7 +4766,7 @@
           "ai_reconstructed": false
         },
         {
-          "id": "lyr_5e067dad",
+          "id": "lyr_ba13d37c",
           "name": "06_iPhone_Mockup_Body_&_Map_Amodal",
           "type": "object",
           "ok": true,
@@ -4696,7 +4774,7 @@
           "ai_reconstructed": true
         },
         {
-          "id": "lyr_a2e8eb51",
+          "id": "lyr_3dc99d12",
           "name": "07_iPhone_Map_Screen_Only",
           "type": "object",
           "ok": true,
@@ -4704,7 +4782,7 @@
           "ai_reconstructed": true
         },
         {
-          "id": "lyr_d974b3c5",
+          "id": "lyr_d4e97001",
           "name": "08_Taxi_Contact_Shadow_Road",
           "type": "shadow",
           "ok": true,
@@ -4712,7 +4790,7 @@
           "ai_reconstructed": false
         },
         {
-          "id": "lyr_87b8eb23",
+          "id": "lyr_d097c9a1",
           "name": "09_Yellow_Taxi_Cab_Hero",
           "type": "product",
           "ok": true,
@@ -4720,7 +4798,7 @@
           "ai_reconstructed": false
         },
         {
-          "id": "lyr_e20327be",
+          "id": "lyr_7a6c5a25",
           "name": "10_Taxi_Checkered_Decal_Strip",
           "type": "object",
           "ok": true,
@@ -4728,7 +4806,7 @@
           "ai_reconstructed": false
         },
         {
-          "id": "lyr_149b0e1e",
+          "id": "lyr_07f2d8c8",
           "name": "11_Taxi_Front_License_Plate_Orange",
           "type": "shape",
           "ok": true,
@@ -4736,7 +4814,7 @@
           "ai_reconstructed": false
         },
         {
-          "id": "lyr_e96e049b",
+          "id": "lyr_2c96ef9b",
           "name": "12_GPS_Route_Path_Blue",
           "type": "shape",
           "ok": true,
@@ -4744,7 +4822,7 @@
           "ai_reconstructed": false
         },
         {
-          "id": "lyr_de92b4e6",
+          "id": "lyr_311a4c38",
           "name": "13_Pin_Origin_Red_Left",
           "type": "icon",
           "ok": true,
@@ -4752,7 +4830,7 @@
           "ai_reconstructed": false
         },
         {
-          "id": "lyr_82b87216",
+          "id": "lyr_90edf03c",
           "name": "14_Pin_Destination_Red_Glow",
           "type": "icon",
           "ok": true,
@@ -4760,7 +4838,7 @@
           "ai_reconstructed": false
         },
         {
-          "id": "lyr_0e8a537e",
+          "id": "lyr_a49e42ac",
           "name": "15_Ribbon_Strip_WeAreAvailable_Clean",
           "type": "shape",
           "ok": true,
@@ -4768,7 +4846,7 @@
           "ai_reconstructed": true
         },
         {
-          "id": "lyr_ac1f6c99",
+          "id": "lyr_8fb37a93",
           "name": "16_Footer_Wedge_Blue_Left_Clean",
           "type": "shape",
           "ok": true,
@@ -4776,7 +4854,7 @@
           "ai_reconstructed": true
         },
         {
-          "id": "lyr_bb255716",
+          "id": "lyr_93f09ccf",
           "name": "17_Footer_Wedge_Orange_Right_Clean",
           "type": "shape",
           "ok": true,
@@ -4784,7 +4862,7 @@
           "ai_reconstructed": true
         },
         {
-          "id": "lyr_82d804df",
+          "id": "lyr_b139169d",
           "name": "18_Icon_Phone_Circle_BottomLeft",
           "type": "icon",
           "ok": true,
@@ -4792,7 +4870,7 @@
           "ai_reconstructed": false
         },
         {
-          "id": "lyr_dd321615",
+          "id": "lyr_14eaeb5d",
           "name": "19_Icon_Globe_Cursor_BottomRight",
           "type": "icon",
           "ok": true,
@@ -4800,7 +4878,7 @@
           "ai_reconstructed": false
         },
         {
-          "id": "lyr_681040cd",
+          "id": "lyr_c7d98cdc",
           "name": "20_Logo_Taxi_Silhouette_&_Wings",
           "type": "logo",
           "ok": true,
@@ -4808,7 +4886,7 @@
           "ai_reconstructed": false
         },
         {
-          "id": "lyr_4cc4eb92",
+          "id": "lyr_1b4ae881",
           "name": "21_Text_Brand_Title_OrigFX",
           "type": "object",
           "ok": true,
@@ -4816,15 +4894,15 @@
           "ai_reconstructed": false
         },
         {
-          "id": "lyr_53361abf",
+          "id": "lyr_7435d25d",
           "name": "22_Text_Brand_Title_Editable",
           "type": "text",
           "ok": true,
-          "alpha_coverage_pct": 12.55,
+          "alpha_coverage_pct": 59.57,
           "ai_reconstructed": false
         },
         {
-          "id": "lyr_e61243e4",
+          "id": "lyr_db7a12c4",
           "name": "23_Text_Brand_Sub_OrigFX",
           "type": "object",
           "ok": true,
@@ -4832,15 +4910,15 @@
           "ai_reconstructed": false
         },
         {
-          "id": "lyr_0ca25403",
+          "id": "lyr_7490b256",
           "name": "24_Text_Brand_Sub_Editable",
           "type": "text",
           "ok": true,
-          "alpha_coverage_pct": 6.56,
+          "alpha_coverage_pct": 53.47,
           "ai_reconstructed": false
         },
         {
-          "id": "lyr_36153b1f",
+          "id": "lyr_b89a3158",
           "name": "25_Text_Headline_TaxiService_OrigFX",
           "type": "object",
           "ok": true,
@@ -4848,15 +4926,15 @@
           "ai_reconstructed": false
         },
         {
-          "id": "lyr_134d34e3",
+          "id": "lyr_ac473cab",
           "name": "26_Text_Headline_TaxiService_Editable",
           "type": "text",
           "ok": true,
-          "alpha_coverage_pct": 17.68,
+          "alpha_coverage_pct": 51.23,
           "ai_reconstructed": false
         },
         {
-          "id": "lyr_3bd65809",
+          "id": "lyr_f6c29c81",
           "name": "27_Text_Subhead_MeCabs_OrigFX",
           "type": "object",
           "ok": true,
@@ -4864,15 +4942,15 @@
           "ai_reconstructed": false
         },
         {
-          "id": "lyr_5c4d3406",
+          "id": "lyr_b9989910",
           "name": "28_Text_Subhead_MeCabs_Editable",
           "type": "text",
           "ok": true,
-          "alpha_coverage_pct": 16.36,
+          "alpha_coverage_pct": 59.58,
           "ai_reconstructed": false
         },
         {
-          "id": "lyr_724a878f",
+          "id": "lyr_b55a999c",
           "name": "29_Text_Badge_WeAreAvailable_OrigFX",
           "type": "object",
           "ok": true,
@@ -4880,15 +4958,15 @@
           "ai_reconstructed": false
         },
         {
-          "id": "lyr_66c0c301",
+          "id": "lyr_2fd76dcb",
           "name": "30_Text_Badge_WeAreAvailable_Editable",
           "type": "text",
           "ok": true,
-          "alpha_coverage_pct": 11.9,
+          "alpha_coverage_pct": 52.76,
           "ai_reconstructed": false
         },
         {
-          "id": "lyr_50c61cc8",
+          "id": "lyr_1ae11950",
           "name": "31_Text_CallUs_Label_OrigFX",
           "type": "object",
           "ok": true,
@@ -4896,15 +4974,15 @@
           "ai_reconstructed": false
         },
         {
-          "id": "lyr_d502087b",
+          "id": "lyr_506567c8",
           "name": "32_Text_CallUs_Label_Editable",
           "type": "text",
           "ok": true,
-          "alpha_coverage_pct": 8.03,
+          "alpha_coverage_pct": 46.24,
           "ai_reconstructed": false
         },
         {
-          "id": "lyr_056569d1",
+          "id": "lyr_4bbc9e3a",
           "name": "33_Text_Phone_Number_OrigFX",
           "type": "object",
           "ok": true,
@@ -4912,15 +4990,15 @@
           "ai_reconstructed": false
         },
         {
-          "id": "lyr_a38d9a25",
+          "id": "lyr_40d9a4fe",
           "name": "34_Text_Phone_Number_Editable",
           "type": "text",
           "ok": true,
-          "alpha_coverage_pct": 12.89,
+          "alpha_coverage_pct": 63.76,
           "ai_reconstructed": false
         },
         {
-          "id": "lyr_fa85c518",
+          "id": "lyr_37931666",
           "name": "35_Text_VisitWebsite_Label_OrigFX",
           "type": "object",
           "ok": true,
@@ -4928,15 +5006,15 @@
           "ai_reconstructed": false
         },
         {
-          "id": "lyr_968c19bb",
+          "id": "lyr_822acba6",
           "name": "36_Text_VisitWebsite_Label_Editable",
           "type": "text",
           "ok": true,
-          "alpha_coverage_pct": 8.04,
+          "alpha_coverage_pct": 45.99,
           "ai_reconstructed": false
         },
         {
-          "id": "lyr_bb967bae",
+          "id": "lyr_62a21f38",
           "name": "37_Text_Website_URL_OrigFX",
           "type": "object",
           "ok": true,
@@ -4944,11 +5022,11 @@
           "ai_reconstructed": false
         },
         {
-          "id": "lyr_03e33b4c",
+          "id": "lyr_7f171d3c",
           "name": "38_Text_Website_URL_Editable",
           "type": "text",
           "ok": true,
-          "alpha_coverage_pct": 12.13,
+          "alpha_coverage_pct": 55.04,
           "ai_reconstructed": false
         }
       ]
@@ -4957,7 +5035,7 @@
       "passed": true,
       "composite_file": "qa_composite.png",
       "transparent_hole_pct": 0.0,
-      "mae_vs_source": 2.21,
+      "mae_vs_source": 2.49,
       "aesthetic_checks": {
         "hierarchy_ratio": {
           "checked": false,
@@ -4966,8 +5044,8 @@
           "warning": ""
         },
         "negative_space": {
-          "occupied_pct": 71.29,
-          "negative_space_pct": 28.71,
+          "occupied_pct": 71.05,
+          "negative_space_pct": 28.95,
           "passed": true,
           "warning": ""
         },
@@ -4983,7 +5061,7 @@
     "qa3_psd": {
       "passed": true,
       "psd_exists": true,
-      "psd_bytes": 4895835,
+      "psd_bytes": 6310448,
       "width": 736,
       "height": 736,
       "color_mode": 3,

@@ -1,5 +1,23 @@
 # 07 — CHANGELOG
 
+## v1.5.1 — 2026-11-20 (PSD Mask Alignment, Amodal Road Texture, Ferris Wheel Rim & Text BBox Deep-Audit Fixes)
+- **Bug 1 — Sửa Lỗi Lệch Tọa Độ Layer Mask Về `(0, 0)` (`core/psd_bridge.js`, `core/design_document.py`, `core/poster_decomposer.py`, `core/banner_decomposer.py`):**
+  - Sửa `buildPsdFromDocument()` trong `core/psd_bridge.js`: dùng `lyr.mask_y ?? psdLayer.top ?? lyr.y ?? 0` và `lyr.mask_x ?? psdLayer.left ?? lyr.x ?? 0` cho các layer có mask đã crop theo bounding box (giữ `(0, 0)` riêng cho `adjustment` layer và full-canvas mask).
+  - Bổ sung tham số `mask_x`, `mask_y` vào `make_layer()` và kiểm định bắt buộc `misaligned_mask_count === 0` (`maskLeft === left`, `maskTop === top` khớp kích thước) ngay trong `verifyPsdFile()`.
+- **Bug 2 — Nâng Cấp Tái Tạo Đường Nhựa Cong Amodal (`core/poster_decomposer.py`):**
+  - Ràng buộc mép trên đường nhựa theo đường chân trời phối cảnh mượt `road_top_curve` (`514px -> 610px` qua `x=55..655`), loại bỏ hoàn toàn khối xám nhô phẳng dưới gầm xe.
+  - Tổng hợp hạt nhựa đường đa tầng bất tuần hoàn (`coarse_grain + streak_grain + fine_grain`), vẽ nối vạch đôi vàng uốn cong vào phối cảnh xa, và làm mượt vùng chuyển tiếp `25×25` không bị dính viền vàng gầm xe hay chữ footer.
+- **Bug 3 — Khử Vết Cắt Khung iPhone Trên Vòng Quay & Làm Mượt Bầu Trời (`core/poster_decomposer.py`):**
+  - Cắt tách `02_Ferris_Wheel_Landmark_Right` hoàn toàn ngoài rìa khung/bóng iPhone (`x >= 658`) và vẽ bù 22px vành cong bên trái (`x: 636..657`) theo tiếp tuyến vòng tròn, xóa 100% đường vạch dọc sẫm.
+  - Tái tạo `01_Background_Sky_Twilight_Clean` bằng khuếch tán điều hòa đa tỷ lệ (Harmonic Diffusion) giữ nguyên dải chuyển hoàng hôn tự nhiên, không còn vết hộp chữ nhật hay vệt tối.
+- **Bug 4 — Cắt Gọn & Chống Tràn Bounding Box Text Editable (`core/poster_decomposer.py`, `core/banner_decomposer.py`):**
+  - Cắt sát vùng pixel thực của ảnh preview `render_styled_text()` và kẹp chặt tọa độ trong khung canvas (`x + width <= canvas_w`, `y + height <= canvas_h`), khắc phục tràn lề dưới `> 736px` của 4 footer text layers.
+- **Kiểm định Xác minh Toàn Diện:**
+  - `Melbourne_Xpress_Cabs_Editable_FullLayers.psd` (`736×736`, `6,310,448 bytes`, `39` layers, `26` masks, `9` `TySh` text): `misaligned_mask_count = 0`, `overflow = 0`, `mae_vs_source = 2.49`.
+  - `Garena_Banner_CongBo_Editable_FullLayers.psd` (`1160×1080`, `10,372,803 bytes`, `39` layers, `28` masks, `7` `TySh` text): `misaligned_mask_count = 0`, `overflow = 0`, `mae_vs_source = 2.67`.
+  - `RabbitTank_Sparkling_18Layer_LiveRetouch.psd` (`1200×798`, `8,056,377 bytes`, `16` layers, `9` masks, `6` clipping): `misaligned_mask_count = 0`, `overflow = 0`.
+  - Bộ kiểm thử hồi quy `python tests/run_regression_tests.py`: **11/11 PASS**.
+
 ## v1.5.0 — 2026-11-20 (Banner 5-Module, Commercial Poster 6-Group Amodal & Pro Retouch Honeycomb Upgrade)
 - **Engine Bóc Tách Banner Esports & Sự Kiện (`core/banner_decomposer.py`, `docs/22_GARENA_BANNER_DECOMPOSER.md`):**
   - Hiện thực hóa kiến trúc 5 Module cho banner sự kiện: **Module 1** tách ruy băng hình học + cặp Dual Typography (`_OrigFX` hiển thị mặc định + `_Editable_Backup` vector `TySh` ẩn kèm `LayerFX`); **Module 2** tách 3 bục vinh quang 3D Isometric (Amodal Top-Face Inpainting) + huy hiệu (`DropShadow`/`InnerShadow`), cọc xu kim loại, tia nổ starburst và trang phục + móc khóa; **Module 3** tách logo, thiết bị gaming 3D, ngôi sao & confetti; **Module 4** tái tạo nền sân vận động sạch bằng `LaMa 2025jan ONNX` (`512×512` tiled); **Module 5** đóng gói `.PSD` 6 group.

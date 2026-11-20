@@ -153,3 +153,15 @@ Chạy từ `python D:/AI_Design_Studio/tests/run_regression_tests.py`:
   - File `.PSD` mẫu đã kiểm định: `exports/RabbitTank_Sparkling_18Layer_LiveRetouch.psd` (`1200×798`, `16` layers gồm `3` pixel + `13` live Adjustment Layers, `9` masks, `6` clipping flags, `overall_passed = true`).
 - **4. PSD Bridge LayerFX, Tri thức & Giao Diện (`core/psd_bridge.js`, `core/design_document.py`, `core/qa_engine.py`, `core/server.py`, `knowledge/knowledge_base.json`, `ui/`):**
   - Xuất & kiểm định ngược live Photoshop LayerFX (`lmfx`: `dropShadow`, `innerShadow`, `stroke`, `solidFill`, `gradientOverlay`, `outerGlow`), bổ sung endpoint `POST /api/banner_decompose` và nút **🏆 Bóc Tách Banner Esports / Sự Kiện** trong Studio UI `v1.5`.
+
+---
+
+## 9. Nhật Ký Vá Lỗi Deep-Audit v1.5.1 (2026-11-20)
+
+- **Sửa lỗi lệch Layer Mask về `(0, 0)` (`core/psd_bridge.js`, `core/design_document.py`):** Dùng `lyr.mask_y ?? psdLayer.top ?? lyr.y ?? 0` và `lyr.mask_x ?? psdLayer.left ?? lyr.x ?? 0` cho mask đã crop theo layer, nâng cấp `verifyPsdFile()` kiểm tra `misaligned_mask_count === 0` (`26/26` mask ở `Melbourne` và `28/28` mask ở `Garena` đều khớp 1:1 với tọa độ layer).
+- **Sửa bầu trời, rìa vòng quay & mặt đường nhựa Amodal (`core/poster_decomposer.py`):**
+  - Khuếch tán điều hòa đa tỷ lệ tạo dải hoàng hôn mượt đều trên `01_Background_Sky_Twilight_Clean`.
+  - Lọc sạch vệt đen khung iPhone khỏi `02_Ferris_Wheel_Landmark_Right` (`x >= 658`, vẽ bù 22px vành cong).
+  - Ràng buộc đường cong chân trời `road_top_curve`, vân nhựa đường bất tuần hoàn, vẽ nối vạch vàng đôi vào phối cảnh và feather `25×25` sạch viền gầm xe trên `03_Asphalt_Road_Curved_Track`.
+- **Cắt gọn Text Bounding Box (`core/poster_decomposer.py`, `core/banner_decomposer.py`):** Loại bỏ lề trong suốt 24px dư thừa để toàn bộ 9 Editable Text Layer nằm gọn trong `736×736` (`overflow = 0`).
+- **Kết quả kiểm thử sau sửa lỗi:** Cả 4 PSD mẫu trong `exports/` đạt `ok = true`, `misaligned = 0`, `overflow = 0`; bộ hồi quy `tests/run_regression_tests.py` đạt **11/11 PASS**.

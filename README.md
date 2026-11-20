@@ -1,4 +1,4 @@
-# AI Design Studio v1.5.0 🎨✨
+# AI Design Studio v1.5.1 🎨✨
 
 **Ứng dụng Desktop độc lập trên Windows** chuyên **bóc tách ảnh thiết kế phẳng (JPG/PNG)** thành **dự án Photoshop `.PSD` nhiều layer không phá hủy (Non-Destructive)**, phục hồi vùng bị che khuất (**Amodal Inpainting**), **Retouch ánh sáng sản phẩm sống (Live Adjustment Layers)**, **hệ thống chữ song song (Dual Typography + Live LayerFX)** và **sinh bố cục poster mới theo chuẩn học thuật DVF 2022**.
 
@@ -21,10 +21,10 @@
 
 ## 📦 Các File `.PSD` Mẫu Đã Kiểm Định Trong `exports/`
 
-- [`exports/Melbourne_Xpress_Cabs_Editable_FullLayers.psd`](exports/Melbourne_Xpress_Cabs_Editable_FullLayers.psd) — `736×736`, **39 layers** / **6 groups**, **9 `TySh` text layers**, **11 `lmfx` FX layers**, **26 masks**, `mae_vs_source = 2.21`, QA Pass (`Melbourne_Xpress_Cabs_Progression_Grid.jpg`, `Melbourne_Xpress_Cabs_Layers_Sheet.jpg`).
-- [`exports/Garena_Banner_CongBo_Editable_FullLayers.psd`](exports/Garena_Banner_CongBo_Editable_FullLayers.psd) — `1160×1080`, **39 layers** / **6 groups**, **7 `TySh` text layers**, **10 `lmfx` FX layers**, **28 masks**, `mae_vs_source = 2.67`, QA Pass (`banner_progression_grid.jpg`, `banner_layers_sheet.jpg`).
-- [`exports/RabbitTank_Sparkling_18Layer_LiveRetouch.psd`](exports/RabbitTank_Sparkling_18Layer_LiveRetouch.psd) — `1200×798`, **16 layers** (`3` pixel layers + `13` live Adjustment Layers), **9 masks**, **6 clipping flags**, QA Pass (`RabbitTank_Sparkling_Before_After.jpg`, `RabbitTank_Sparkling_Masks_Sheet.jpg`).
-- [`exports/Grab_Economy_FullHD_2048x2048_Editable.psd`](exports/Grab_Economy_FullHD_2048x2048_Editable.psd) — `2048×2048` Full HD multi-layer project.
+- [`exports/Melbourne_Xpress_Cabs_Editable_FullLayers.psd`](exports/Melbourne_Xpress_Cabs_Editable_FullLayers.psd) — `736×736` (`6,310,448 bytes`), **39 layers** / **6 groups**, **9 `TySh` text layers** (`0` overflow), **11 `lmfx` FX layers**, **26 masks** (`0` misaligned), `mae_vs_source = 2.49`, QA Pass (`Melbourne_Xpress_Cabs_Progression_Grid.jpg`, `Melbourne_Xpress_Cabs_Layers_Sheet.jpg`).
+- [`exports/Garena_Banner_CongBo_Editable_FullLayers.psd`](exports/Garena_Banner_CongBo_Editable_FullLayers.psd) — `1160×1080` (`10,372,803 bytes`), **39 layers** / **6 groups**, **7 `TySh` text layers** (`0` overflow), **10 `lmfx` FX layers**, **28 masks** (`0` misaligned), `mae_vs_source = 2.67`, QA Pass (`banner_progression_grid.jpg`, `banner_layers_sheet.jpg`).
+- [`exports/RabbitTank_Sparkling_18Layer_LiveRetouch.psd`](exports/RabbitTank_Sparkling_18Layer_LiveRetouch.psd) — `1200×798` (`8,056,377 bytes`), **16 layers** (`3` pixel layers + `13` live Adjustment Layers), **9 masks** (`0` misaligned), **6 clipping flags**, QA Pass (`RabbitTank_Sparkling_Before_After.jpg`, `RabbitTank_Sparkling_Masks_Sheet.jpg`).
+- [`exports/Grab_Economy_FullHD_2048x2048_Editable.psd`](exports/Grab_Economy_FullHD_2048x2048_Editable.psd) — `2048×2048` (`28,879,504 bytes`), **18 layers**, **8 `TySh` text layers**, Full HD multi-layer project (`0` overflow).
 
 ---
 

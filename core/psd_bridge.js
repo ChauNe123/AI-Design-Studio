@@ -282,8 +282,14 @@ function buildPsdFromDocument(projectDir, outPsdPath) {
       const absMask = path.join(projectDir, lyr.mask_file);
       if (fs.existsSync(absMask)) {
         const maskImg = loadMaskAsImageData(absMask);
-        const maskTop = isAdj ? 0 : Math.round(lyr.mask_y ?? 0);
-        const maskLeft = isAdj ? 0 : Math.round(lyr.mask_x ?? 0);
+        const isFullCanvasMask = (
+          maskImg.width === doc.width &&
+          maskImg.height === doc.height &&
+          (psdLayer.left !== 0 || psdLayer.top !== 0) &&
+          (!psdLayer.imageData || psdLayer.imageData.width !== doc.width || psdLayer.imageData.height !== doc.height)
+        );
+        const maskTop = (isAdj || isFullCanvasMask) ? 0 : Math.round(lyr.mask_y ?? psdLayer.top ?? lyr.y ?? 0);
+        const maskLeft = (isAdj || isFullCanvasMask) ? 0 : Math.round(lyr.mask_x ?? psdLayer.left ?? lyr.x ?? 0);
         psdLayer.mask = {
           top: maskTop,
           left: maskLeft,
@@ -388,6 +394,7 @@ function verifyPsdFile(psdPath) {
   let decodedPixelLayers = 0;
   let adjustmentLayerCount = 0;
   let maskedLayerCount = 0;
+  let misalignedMaskCount = 0;
   let clippedLayerCount = 0;
   let fxLayerCount = 0;
 
@@ -414,6 +421,18 @@ function verifyPsdFile(psdPath) {
         if (hasAdjustment) adjustmentLayerCount++;
         const maskOk = !!(n.mask && n.mask.imageData && n.mask.imageData.width > 0 && n.mask.imageData.height > 0);
         if (maskOk) maskedLayerCount++;
+        const maskLeft = n.mask ? n.mask.left : null;
+        const maskTop = n.mask ? n.mask.top : null;
+        const maskRight = n.mask ? n.mask.right : null;
+        const maskBottom = n.mask ? n.mask.bottom : null;
+        const maskWidth = n.mask ? (n.mask.right - n.mask.left) : null;
+        const maskHeight = n.mask ? (n.mask.bottom - n.mask.top) : null;
+        const layerW = (n.right ?? 0) - (n.left ?? 0);
+        const layerH = (n.bottom ?? 0) - (n.top ?? 0);
+        const isCroppedAligned = !!(n.mask && n.mask.left === n.left && n.mask.top === n.top && maskWidth === layerW && maskHeight === layerH);
+        const isFullCanvasAligned = !!(n.mask && n.mask.left === 0 && n.mask.top === 0 && maskWidth === parsed.width && maskHeight === parsed.height);
+        const maskAligned = !n.mask || hasAdjustment || isCroppedAligned || isFullCanvasAligned;
+        if (!maskAligned) misalignedMaskCount++;
         const isClipping = !!n.clipping;
         if (isClipping) clippedLayerCount++;
         const hasEffects = !!(n.effects && !n.effects.disabled);
@@ -432,6 +451,13 @@ function verifyPsdFile(psdPath) {
           clipping: isClipping,
           hasMask: !!n.mask,
           maskOk,
+          maskLeft,
+          maskTop,
+          maskRight,
+          maskBottom,
+          maskWidth,
+          maskHeight,
+          maskAligned,
           hasEffects,
           hasAdjustment,
           adjustmentType: n.adjustment ? n.adjustment.type : null,
@@ -455,7 +481,7 @@ function verifyPsdFile(psdPath) {
   const allLayersValid = flatLayers.every(l => l.pixelOk || l.hasAdjustment);
 
   return {
-    ok: compositeOk && flatLayers.length > 0 && allLayersValid,
+    ok: compositeOk && flatLayers.length > 0 && allLayersValid && misalignedMaskCount === 0,
     width: parsed.width,
     height: parsed.height,
     channels: parsed.channels,
@@ -468,6 +494,7 @@ function verifyPsdFile(psdPath) {
     decoded_pixel_layers: decodedPixelLayers,
     adjustment_layer_count: adjustmentLayerCount,
     masked_layer_count: maskedLayerCount,
+    misaligned_mask_count: misalignedMaskCount,
     clipped_layer_count: clippedLayerCount,
     fx_layer_count: fxLayerCount,
     text_layer_count: flatLayers.filter(l => l.hasText).length,

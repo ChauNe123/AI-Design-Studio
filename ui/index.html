@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Design Studio v1.5 — Esports Banner & Pro Retouching</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <aside class="nav">
+    <div class="logo">🎨 AI DESIGN STUDIO <span style="font-size:10px;color:#9ca3af;">v1.5</span></div>
+    <button class="nav-btn active" data-view="dashboard">🏠 Dashboard</button>
+    <button class="nav-btn" data-view="redesign">🧠 MODE A: Redesign</button>
+    <button class="nav-btn" data-view="generate">✨ MODE B: Generate</button>
+    <button class="nav-btn" data-view="editor">🗂️ Layer Editor</button>
+    <button class="nav-btn" data-view="assets">📦 Asset Library</button>
+    <button class="nav-btn" data-view="knowledge">📚 Design Knowledge</button>
+    <button class="nav-btn" data-view="history">🕒 Project History</button>
+    <button class="nav-btn" data-view="export">💾 Export PSD & QA</button>
+    <button class="nav-btn" data-view="settings">⚙️ Settings & AI</button>
+    <div class="nav-foot" id="navFoot">D:/AI_Design_Studio • v1.5.0</div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div id="activeProjectLabel" style="font-size:13px;font-weight:600;">Chưa chọn dự án</div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <span id="privacyBadge" class="privacy-pill" onclick="switchView('settings')" title="Nhấn để cấu hình Hybrid AI & Windows Credential Manager">🔒 LOCAL_ONLY</span>
+        <span id="autosavePill" class="status-pill" style="display:none;">Autosaved</span>
+        <div class="status-pill ok" id="statusPill">Sẵn sàng</div>
+      </div>
+    </header>
+
+    <!-- 1. Dashboard -->
+    <section class="view active" id="view-dashboard">
+      <h2>Tổng quan hệ thống — AI Design Studio v1.2</h2>
+      <div class="grid-3" id="sysStats"></div>
+      <div class="grid-2">
+        <div class="card">
+          <h3>MODE A — INTELLIGENT DESIGN RECONSTRUCTION</h3>
+          <p class="stat-lbl" style="line-height:1.5;">Nhập poster PNG/JPG/WEBP → Semantic Analyzer (RMBG-1.4 + SlimSAM + Vietnamese OCR) tách foreground/midground/text/background, ước lượng vùng che khuất và tạo DesignDocument v1.2 chỉnh sửa không phá hủy.</p>
+          <div class="btn-row"><button class="btn primary" onclick="switchView('redesign')">Mở MODE A: Redesign</button></div>
+        </div>
+        <div class="card">
+          <h3>MODE B — GENERATE (Multi-Product & Variants)</h3>
+          <p class="stat-lbl" style="line-height:1.5;">Chọn nhiều ảnh sản phẩm + Logo + Hình tham khảo + Nội dung Việt hóa → Đề xuất 3 phương án bố cục khác nhau, giữ nguyên sản phẩm gốc và xuất PSD.</p>
+          <div class="btn-row"><button class="btn blue" onclick="switchView('generate')">Mở MODE B: Generate</button></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Dự án gần đây</h3>
+        <div id="dashProjects" class="grid-3"></div>
+      </div>
+    </section>
+
+    <!-- 2. MODE A: REDESIGN -->
+    <section class="view" id="view-redesign">
+      <h2>MODE A — REDESIGN (Semantic Reconstruction & Layer Extraction)</h2>
+      <div class="card">
+        <label class="fld">Tên dự án</label>
+        <input type="text" id="rdTitle" placeholder="VD: Poster Grab v1.2">
+        <label class="fld">Chọn ảnh đầu vào (PNG / JPG / WEBP / Canva)</label>
+        <input type="file" id="rdFile" accept="image/png,image/jpeg,image/webp">
+        <label class="fld" style="display:flex;align-items:center;gap:8px;margin-top:14px;">
+          <input type="checkbox" id="rdSemantic" checked> Kích hoạt Semantic Analyzer v1.2 (Semantic Graph + Object Depth + Occlusion)
+        </label>
+        <label class="fld" style="display:flex;align-items:center;gap:8px;">
+          <input type="checkbox" id="rdRmbg" checked> Sử dụng AI RMBG-1.4 Local (tách Foreground sắc nét trên CPU)
+        </label>
+        <label class="fld" style="display:flex;align-items:center;gap:8px;">
+          <input type="checkbox" id="rdOcr" checked> Nhận diện Chữ Tiếng Việt (Tesseract vie+eng) & Tạo Editable Typography
+        </label>
+        <label class="fld" style="display:flex;align-items:center;gap:8px;">
+          <input type="checkbox" id="rdUpscale" checked> Làm nét & nâng độ phân giải tối đa 2048px
+        </label>
+        <div class="btn-row">
+          <button class="btn primary" onclick="submitRedesign()">🚀 Phân tích Semantic, Tách Layer & Chạy QA</button>
+          <button class="btn blue" onclick="submitProductRetouch()">✨ Retouch Sản Phẩm & Bóc Tách Ánh Sáng (16-Layer Live Curves/Masks PSD)</button>
+          <button class="btn warn" onclick="submitBannerDecompose()">🏆 Bóc Tách Banner Esports / Sự Kiện (5-Module Garena + Dual Text & LayerFX PSD)</button>
+        </div>
+      </div>
+      <div class="card" id="retouchReportBox" style="display:none;margin-top:14px;"></div>
+    </section>
+
+    <!-- 3. MODE B: GENERATE -->
+    <section class="view" id="view-generate">
+      <h2>MODE B — GENERATE (Đa sản phẩm · Hình tham khảo · Đề xuất nhiều phương án)</h2>
+      <div class="grid-2">
+        <div class="card">
+          <label class="fld">Tên thiết kế</label>
+          <input type="text" id="genTitle" value="SafeDrive Campaign">
+          <label class="fld">Ngành hàng / Brand Guideline</label>
+          <select id="genIndustry" onchange="applyIndustryDefaults()">
+            <option value="tech_automotive">Công nghệ & Ô tô (SafeDrive / Smart Mobility)</option>
+            <option value="commercial_product">Sản phẩm thương mại & Bán lẻ</option>
+            <option value="social_promo">Social Media / Khuyến mãi</option>
+          </select>
+          <label class="fld">Bố cục (khi tạo 1 bản) & Kích thước Canvas</label>
+          <div class="grid-2">
+            <select id="genLayout">
+              <option value="tech_dark_glow">Tech Dark Glow (Ánh sáng nền)</option>
+              <option value="hero_split">Hero Split (Chia đôi chéo)</option>
+              <option value="clean_card_modern">Clean Card Modern</option>
+            </select>
+            <select id="genPreset">
+              <option value="square_1080">1080 × 1080 (Vuông)</option>
+              <option value="portrait_4x5">1080 × 1350 (Facebook 4:5)</option>
+              <option value="story_9x16">1080 × 1920 (Story/Reels 9:16)</option>
+              <option value="landscape_16x9">1920 × 1080 (16:9)</option>
+            </select>
+          </div>
+          <label class="fld">Phong cách Mỹ thuật (DVF Art Movement) & Mô hình Hòa sắc (60-30-10)</label>
+          <div class="grid-2">
+            <select id="genArtMovement">
+              <option value="none">-- Mặc định theo ngành hàng --</option>
+              <option value="bauhaus">Bauhaus (Tối giản hình học)</option>
+              <option value="pop_art">Pop Art (Neon & Ben-Day dots)</option>
+              <option value="art_deco">Art Deco (Ziggurat & Ánh kim vàng)</option>
+              <option value="memphis">Memphis (Anti-design Pastel/Neon)</option>
+              <option value="swiss_modern">Swiss Modern (Grid chuẩn & Khoảng trắng)</option>
+            </select>
+            <select id="genColorHarmony">
+              <option value="none">-- Màu tùy chỉnh / Ngành hàng --</option>
+              <option value="monochrome">Đơn sắc (Monochromatic)</option>
+              <option value="complementary">Bổ túc trực tiếp (Complementary)</option>
+              <option value="split_complementary">Bổ túc xen kẽ (Split Complementary)</option>
+              <option value="analogous">Tương đồng (Analogous)</option>
+              <option value="triadic">Tam giác (Triadic)</option>
+              <option value="tetradic">Tứ giác (Tetradic)</option>
+            </select>
+          </div>
+          <label class="fld">Headline chính</label>
+          <input type="text" id="genHeadline" value="LÁI XE THÔNG MINH AN TOÀN HƠN">
+          <label class="fld">Subheadline</label>
+          <input type="text" id="genSub" value="Cảnh báo sớm bằng AI • Theo dõi khoảng cách & tốc độ GPS">
+          <label class="fld">Các gạch đầu dòng tính năng (ngăn cách bởi dấu phẩy)</label>
+          <input type="text" id="genBullets" placeholder="VD: Cảnh báo va chạm AI, Camera hành trình, Dẫn đường GPS">
+          <label class="fld">CTA / Hotline cuối ảnh</label>
+          <input type="text" id="genCta" value="Tải SafeDrive ngay • safedrive.com">
+          <div class="btn-row" style="align-items:center;">
+            <span class="stat-lbl">Màu nền:</span><input type="color" id="genBg" value="#071B14">
+            <span class="stat-lbl">Nhấn:</span><input type="color" id="genAcc" value="#10B981">
+            <span class="stat-lbl">Chữ:</span><input type="color" id="genTxt" value="#FFFFFF">
+          </div>
+        </div>
+        <div class="card">
+          <h3>Tài nguyên đầu vào (giữ nguyên pixel sản phẩm gốc)</h3>
+          <label class="fld">Chọn nhiều ảnh Sản phẩm (Ctrl+Click chọn nhiều)</label>
+          <select id="genProduct" multiple style="height:95px;"></select>
+          <label class="fld">Chọn Logo thương hiệu</label>
+          <select id="genLogo"><option value="">-- Không dùng logo --</option></select>
+          <label class="fld">Chọn Hình tham khảo (Reference Analysis — Ctrl+Click)</label>
+          <select id="genRef" multiple style="height:80px;"></select>
+          <label class="fld" style="display:flex;align-items:center;gap:8px;margin-top:12px;">
+            <input type="checkbox" id="genRemoveWhite" checked> Tự động tách nền trắng sản phẩm (bảo toàn chi tiết trắng bên trong)
+          </label>
+          <div class="btn-row">
+            <button class="btn primary" onclick="submitGenerate()">✨ Tạo 1 Thiết Kế</button>
+            <button class="btn blue" onclick="submitGenerateVariants()">🧩 Đề xuất 3 Phương án Bố cục</button>
+          </div>
+        </div>
+      </div>
+      <div class="card" id="genVariantsBox" style="display:none;">
+        <h3>3 Phương án Thiết kế Đã Đề xuất</h3>
+        <div id="genVariantsGrid" class="grid-3"></div>
+      </div>
+    </section>
+
+    <!-- 4. LAYER EDITOR v1.2 -->
+    <section class="view flex-view" id="view-editor">
+      <div class="editor-center">
+        <div class="editor-toolbar">
+          <button class="btn active" id="toolMove" onclick="setEditorTool('move')">🖐 Di chuyển</button>
+          <button class="btn" id="toolPointPos" onclick="setEditorTool('point_pos')" title="Click lên đối tượng để giữ (+)">➕ Điểm +</button>
+          <button class="btn" id="toolPointNeg" onclick="setEditorTool('point_neg')" title="Click lên vùng nền/vật khác để loại (-)">➖ Điểm -</button>
+          <button class="btn" id="toolBox" onclick="setEditorTool('box')" title="Kéo khung bao vùng tách hoặc xóa vật thể">🔲 Kéo Box</button>
+          <button class="btn" onclick="clearInteractiveSelection()">🧹 Xóa chọn</button>
+          <span style="border-left:1px solid var(--border);height:18px;margin:0 2px;"></span>
+          <button class="btn" onclick="undoEditor()" title="Ctrl+Z">↩ Undo</button>
+          <button class="btn" onclick="redoEditor()" title="Ctrl+Y">↪ Redo</button>
+          <button class="btn" onclick="addNewTextLayer()">+Text</button>
+          <button class="btn blue" onclick="openRemixModal()" title="Lấy vật thể, logo, màu sắc hoặc phong cách chữ từ dự án cũ đưa vào">💡 Ý tưởng Dự án Cũ</button>
+          <span class="stat-lbl" id="editorToolHint" style="margin-left:auto;">Click chọn hoặc kéo layer trên canvas</span>
+        </div>
+        <div class="editor-canvas-wrap">
+          <div class="checker"><canvas id="editorCanvas" width="800" height="800"></canvas></div>
+        </div>
+      </div>
+
+      <div class="editor-side">
+        <div class="side-tabs">
+          <button class="side-tab active" data-tab="props" onclick="switchSideTab('props')">🎨 Thuộc tính</button>
+          <button class="side-tab" data-tab="typo" onclick="switchSideTab('typo')">🔤 Typography</button>
+          <button class="side-tab" data-tab="semantic" onclick="switchSideTab('semantic')">🧠 Tách & Tái tạo</button>
+        </div>
+
+        <!-- TAB 1: Properties, Color/Lighting & Effects -->
+        <div class="prop-box" id="tab-props">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;gap:4px;">
+            <strong style="font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" id="edSelTitle">Chọn 1 Layer</strong>
+            <div style="display:flex;gap:3px;flex-shrink:0;">
+              <button class="btn" style="padding:2px 6px;" onclick="layerActionUI('duplicate')" title="Nhân bản">⧉</button>
+              <button class="btn" style="padding:2px 6px;" onclick="renameLayerUI()" title="Đổi tên">✏️</button>
+              <button class="btn" style="padding:2px 6px;" id="edLockBtn" onclick="toggleLockUI()" title="Khóa/Mở">🔓</button>
+              <button class="btn danger" style="padding:2px 6px;" onclick="deleteSelectedLayer()">Xóa</button>
+            </div>
+          </div>
+          <div id="edLayerWarn" class="warn-banner" style="display:none;"></div>
+          <div class="btn-row" style="margin-top:0;margin-bottom:8px;">
+            <label class="btn" style="padding:3px 8px;font-size:11px;">🔄 Thay ảnh<input type="file" id="replaceAssetInput" accept="image/*" style="display:none;" onchange="replaceLayerAssetUI(this)"></label>
+            <button class="btn" style="padding:3px 8px;font-size:11px;" onclick="layerActionUI('restore_original')">↺ Khôi phục gốc</button>
+          </div>
+          <div class="prop-line"><span>Group</span><select id="edGroupSel" onchange="assignSelectedGroup(this.value)"></select></div>
+          <div class="prop-line"><span>Blend Mode</span>
+            <select id="edBlend" onchange="onPropChange('blend_mode', this.value)">
+              <option value="normal">Normal</option>
+              <option value="multiply">Multiply</option>
+              <option value="screen">Screen</option>
+              <option value="overlay">Overlay</option>
+              <option value="darken">Darken</option>
+              <option value="lighten">Lighten</option>
+            </select>
+          </div>
+          <div class="prop-line"><span>Opacity</span><input type="range" id="edOp" min="0" max="100" value="100" oninput="onPropChange('opacity', this.value/100)"><span class="prop-val" id="valOp">100%</span></div>
+          <div class="prop-line"><span>Scale</span><input type="range" id="edScale" min="15" max="250" value="100" oninput="onMetaChange('scale', this.value/100)"><span class="prop-val" id="valScale">100%</span></div>
+          <div class="prop-line"><span>Rotation</span><input type="range" id="edRot" min="-180" max="180" value="0" oninput="onPropChange('rotation', Number(this.value))"><span class="prop-val" id="valRot">0°</span></div>
+          <div class="prop-line"><span>Hue</span><input type="range" id="edHue" min="-180" max="180" value="0" oninput="onAdjChange('hue', Number(this.value))"><span class="prop-val" id="valHue">0</span></div>
+          <div class="prop-line"><span>Saturate</span><input type="range" id="edSat" min="0" max="200" value="100" oninput="onAdjChange('sat', Number(this.value))"><span class="prop-val" id="valSat">100</span></div>
+          <div class="prop-line"><span>Brightness</span><input type="range" id="edBright" min="30" max="200" value="100" oninput="onAdjChange('bright', Number(this.value))"><span class="prop-val" id="valBright">100</span></div>
+          <div class="prop-line"><span>Contrast</span><input type="range" id="edContrast" min="30" max="200" value="100" oninput="onAdjChange('contrast', Number(this.value))"><span class="prop-val" id="valContrast">100</span></div>
+          <div class="prop-line"><span>Exposure</span><input type="range" id="edExp" min="-100" max="100" value="0" oninput="onAdjChange('exposure', this.value/100)"><span class="prop-val" id="valExp">0.0</span></div>
+          <div class="prop-line"><span>Warm / Cool</span><input type="range" id="edTemp" min="-100" max="100" value="0" oninput="onAdjChange('temperature', Number(this.value))"><span class="prop-val" id="valTemp">0</span></div>
+          <div class="prop-line"><span>Shadows</span><input type="range" id="edShadowAdj" min="-100" max="100" value="0" oninput="onAdjChange('shadow', Number(this.value))"><span class="prop-val" id="valShadowAdj">0</span></div>
+          <div class="prop-line"><span>Highlights</span><input type="range" id="edHighAdj" min="-100" max="100" value="0" oninput="onAdjChange('highlight', Number(this.value))"><span class="prop-val" id="valHighAdj">0</span></div>
+
+          <details style="margin-top:6px;border-top:1px solid var(--border);padding-top:6px;">
+            <summary style="font-size:11px;font-weight:700;cursor:pointer;color:#d1d5db;">✨ Hiệu ứng & Crop (Non-Destructive)</summary>
+            <div style="margin-top:6px;">
+              <div class="prop-line"><span>Feather Mask</span><input type="range" id="edFeather" min="0" max="24" value="0" oninput="onEffectChange('feather', Number(this.value))"><span class="prop-val" id="valFeather">0</span></div>
+              <div class="prop-line"><span>Gaussian Blur</span><input type="range" id="edBlur" min="0" max="20" step="0.5" value="0" oninput="onEffectChange('blur', Number(this.value))"><span class="prop-val" id="valBlur">0</span></div>
+              <div class="prop-line"><span>Drop Shadow</span><label style="display:flex;align-items:center;gap:4px;"><input type="checkbox" id="edDsEn" onchange="onNestedEffectChange('drop_shadow','enabled',this.checked)"> Bật</label><input type="color" id="edDsCol" value="#000000" onchange="onNestedEffectColor('drop_shadow','color',this.value)"></div>
+              <div class="prop-line"><span>DS Blur/Off</span><input type="number" id="edDsBlur" value="10" style="width:55px;" onchange="onNestedEffectChange('drop_shadow','blur',Number(this.value))"><input type="number" id="edDsDx" value="6" style="width:50px;" onchange="onNestedEffectChange('drop_shadow','dx',Number(this.value))"><input type="number" id="edDsDy" value="8" style="width:50px;" onchange="onNestedEffectChange('drop_shadow','dy',Number(this.value))"></div>
+              <div class="prop-line"><span>Glow</span><label style="display:flex;align-items:center;gap:4px;"><input type="checkbox" id="edGlEn" onchange="onNestedEffectChange('glow','enabled',this.checked)"> Bật</label><input type="color" id="edGlCol" value="#34d399" onchange="onNestedEffectColor('glow','color',this.value)"><input type="number" id="edGlRad" value="12" style="width:55px;" onchange="onNestedEffectChange('glow','radius',Number(this.value))"></div>
+              <div class="prop-line"><span>Color Overlay</span><label style="display:flex;align-items:center;gap:4px;"><input type="checkbox" id="edCoEn" onchange="onNestedEffectChange('color_overlay','enabled',this.checked)"> Bật</label><input type="color" id="edCoCol" value="#10b981" onchange="onNestedEffectColor('color_overlay','color',this.value)"><input type="range" id="edCoOp" min="0" max="100" value="40" oninput="onNestedEffectChange('color_overlay','opacity',this.value/100)"></div>
+              <div class="prop-line"><span>Crop X/Y/W/H</span><input type="text" id="edCropStr" placeholder="VD: 10,10,400,400 (rỗng=bỏ)" onchange="onCropTextChange(this.value)"></div>
+            </div>
+          </details>
+        </div>
+
+        <!-- TAB 2: Typography -->
+        <div class="prop-box" id="tab-typo" style="display:none;">
+          <div id="edTypoNone" class="stat-lbl">Chọn 1 layer Text trong danh sách hoặc bấm +Text để tạo chữ mới.</div>
+          <div id="edTextBox" style="display:none;">
+            <div id="edTypoWarn" class="warn-banner" style="display:none;"></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:6px;">
+              <label style="font-size:11px;display:flex;align-items:center;gap:5px;">
+                <input type="checkbox" id="edShowOrigRaster" onchange="toggleShowOriginalRaster(this.checked)"> Xem Raster gốc
+              </label>
+              <button class="btn primary" style="padding:3px 8px;font-size:11px;" onclick="confirmTypographyUI()">✅ Xác nhận Text</button>
+            </div>
+            <label class="fld" style="margin-top:0;">Nội dung Text</label>
+            <textarea id="edTextVal" rows="2" oninput="onTextChange('text', this.value)"></textarea>
+            <label class="fld">Font Hệ Thống (<span id="edFontMatchNote"></span>)</label>
+            <select id="edFontSel" onchange="onTextChange('font', this.value)"></select>
+            <div class="grid-2" style="margin-top:6px;">
+              <div><label class="fld" style="margin-top:0;">Cỡ chữ</label><input type="number" id="edFontSize" value="42" oninput="onTextChange('font_size', Number(this.value))"></div>
+              <div><label class="fld" style="margin-top:0;">Canh lề</label>
+                <select id="edTextAlign" onchange="onTextChange('align', this.value)">
+                  <option value="left">Trái</option><option value="center">Giữa</option><option value="right">Phải</option>
+                </select>
+              </div>
+            </div>
+            <div class="grid-2" style="margin-top:6px;">
+              <div><label class="fld" style="margin-top:0;">Tracking</label><input type="number" id="edTracking" value="0" oninput="onTextChange('tracking', Number(this.value))"></div>
+              <div><label class="fld" style="margin-top:0;">Leading</label><input type="number" id="edLeading" value="10" oninput="onTextChange('leading', Number(this.value))"></div>
+            </div>
+            <div class="prop-line" style="margin-top:6px;"><span>Màu chữ</span><input type="color" id="edTextColor" value="#ffffff" oninput="onTextColorChange('color', this.value)"><span>3D Depth</span><input type="number" id="edText3d" value="0" min="0" max="20" style="width:55px;" oninput="onTextChange('extrude_3d_depth', Number(this.value))"></div>
+            <div class="prop-line"><span>Viền (Stroke)</span><input type="checkbox" id="edStrokeEn" onchange="onTextChange('stroke_enabled', this.checked)"><input type="color" id="edStrokeCol" value="#002b18" onchange="onTextColorChange('stroke_color', this.value)"><input type="number" id="edStrokeW" value="4" style="width:55px;" onchange="onTextChange('stroke_width', Number(this.value))"></div>
+            <div class="prop-line"><span>Bóng (Shadow)</span><input type="checkbox" id="edTxtShEn" onchange="onTextChange('shadow_enabled', this.checked)"><input type="color" id="edTxtShCol" value="#000000" onchange="onTextColorChange('shadow_color', this.value)"><input type="number" id="edTxtShBlur" value="6" style="width:55px;" onchange="onTextChange('shadow_blur', Number(this.value))"></div>
+            <div class="prop-line"><span>Gradient</span><input type="checkbox" id="edTxtGrEn" onchange="onTextChange('gradient_enabled', this.checked)"><input type="color" id="edTxtGrC2" value="#bbf7d0" onchange="onTextColorChange('gradient_c2', this.value)"><span>Xoay°</span><input type="number" id="edTxtRot" value="0" style="width:55px;" oninput="onTextChange('rotation', Number(this.value))"></div>
+          </div>
+        </div>
+
+        <!-- TAB 3: Semantic Graph, Interactive SlimSAM & Reconstruction -->
+        <div class="prop-box" id="tab-semantic" style="display:none;">
+          <h3>1. Tách Vật thể Tương tác (SlimSAM / GrabCut)</h3>
+          <div class="stat-lbl" id="segPointStatus">Chưa chọn điểm/box. Hãy bấm ➕ Điểm + hoặc 🔲 Kéo Box rồi click lên ảnh.</div>
+          <div class="prop-line" style="margin-top:6px;"><span>Tên Layer</span><input type="text" id="segLayerName" placeholder="VD: Xe_May_Grab"></div>
+          <div class="prop-line"><span>Mask Level</span>
+            <select id="segLevel">
+              <option value="2">Level 2 — Nguyên vật thể (Whole)</option>
+              <option value="1">Level 1 — Cụm vừa (Part)</option>
+              <option value="0">Level 0 — Chi tiết nhỏ</option>
+            </select>
+          </div>
+          <div class="prop-line"><span>Tách khỏi Layer</span><select id="segCarveParent"><option value="">-- Giữ nguyên layer khác --</option></select></div>
+          <div class="prop-line"><span>Feather / Expand</span><input type="number" id="segFeather" value="1" style="width:60px;"><input type="number" id="segExpand" value="0" style="width:60px;"></div>
+          <div class="btn-row" style="margin-top:4px;">
+            <button class="btn primary" style="flex:1;justify-content:center;" onclick="runInteractiveSegmentUI()">✂️ Tách đối tượng mới</button>
+          </div>
+
+          <h3 style="margin-top:12px;border-top:1px solid var(--border);padding-top:10px;">2. Xóa Vật thể & Tái tạo Nền (Inpaint)</h3>
+          <div class="prop-line"><span>Layer cần vá</span><select id="reconTargetSel"></select></div>
+          <div class="prop-line"><span>Theo Layer/Box</span><select id="reconMaskSel"><option value="">Dùng Kéo Box hiện tại trên canvas</option></select></div>
+          <div class="prop-line"><span>Engine</span>
+            <select id="reconMode">
+              <option value="algorithmic_inpaint">Local Offline (Telea / Navier-Stokes)</option>
+              <option value="cloud_ai">Cloud Hybrid AI (Cần xác nhận quyền)</option>
+            </select>
+          </div>
+          <input type="text" id="reconPrompt" placeholder="Mô tả vùng cần tái tạo (VD: sạch nền trời xanh lá)" style="margin-bottom:6px;">
+          <button class="btn blue" style="width:100%;justify-content:center;" onclick="initiateReconstructUI()">🩹 Tái tạo / Xóa vùng đã chọn</button>
+
+          <h3 style="margin-top:12px;border-top:1px solid var(--border);padding-top:10px;">3. Semantic Object Graph</h3>
+          <div id="semanticGraphList"></div>
+        </div>
+
+        <div style="padding:8px 10px;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:6px;">
+          <button class="btn primary" style="width:100%;justify-content:center;" onclick="saveEditorAndExport()">💾 Lưu Version, Render Server & Xuất PSD</button>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:4px;">
+            <span style="font-size:11px;color:var(--muted);font-weight:700;">LAYERS & GROUPS</span>
+            <div style="display:flex;gap:4px;">
+              <button class="btn" style="padding:2px 6px;font-size:11px;" onclick="createGroupPrompt()">+Group</button>
+              <button class="btn" style="padding:2px 6px;font-size:11px;" onclick="deleteGroupPrompt()">-Group</button>
+              <button class="btn" style="padding:2px 6px;" onclick="shiftLayerZ(1)">▲</button>
+              <button class="btn" style="padding:2px 6px;" onclick="shiftLayerZ(-1)">▼</button>
+            </div>
+          </div>
+        </div>
+        <div class="layer-list" id="edLayerList"></div>
+      </div>
+    </section>
+
+    <!-- 5. ASSET LIBRARY -->
+    <section class="view" id="view-assets">
+      <h2>Asset Library (Sản phẩm, Logo, Ảnh tham khảo, Font)</h2>
+      <div class="card">
+        <div class="btn-row" style="margin-top:0;align-items:center;">
+          <select id="assetCat" style="width:180px;">
+            <option value="products">Sản phẩm (Products)</option>
+            <option value="logos">Logo</option>
+            <option value="references">Ảnh tham khảo (References)</option>
+          </select>
+          <input type="file" id="assetFile" accept="image/png,image/jpeg,image/webp" style="width:260px;">
+          <button class="btn primary" onclick="uploadAsset()">⬆️ Tải lên Asset Library</button>
+        </div>
+      </div>
+      <div id="assetContainer"></div>
+    </section>
+
+    <!-- 6. DESIGN KNOWLEDGE & REFERENCE ANALYZER -->
+    <section class="view" id="view-knowledge">
+      <h2>Design Knowledge Base & Reference Analyzer</h2>
+      <div class="card">
+        <h3>Phân tích Hình Tham Khảo (Bố cục · Màu sắc · Phân cấp · Ánh sáng · Khoảng trắng)</h3>
+        <div class="btn-row" style="margin-top:0;align-items:center;">
+          <input type="file" id="refAnalyzeFile" accept="image/png,image/jpeg,image/webp" style="width:280px;">
+          <button class="btn blue" onclick="analyzeReferenceUI()">🔍 Phân tích & Lưu vào Knowledge Base</button>
+        </div>
+        <div id="refAnalyzeResult" style="margin-top:12px;"></div>
+      </div>
+      <div id="kbContainer"></div>
+      <div class="card">
+        <h3>Ghi nhận bài học thiết kế / QA mới</h3>
+        <label class="fld">Vấn đề gặp phải</label>
+        <input type="text" id="kbIssue" placeholder="VD: Chữ trắng đặt trên nền sáng bị khó đọc">
+        <label class="fld">Cách khắc phục chuẩn</label>
+        <input type="text" id="kbFix" placeholder="VD: Thêm lớp gradient tối phía sau text hoặc đổi màu chữ đậm">
+        <div class="btn-row"><button class="btn primary" onclick="addKbLesson()">➕ Lưu vào Knowledge Base</button></div>
+      </div>
+    </section>
+
+    <!-- 7. PROJECT HISTORY -->
+    <section class="view" id="view-history">
+      <h2>Project History (Lịch sử dự án)</h2>
+      <div id="historyGrid" class="grid-3"></div>
+    </section>
+
+    <!-- 8. EXPORT PSD, VERSION HISTORY & QA REPORT -->
+    <section class="view" id="view-export">
+      <h2>Export PSD · Version History & QA 1/2/3</h2>
+      <div id="exportContainer" class="card">Chưa có dự án nào được chọn. Hãy tạo hoặc mở một dự án từ Dashboard / History.</div>
+    </section>
+
+    <!-- 9. SETTINGS & HYBRID AI -->
+    <section class="view" id="view-settings">
+      <h2>Settings — Hệ thống & Hybrid AI Engine</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Cấu hình Photoshop & Đường dẫn</h3>
+          <label class="fld">Đường dẫn Adobe Photoshop 2024</label>
+          <input type="text" id="setPsExe">
+          <label class="fld">Đường dẫn PhoToSop (KBDobe Hub)</label>
+          <input type="text" id="setPsAltExe">
+          <label class="fld">Độ phân giải cạnh tối đa khi Upscale (px)</label>
+          <input type="number" id="setMaxDim" value="2048">
+          <label class="fld" style="display:flex;align-items:center;gap:8px;margin-top:12px;">
+            <input type="checkbox" id="setUpscale"> Mặc định bật làm nét trong MODE A
+          </label>
+          <div class="btn-row"><button class="btn primary" onclick="saveSettingsUI()">💾 Lưu cấu hình hệ thống</button></div>
+        </div>
+        <div class="card">
+          <h3>Chính sách Quyền riêng tư & Chi phí API</h3>
+          <label class="fld">Chế độ AI hiện tại</label>
+          <select id="aiModeSel">
+            <option value="LOCAL_ONLY">LOCAL_ONLY — 100% Offline (Không gửi ảnh ra ngoài)</option>
+            <option value="HYBRID">HYBRID — Cho phép Cloud AI khi có xác nhận từng lần</option>
+          </select>
+          <label class="fld">Giới hạn ngân sách tháng (USD)</label>
+          <input type="number" id="aiBudgetInput" step="0.5" value="10">
+          <div class="btn-row"><button class="btn primary" onclick="saveAiPolicyUI()">🔐 Áp dụng Chính sách AI</button></div>
+          <div id="aiUsageSummary" style="margin-top:12px;font-size:12px;color:var(--muted);border-top:1px solid var(--border);padding-top:10px;"></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>AI Provider Connections (API Key lưu bảo mật trong Windows Credential Manager)</h3>
+        <div id="aiProvidersContainer" class="grid-2"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Privacy Permission Modal -->
+  <div class="modal-backdrop" id="permModal">
+    <div class="modal-card">
+      <h3 style="color:var(--warn);margin-bottom:8px;">⚠️ Xác nhận Gửi Dữ Liệu Lên Cloud AI</h3>
+      <div id="permModalBody" style="font-size:12px;line-height:1.6;background:var(--bg);padding:10px;border-radius:8px;border:1px solid var(--border);"></div>
+      <div class="btn-row" style="justify-content:flex-end;margin-top:14px;">
+        <button class="btn" onclick="closePermModal(false)">Hủy (Giữ Local 100%)</button>
+        <button class="btn warn" onclick="closePermModal(true)">✅ Tôi xác nhận gửi & thực thi</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Remix From Old Project Modal -->
+  <div class="modal-backdrop" id="remixModal">
+    <div class="modal-card" style="width:620px;max-height:85vh;overflow-y:auto;">
+      <h3 style="color:var(--blue);margin-bottom:8px;">💡 Lấy Vật thể, Font & Màu sắc từ Dự án Cũ (Remix)</h3>
+      <label class="fld" style="margin-top:0;">Chọn Dự án Nguồn</label>
+      <select id="remixProjSel" onchange="onRemixProjectChange()"></select>
+      <div id="remixPaletteInfo" style="margin-top:8px;font-size:12px;"></div>
+      <label class="fld" style="display:flex;align-items:center;gap:6px;margin-top:10px;">
+        <input type="checkbox" id="remixApplyStyle"> Áp dụng luôn Font & Màu chữ chủ đạo của dự án nguồn sang các Text Editable hiện tại
+      </label>
+      <label class="fld">Chọn các Layer muốn đưa vào dự án hiện tại:</label>
+      <div id="remixLayersGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-height:260px;overflow-y:auto;padding:4px;"></div>
+      <div class="btn-row" style="justify-content:flex-end;margin-top:14px;">
+        <button class="btn" onclick="closeRemixModal()">Đóng</button>
+        <button class="btn primary" onclick="applyRemixFromOldProject()">✨ Đưa vào Dự án Hiện tại</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

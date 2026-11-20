@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Design Studio — Standalone Windows App</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <aside class="nav">
+    <div class="logo">🎨 AI DESIGN STUDIO</div>
+    <button class="nav-btn active" data-view="dashboard">🏠 Dashboard</button>
+    <button class="nav-btn" data-view="redesign">✂️ MODE A: Redesign</button>
+    <button class="nav-btn" data-view="generate">✨ MODE B: Generate</button>
+    <button class="nav-btn" data-view="editor">🗂️ Layer Editor</button>
+    <button class="nav-btn" data-view="assets">📦 Asset Library</button>
+    <button class="nav-btn" data-view="knowledge">🧠 Design Knowledge</button>
+    <button class="nav-btn" data-view="history">🕒 Project History</button>
+    <button class="nav-btn" data-view="export">💾 Export PSD & QA</button>
+    <button class="nav-btn" data-view="settings">⚙️ Settings</button>
+    <div class="nav-foot" id="navFoot">D:\AI_Design_Studio</div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div id="activeProjectLabel" style="font-size:13px;font-weight:600;">Chưa chọn dự án</div>
+      <div class="status-pill ok" id="statusPill">Sẵn sàng</div>
+    </header>
+
+    <!-- 1. Dashboard -->
+    <section class="view active" id="view-dashboard">
+      <h2>Tổng quan hệ thống — AI Design Studio</h2>
+      <div class="grid-3" id="sysStats"></div>
+      <div class="grid-2">
+        <div class="card">
+          <h3>MODE A — REDESIGN (Tách ảnh phẳng thành PSD)</h3>
+          <p class="stat-lbl" style="line-height:1.5;">Nhập ảnh PNG/JPG/WEBP/Canva → Tự động ước lượng nền, inpaint vùng che, tách vật thể/shape/icon/text, làm nét 2× Full HD và xuất file PSD nhiều layer.</p>
+          <div class="btn-row"><button class="btn primary" onclick="switchView('redesign')">Mở MODE A: Redesign</button></div>
+        </div>
+        <div class="card">
+          <h3>MODE B — GENERATE (Thiết kế mới từ tài nguyên)</h3>
+          <p class="stat-lbl" style="line-height:1.5;">Chọn ảnh sản phẩm gốc + Logo + Nội dung + Brand Knowledge → Tự bố cục ánh sáng, bóng đổ tách lớp, Typography và xuất PSD chỉnh sửa được.</p>
+          <div class="btn-row"><button class="btn blue" onclick="switchView('generate')">Mở MODE B: Generate</button></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Dự án gần đây</h3>
+        <div id="dashProjects" class="grid-3"></div>
+      </div>
+    </section>
+
+    <!-- 2. MODE A: REDESIGN -->
+    <section class="view" id="view-redesign">
+      <h2>MODE A — REDESIGN (Phân tích & Bóc tách Ảnh phẳng → PSD)</h2>
+      <div class="card">
+        <label class="fld">Tên dự án</label>
+        <input type="text" id="rdTitle" placeholder="VD: Banner SafeDrive mới">
+        <label class="fld">Chọn ảnh đầu vào (PNG / JPG / WEBP / Canva)</label>
+        <input type="file" id="rdFile" accept="image/png,image/jpeg,image/webp">
+        <label class="fld" style="display:flex;align-items:center;gap:8px;margin-top:14px;">
+          <input type="checkbox" id="rdUpscale" checked> Làm nét & nâng độ phân giải 2× Full HD (tối đa 2048px)
+        </label>
+        <div class="btn-row">
+          <button class="btn primary" onclick="submitRedesign()">🚀 Phân tích, Tách Layer & Chạy QA</button>
+        </div>
+      </div>
+      <div class="card" id="rdResult" style="display:none;"></div>
+    </section>
+
+    <!-- 3. MODE B: GENERATE -->
+    <section class="view" id="view-generate">
+      <h2>MODE B — GENERATE (Thiết kế mới từ Tài nguyên & Design Knowledge)</h2>
+      <div class="grid-2">
+        <div class="card">
+          <label class="fld">Tên thiết kế</label>
+          <input type="text" id="genTitle" value="SafeDrive Campaign">
+          <label class="fld">Ngành hàng / Phong cách (Design Knowledge)</label>
+          <select id="genIndustry" onchange="applyIndustryDefaults()">
+            <option value="tech_automotive">Công nghệ & Ô tô (SafeDrive / Smart Mobility)</option>
+            <option value="commercial_product">Sản phẩm thương mại & Bán lẻ</option>
+            <option value="social_promo">Social Media / Khuyến mãi</option>
+          </select>
+          <label class="fld">Bố cục & Kích thước Canvas</label>
+          <div class="grid-2">
+            <select id="genLayout">
+              <option value="tech_dark_glow">Tech Dark Glow (Ánh sáng nền)</option>
+              <option value="hero_split">Hero Split (Chia đôi chéo)</option>
+              <option value="clean_card_modern">Clean Card Modern</option>
+            </select>
+            <select id="genPreset">
+              <option value="square_1080">1080 × 1080 (Vuông)</option>
+              <option value="portrait_4x5">1080 × 1350 (Facebook 4:5)</option>
+              <option value="landscape_16x9">1920 × 1080 (16:9)</option>
+            </select>
+          </div>
+          <label class="fld">Headline chính</label>
+          <input type="text" id="genHeadline" value="LÁI XE THÔNG MINH AN TOÀN HƠN">
+          <label class="fld">Subheadline</label>
+          <input type="text" id="genSub" value="Cảnh báo sớm bằng AI • Theo dõi khoảng cách & tốc độ GPS">
+          <label class="fld">CTA / Hotline cuối ảnh</label>
+          <input type="text" id="genCta" value="Tải SafeDrive ngay • safedrive.com">
+          <div class="btn-row" style="align-items:center;">
+            <span class="stat-lbl">Màu nền:</span><input type="color" id="genBg" value="#071B14">
+            <span class="stat-lbl">Nhấn:</span><input type="color" id="genAcc" value="#10B981">
+            <span class="stat-lbl">Chữ:</span><input type="color" id="genTxt" value="#FFFFFF">
+          </div>
+        </div>
+        <div class="card">
+          <h3>Chọn tài nguyên đầu vào (giữ nguyên pixel sản phẩm gốc)</h3>
+          <label class="fld">Chọn ảnh Sản phẩm (từ Asset Library)</label>
+          <select id="genProduct" multiple style="height:110px;"></select>
+          <label class="fld">Chọn Logo thương hiệu (tùy chọn)</label>
+          <select id="genLogo"><option value="">-- Không dùng logo --</option></select>
+          <label class="fld" style="display:flex;align-items:center;gap:8px;margin-top:12px;">
+            <input type="checkbox" id="genRemoveWhite" checked> Tự động tách nền trắng sản phẩm (giữ nguyên chi tiết trắng bên trong)
+          </label>
+          <div class="btn-row">
+            <button class="btn primary" onclick="submitGenerate()">✨ Tạo Thiết Kế & Xuất PSD</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. LAYER PREVIEW & EDITOR -->
+    <section class="view flex-view" id="view-editor">
+      <div class="editor-canvas-wrap">
+        <div class="checker"><canvas id="editorCanvas" width="800" height="800"></canvas></div>
+      </div>
+      <div class="editor-side">
+        <div class="prop-box">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+            <strong style="font-size:12px;" id="edSelTitle">Chọn 1 Layer</strong>
+            <div style="display:flex;gap:4px;">
+              <button class="btn" style="padding:4px 8px;" onclick="addNewTextLayer()">+Text</button>
+              <button class="btn danger" style="padding:4px 8px;" onclick="deleteSelectedLayer()">Xóa</button>
+            </div>
+          </div>
+          <div class="prop-line"><span>Opacity</span><input type="range" id="edOp" min="0" max="100" value="100" oninput="onPropChange('opacity', this.value/100)"></div>
+          <div class="prop-line"><span>Scale</span><input type="range" id="edScale" min="20" max="200" value="100" oninput="onMetaChange('scale', this.value/100)"></div>
+          <div class="prop-line"><span>Hue</span><input type="range" id="edHue" min="-180" max="180" value="0" oninput="onMetaChange('hue', Number(this.value))"></div>
+          <div class="prop-line"><span>Saturate</span><input type="range" id="edSat" min="0" max="200" value="100" oninput="onMetaChange('sat', Number(this.value))"></div>
+          <div class="prop-line"><span>Bright</span><input type="range" id="edBright" min="30" max="200" value="100" oninput="onMetaChange('bright', Number(this.value))"></div>
+          <div id="edTextBox" style="display:none;border-top:1px solid var(--border);padding-top:8px;margin-top:6px;">
+            <label class="fld" style="margin-top:0;">Nội dung Text</label>
+            <input type="text" id="edTextVal" oninput="onTextChange('text', this.value)">
+            <div class="btn-row" style="margin-top:6px;">
+              <input type="number" id="edFontSize" value="42" style="width:70px;" oninput="onTextChange('font_size', Number(this.value))">
+              <input type="color" id="edTextColor" value="#ffffff" oninput="onTextColorChange(this.value)">
+            </div>
+          </div>
+          <div class="btn-row">
+            <button class="btn primary" style="flex:1;justify-content:center;" onclick="saveEditorAndExport()">💾 Lưu thay đổi & Xuất PSD</button>
+          </div>
+        </div>
+        <div style="padding:8px 12px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:11px;color:var(--muted);font-weight:700;">LAYERS (Z-ORDER)</span>
+          <div style="display:flex;gap:4px;">
+            <button class="btn" style="padding:3px 7px;" onclick="shiftLayerZ(1)">▲</button>
+            <button class="btn" style="padding:3px 7px;" onclick="shiftLayerZ(-1)">▼</button>
+          </div>
+        </div>
+        <div class="layer-list" id="edLayerList"></div>
+      </div>
+    </section>
+
+    <!-- 5. ASSET LIBRARY -->
+    <section class="view" id="view-assets">
+      <h2>Asset Library (Sản phẩm, Logo, Font)</h2>
+      <div class="card">
+        <div class="btn-row" style="margin-top:0;align-items:center;">
+          <select id="assetCat" style="width:160px;">
+            <option value="products">Sản phẩm (Products)</option>
+            <option value="logos">Logo</option>
+            <option value="references">Ảnh tham khảo</option>
+          </select>
+          <input type="file" id="assetFile" accept="image/png,image/jpeg,image/webp" style="width:260px;">
+          <button class="btn primary" onclick="uploadAsset()">⬆️ Tải lên Asset Library</button>
+        </div>
+      </div>
+      <div id="assetContainer"></div>
+    </section>
+
+    <!-- 6. DESIGN KNOWLEDGE -->
+    <section class="view" id="view-knowledge">
+      <h2>Design Knowledge Base</h2>
+      <div id="kbContainer"></div>
+      <div class="card">
+        <h3>Ghi nhận bài học thiết kế / QA mới</h3>
+        <label class="fld">Vấn đề gặp phải</label>
+        <input type="text" id="kbIssue" placeholder="VD: Chữ trắng đặt trên nền sáng bị khó đọc">
+        <label class="fld">Cách khắc phục chuẩn</label>
+        <input type="text" id="kbFix" placeholder="VD: Thêm lớp gradient tối phía sau text hoặc đổi màu chữ đậm">
+        <div class="btn-row"><button class="btn primary" onclick="addKbLesson()">➕ Lưu vào Knowledge Base</button></div>
+      </div>
+    </section>
+
+    <!-- 7. PROJECT HISTORY -->
+    <section class="view" id="view-history">
+      <h2>Project History (Lịch sử dự án)</h2>
+      <div id="historyGrid" class="grid-3"></div>
+    </section>
+
+    <!-- 8. EXPORT PSD & QA REPORT -->
+    <section class="view" id="view-export">
+      <h2>Export PSD & QA Verification (QA 1 · QA 2 · QA 3)</h2>
+      <div id="exportContainer" class="card">Chưa có dự án nào được chọn. Hãy tạo hoặc mở một dự án từ Dashboard / History.</div>
+    </section>
+
+    <!-- 9. SETTINGS -->
+    <section class="view" id="view-settings">
+      <h2>Settings — Cấu hình Hệ thống</h2>
+      <div class="card">
+        <label class="fld">Đường dẫn Adobe Photoshop 2024</label>
+        <input type="text" id="setPsExe">
+        <label class="fld">Đường dẫn PhoToSop (KBDobe Hub)</label>
+        <input type="text" id="setPsAltExe">
+        <label class="fld">Độ phân giải cạnh tối đa khi Upscale (px)</label>
+        <input type="number" id="setMaxDim" value="2048">
+        <label class="fld" style="display:flex;align-items:center;gap:8px;margin-top:12px;">
+          <input type="checkbox" id="setUpscale"> Mặc định bật làm nét 2× trong MODE A
+        </label>
+        <div class="btn-row"><button class="btn primary" onclick="saveSettingsUI()">💾 Lưu cấu hình</button></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>

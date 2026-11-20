@@ -1,0 +1,5 @@
+# Core Python dependencies imported by AI Design Studio (Python 3.10 - 3.15+)
+# Note: Local ONNX models (RMBG-1.4, DETR-ResNet-50, SlimSAM-77, LaMa 2025jan) run via Node.js onnxruntime-node (installed via npm install).
+numpy>=2.0.0
+opencv-python>=4.10.0
+Pillow>=11.0.0

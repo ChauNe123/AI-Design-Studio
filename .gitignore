@@ -1,0 +1,17 @@
+# Node.js packages (reinstalled quickly via `npm install`)
+node_modules/
+
+# Python caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Generated test scratch output
+tests/output/
+
+# Unused 148MB HuggingFace model exceeding GitHub 100MB single-file limit
+models/hf_cache/Xenova/owlvit-base-patch32/
+
+# OS metadata
+.DS_Store
+Thumbs.db

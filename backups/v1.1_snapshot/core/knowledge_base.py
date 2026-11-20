@@ -1,0 +1,136 @@
+"""Design Knowledge Base — extensible design rules, palettes, layouts, brands, and QA lessons."""
+import json
+import os
+from typing import Any, Dict, List
+
+DEFAULT_KNOWLEDGE = {
+    "principles": {
+        "layout": [
+            {"id": "visual_hierarchy", "name": "Phân cấp thị giác 3 tầng", "rule": "1 Headline nổi bật nhất (35-45% trọng tâm), 1 Subheadline bổ trợ, 1 CTA/Hotline rõ ràng."},
+            {"id": "whitespace", "name": "Khoảng trắng tối thiểu 20%", "rule": "Giữ lề an toàn tối thiểu 6-8% chiều rộng canvas để chữ và sản phẩm không bị ngộp."},
+            {"id": "rule_of_thirds", "name": "Bố cục 1/3 hoặc Chia đôi bất đối xứng", "rule": "Đặt sản phẩm chính tại giao điểm 1/3 hoặc chiếm 45-55% diện tích bên phải/dưới."}
+        ],
+        "typography": [
+            {"id": "contrast_pair", "name": "Tương phản kích thước 2.2x", "rule": "Tiêu đề chính lớn hơn phụ đề tối thiểu 2.0-2.5 lần; ưu tiên Sans-serif đậm (Poppins/Arial Bold) cho quảng cáo công nghệ & xã hội."},
+            {"id": "readable_3sec", "name": "Quy tắc đọc hiểu 2 giây", "rule": "Tối đa 5-8 từ cho Headline; không nhồi nhét đoạn văn dài lên poster."}
+        ],
+        "lighting_and_shadow": [
+            {"id": "contact_shadow", "name": "Bóng tiếp xúc tách lớp", "rule": "Sản phẩm thương mại luôn cần lớp bóng mềm tách riêng (multiply, opacity 35-55%) phía dưới thay vì dán phẳng."},
+            {"id": "radial_backlight", "name": "Ánh sáng nền làm nổi chủ thể", "rule": "Dùng lớp Radial Glow riêng (screen, opacity 40-70%) phía sau sản phẩm trên nền tối/công nghệ."}
+        ]
+    },
+    "industry_styles": {
+        "tech_automotive": {
+            "label": "Công nghệ & Ô tô (SafeDrive / Smart Mobility)",
+            "palettes": [
+                {"name": "Emerald Tech Dark", "bg": "#071B14", "bg_alt": "#0D3B2A", "accent": "#10B981", "text": "#FFFFFF", "subtext": "#A7F3D0"},
+                {"name": "Canva Vibrant Green", "bg": "#00E05A", "bg_alt": "#00B848", "accent": "#0B0B0B", "text": "#FFFFFF", "subtext": "#111827"}
+            ],
+            "recommended_layout": "tech_dark_glow"
+        },
+        "commercial_product": {
+            "label": "Sản phẩm thương mại & Bán lẻ",
+            "palettes": [
+                {"name": "Amber Taxi / Promo", "bg": "#FF9800", "bg_alt": "#FFD54F", "accent": "#111111", "text": "#111111", "subtext": "#FFFFFF"},
+                {"name": "Clean Studio Light", "bg": "#F8FAFC", "bg_alt": "#E2E8F0", "accent": "#2563EB", "text": "#0F172A", "subtext": "#475569"}
+            ],
+            "recommended_layout": "clean_card_modern"
+        },
+        "social_promo": {
+            "label": "Social Media / Khuyến mãi",
+            "palettes": [
+                {"name": "Midnight Gold Luxury", "bg": "#0F172A", "bg_alt": "#1E293B", "accent": "#F59E0B", "text": "#FFFFFF", "subtext": "#CBD5E1"}
+            ],
+            "recommended_layout": "hero_split"
+        }
+    },
+    "brands": [
+        {
+            "id": "safedrive",
+            "name": "SafeDrive",
+            "tagline": "CÔNG NGHỆ THÔNG MINH – HÀNH TRÌNH AN TOÀN",
+            "primary_color": "#10B981",
+            "dark_color": "#06281E",
+            "font_family": "Poppins",
+            "rules": [
+                "Phân biệt rõ FREE (35 chức năng) và PRO (4 tính năng AI + 2 đặc quyền).",
+                "Không khẳng định 'chống tai nạn 100%'. Nhấn mạnh hỗ trợ quan sát và lái xe chủ động."
+            ]
+        }
+    ],
+    "qa_lessons": [
+        {
+            "id": "lesson_white_bg_floodfill",
+            "status": "FAIL -> FIXED",
+            "issue": "Xóa màu trắng toàn cục làm thủng màn hình điện thoại, đèn xe và mắt.",
+            "fix": "Chỉ flood-fill nền trắng từ 4 cạnh viền ngoài, giữ nguyên vùng trắng khép kín bên trong vật thể."
+        },
+        {
+            "id": "lesson_text_tysh_visibility",
+            "status": "FAIL -> FIXED",
+            "issue": "Xuất Type Layer ag-psd không có imageData khiến một số trình xem PSD không hiển thị chữ.",
+            "fix": "Luôn render pixel sắc nét (imageData) cho mọi Text Layer hoặc giữ bản pixel hiển thị song song với Type Layer."
+        },
+        {
+            "id": "lesson_small_icon_upscale",
+            "status": "FAIL -> FIXED",
+            "issue": "Phóng to icon nhỏ từ ảnh 1x gây răng cưa và quầng halo màu nền.",
+            "fix": "Khử màu viền (color decontamination) hoặc vẽ lại bằng vector 4x supersampling."
+        }
+    ]
+}
+
+
+class KnowledgeBase:
+    def __init__(self, knowledge_dir: str):
+        self.knowledge_dir = knowledge_dir
+        os.makedirs(knowledge_dir, exist_ok=True)
+        self.db_path = os.path.join(knowledge_dir, "knowledge_base.json")
+        if not os.path.exists(self.db_path):
+            self.save(DEFAULT_KNOWLEDGE)
+
+    def load(self) -> Dict[str, Any]:
+        with open(self.db_path, "r", encoding="utf-8") as f:
+            return json.load(f)
+
+    def save(self, data: Dict[str, Any]) -> None:
+        with open(self.db_path, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+
+    def query_for_brief(self, industry: str = "tech_automotive", brand_id: str = "") -> Dict[str, Any]:
+        db = self.load()
+        style = db.get("industry_styles", {}).get(industry) or next(iter(db.get("industry_styles", {}).values()), {})
+        brand = next((b for b in db.get("brands", []) if b.get("id") == brand_id), None)
+        return {
+            "style": style,
+            "brand": brand,
+            "principles": db.get("principles", {}),
+            "qa_lessons": db.get("qa_lessons", []),
+        }
+
+    def add_lesson(self, lesson_id: str, status: str, issue: str, fix: str) -> Dict[str, Any]:
+        db = self.load()
+        db.setdefault("qa_lessons", []).append({
+            "id": lesson_id,
+            "status": status,
+            "issue": issue,
+            "fix": fix,
+        })
+        self.save(db)
+        return db
+
+    def add_brand(self, brand: Dict[str, Any]) -> Dict[str, Any]:
+        db = self.load()
+        brands = [b for b in db.get("brands", []) if b.get("id") != brand.get("id")]
+        brands.append(brand)
+        db["brands"] = brands
+        self.save(db)
+        return db
+
+    def save_reference_analysis(self, analysis: Dict[str, Any]) -> Dict[str, Any]:
+        db = self.load()
+        refs = [r for r in db.get("references_analyzed", []) if r.get("name") != analysis.get("name")]
+        refs.append(analysis)
+        db["references_analyzed"] = refs
+        self.save(db)
+        return db

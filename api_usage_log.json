@@ -1,0 +1,182 @@
+{
+  "total_calls": 22,
+  "total_est_cost_usd": 0.0,
+  "history": [
+    {
+      "timestamp": "2026-11-18T12:23:49",
+      "provider_id": "openai_image",
+      "task": "inpaint",
+      "status": "BLOCKED_LOCAL_ONLY",
+      "est_cost_usd": 0.0,
+      "note": "App is in LOCAL_ONLY mode."
+    },
+    {
+      "timestamp": "2026-11-18T12:24:31",
+      "provider_id": "openai_image",
+      "task": "inpaint",
+      "status": "BLOCKED_LOCAL_ONLY",
+      "est_cost_usd": 0.0,
+      "note": "App is in LOCAL_ONLY mode."
+    },
+    {
+      "timestamp": "2026-11-18T12:24:31",
+      "provider_id": "openai_image",
+      "task": "inpaint",
+      "status": "BLOCKED_NO_PERMISSION",
+      "est_cost_usd": 0.0,
+      "note": "User confirmation required."
+    },
+    {
+      "timestamp": "2026-11-18T12:24:31",
+      "provider_id": "openai_image",
+      "task": "inpaint",
+      "status": "ERROR_NO_KEY",
+      "est_cost_usd": 0.0,
+      "note": "Missing API key."
+    },
+    {
+      "timestamp": "2026-11-18T12:24:49",
+      "provider_id": "openai_image",
+      "task": "inpaint",
+      "status": "BLOCKED_LOCAL_ONLY",
+      "est_cost_usd": 0.0,
+      "note": "App is in LOCAL_ONLY mode."
+    },
+    {
+      "timestamp": "2026-11-18T12:24:49",
+      "provider_id": "openai_image",
+      "task": "inpaint",
+      "status": "BLOCKED_NO_PERMISSION",
+      "est_cost_usd": 0.0,
+      "note": "User confirmation required."
+    },
+    {
+      "timestamp": "2026-11-18T12:24:49",
+      "provider_id": "openai_image",
+      "task": "inpaint",
+      "status": "ERROR_NO_KEY",
+      "est_cost_usd": 0.0,
+      "note": "Missing API key."
+    },
+    {
+      "timestamp": "2026-11-18T12:25:05",
+      "provider_id": "openai_image",
+      "task": "inpaint",
+      "status": "BLOCKED_LOCAL_ONLY",
+      "est_cost_usd": 0.0,
+      "note": "App is in LOCAL_ONLY mode."
+    },
+    {
+      "timestamp": "2026-11-18T12:25:05",
+      "provider_id": "openai_image",
+      "task": "inpaint",
+      "status": "BLOCKED_NO_PERMISSION",
+      "est_cost_usd": 0.0,
+      "note": "User confirmation required."
+    },
+    {
+      "timestamp": "2026-11-18T12:25:05",
+      "provider_id": "openai_image",
+      "task": "inpaint",
+      "status": "ERROR_NO_KEY",
+      "est_cost_usd": 0.0,
+      "note": "Missing API key."
+    },
+    {
+      "timestamp": "2026-11-18T12:27:11",
+      "provider_id": "openai_image",
+      "task": "inpaint",
+      "status": "BLOCKED_LOCAL_ONLY",
+      "est_cost_usd": 0.0,
+      "note": "App is in LOCAL_ONLY mode."
+    },
+    {
+      "timestamp": "2026-11-18T12:27:11",
+      "provider_id": "openai_image",
+      "task": "inpaint",
+      "status": "BLOCKED_NO_PERMISSION",
+      "est_cost_usd": 0.0,
+      "note": "User confirmation required."
+    },
+    {
+      "timestamp": "2026-11-18T12:27:11",
+      "provider_id": "openai_image",
+      "task": "inpaint",
+      "status": "ERROR_NO_KEY",
+      "est_cost_usd": 0.0,
+      "note": "Missing API key."
+    },
+    {
+      "timestamp": "2026-11-18T12:29:40",
+      "provider_id": "openai_image",
+      "task": "inpaint",
+      "status": "BLOCKED_LOCAL_ONLY",
+      "est_cost_usd": 0.0,
+      "note": "App is in LOCAL_ONLY mode."
+    },
+    {
+      "timestamp": "2026-11-18T12:29:40",
+      "provider_id": "openai_image",
+      "task": "inpaint",
+      "status": "BLOCKED_NO_PERMISSION",
+      "est_cost_usd": 0.0,
+      "note": "User confirmation required."
+    },
+    {
+      "timestamp": "2026-11-18T12:29:40",
+      "provider_id": "openai_image",
+      "task": "inpaint",
+      "status": "ERROR_NO_KEY",
+      "est_cost_usd": 0.0,
+      "note": "Missing API key."
+    },
+    {
+      "timestamp": "2026-11-18T13:36:22",
+      "provider_id": "openai_image",
+      "task": "inpaint",
+      "status": "BLOCKED_LOCAL_ONLY",
+      "est_cost_usd": 0.0,
+      "note": "App is in LOCAL_ONLY mode."
+    },
+    {
+      "timestamp": "2026-11-18T13:36:22",
+      "provider_id": "openai_image",
+      "task": "inpaint",
+      "status": "BLOCKED_NO_PERMISSION",
+      "est_cost_usd": 0.0,
+      "note": "User confirmation required."
+    },
+    {
+      "timestamp": "2026-11-18T13:36:22",
+      "provider_id": "openai_image",
+      "task": "inpaint",
+      "status": "ERROR_NO_KEY",
+      "est_cost_usd": 0.0,
+      "note": "Missing API key."
+    },
+    {
+      "timestamp": "2026-11-18T14:02:39",
+      "provider_id": "openai_image",
+      "task": "inpaint",
+      "status": "BLOCKED_LOCAL_ONLY",
+      "est_cost_usd": 0.0,
+      "note": "App is in LOCAL_ONLY mode."
+    },
+    {
+      "timestamp": "2026-11-18T14:02:39",
+      "provider_id": "openai_image",
+      "task": "inpaint",
+      "status": "BLOCKED_NO_PERMISSION",
+      "est_cost_usd": 0.0,
+      "note": "User confirmation required."
+    },
+    {
+      "timestamp": "2026-11-18T14:02:39",
+      "provider_id": "openai_image",
+      "task": "inpaint",
+      "status": "ERROR_NO_KEY",
+      "est_cost_usd": 0.0,
+      "note": "Missing API key."
+    }
+  ]
+}

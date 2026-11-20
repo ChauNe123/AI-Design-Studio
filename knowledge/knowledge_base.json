@@ -1,0 +1,527 @@
+{
+  "curriculum_meta": {
+    "source": "Design & Visual Fundamentals (DVF 2022) — Arena Multimedia",
+    "lecturer": "Ryan Le Minh (Le Minh An)",
+    "integrated_at": "2026-11-19",
+    "version": "1.3.0"
+  },
+  "principles": {
+    "layout": [
+      {
+        "id": "visual_hierarchy",
+        "name": "Phân cấp thị giác 3 tầng (Hierarchy)",
+        "rule": "1 Headline nổi bật nhất (35-45% trọng tâm thị giác, lớn gấp 2-2.5x), 1 Subheadline bổ trợ, 1 CTA/Hotline rõ ràng dẫn dắt mắt đọc."
+      },
+      {
+        "id": "whitespace",
+        "name": "Khoảng trắng / Âm bản thở (White Space / Negative Space)",
+        "rule": "Giữ lề an toàn tối thiểu 6-8% chiều rộng canvas và dành tối thiểu 20-30% diện tích làm khoảng thở để tác phẩm sang trọng, không bị ngộp."
+      },
+      {
+        "id": "rule_of_thirds",
+        "name": "Bố cục 1/3 & Tỷ lệ vàng (Rule of Thirds & Proportion)",
+        "rule": "Đặt sản phẩm hoặc tiêu điểm chính tại giao điểm 1/3 hoặc chiếm 45-55% diện tích bên phải/dưới của bố cục."
+      },
+      {
+        "id": "contrast",
+        "name": "Độ tương phản (Contrast)",
+        "rule": "Tạo sự đối lập rõ rệt giữa các yếu tố: Lớn vs Nhỏ, Sáng vs Tối, Nóng vs Lạnh, Đậm vs Nhạt để tách bạch chủ thể khỏi nền."
+      },
+      {
+        "id": "balance",
+        "name": "Cân bằng thị giác (Balance)",
+        "rule": "Sử dụng Cân bằng Đối xứng cho phong cách trang trọng, uy nghiêm; sử dụng Cân bằng Bất đối xứng cho phong cách hiện đại, năng động."
+      },
+      {
+        "id": "movement",
+        "name": "Chuyển động dẫn dắt (Movement)",
+        "rule": "Dẫn dắt ánh mắt người xem theo quy luật Z-pattern (cho quảng cáo/poster) hoặc F-pattern (cho website/báo chí) từ điểm nhấn chính đến CTA."
+      },
+      {
+        "id": "unity",
+        "name": "Tính đồng nhất (Unity & Harmony)",
+        "rule": "Mọi yếu tố chữ, màu, hình khối và chất cảm phải gắn kết hữu cơ, hỗ trợ chung một thông điệp cô đọng, tránh phân mảnh."
+      }
+    ],
+    "visual_elements": [
+      {
+        "id": "elem_line",
+        "name": "Đường nét (Line)",
+        "rule": "Nét ngang tạo cảm giác bình yên; nét dọc tạo sự uy nghiêm; nét chéo tạo động lực và tốc độ; nét cong mềm mại tự nhiên; nét zigzag tạo kịch tính nguy hiểm. Khai thác 4 công năng: Contour (viền), Dividing (phân chia), Decoration (trang trí), Gesture (bắt dáng)."
+      },
+      {
+        "id": "elem_shape",
+        "name": "Hình khối (Shape)",
+        "rule": "Hình vuông/chữ nhật = ổn định, đáng tin cậy; Hình tròn = nhẹ nhàng, vô tận, luân chuyển; Hình tam giác = sắc bén, dẫn đường, cảnh báo; Hình hữu cơ = tự nhiên phóng khoáng; Hình trừu tượng = biểu tượng văn hóa."
+      },
+      {
+        "id": "elem_space",
+        "name": "Không gian & Chiều sâu (Space & Perspective)",
+        "rule": "Làm chủ Không gian Dương (chủ thể) và Không gian Âm (nền). Ứng dụng luật xa gần 1 điểm tụ (trực diện), 2 điểm tụ (góc cạnh), 3 điểm tụ (hùng vĩ) hoặc phối cảnh trục đo Isometric 2.5D cho infographic."
+      },
+      {
+        "id": "elem_texture",
+        "name": "Chất cảm bề mặt (Texture)",
+        "rule": "Ứng dụng ảo ảnh thị giác (grain, noise, vân gỗ, kim loại, bóng mờ) để biến bề mặt 2D phẳng lì thành bề mặt có xúc giác chân thực và sang trọng."
+      },
+      {
+        "id": "elem_image",
+        "name": "Ngôn ngữ hình ảnh (Image)",
+        "rule": "Hình ảnh phải cung cấp ngữ cảnh tức thì, tạo kịch tính cần thiết và thiết lập bầu không khí cảm xúc (mood) đồng nhất với thông điệp."
+      }
+    ],
+    "typography": [
+      {
+        "id": "contrast_pair",
+        "name": "Tương phản kích thước 2.2x & Cặp đôi phông chữ",
+        "rule": "Tiêu đề chính lớn hơn phụ đề tối thiểu 2.0-2.5 lần. Không phối quá 2 họ phông trên 1 ấn phẩm (thường kết hợp Serif cổ điển/uy tín với Sans-serif hiện đại, hoặc Sans-serif đậm với Sans-serif mảnh)."
+      },
+      {
+        "id": "readable_3sec",
+        "name": "Quy tắc đọc hiểu 2 giây",
+        "rule": "Tối đa 5-8 từ cho Headline; không nhồi nhét đoạn văn dài lên poster quảng cáo."
+      },
+      {
+        "id": "vietnamese_glyph_safety",
+        "name": "An toàn dấu tiếng Việt (Vietnamese Typography)",
+        "rule": "Bắt buộc sử dụng các bộ font hỗ trợ đầy đủ 100% tiếng Việt (FZ Poppins, Be Vietnam Pro, Segoe UI, Arial) để không bị lỗi ô vuông ở các ký tự Ơ, Ư, Ă, Đ, Ớ, Ả."
+      },
+      {
+        "id": "typo_classification",
+        "name": "Phân loại Typo theo phong cách",
+        "rule": "Serif (có chân) = Sang trọng, truyền thống, đáng tin; Sans-serif (không chân) = Hiện đại, công nghệ, tinh gọn; Script/Lettering = Cá tính, nghệ thuật, cảm xúc; Display = Ấn tượng, giật gân, tiêu đề lớn."
+      }
+    ],
+    "color_theory": [
+      {
+        "id": "color_wheel_newton",
+        "name": "Bánh xe màu & Hệ thống 3 bậc",
+        "rule": "Bậc 1 (Đỏ, Vàng, Lam); Bậc 2 (Cam, Lục, Tím); Bậc 3 (6 màu pha trung gian). Hiểu rõ HSL và điều chỉnh Shade (+Đen), Tint (+Trắng), Tone (+Xám) để tạo sắc thái tinh tế."
+      },
+      {
+        "id": "harmony_monochrome",
+        "name": "Hòa sắc Đơn sắc (Monochromatic)",
+        "rule": "Dùng các sắc thái đậm nhạt của 1 màu gốc. Thanh lịch, tối giản, an toàn tuyệt đối cho thiết kế cao cấp."
+      },
+      {
+        "id": "harmony_complementary",
+        "name": "Hòa sắc Bổ túc trực tiếp (Complementary)",
+        "rule": "2 màu đối diện 180 độ (Đỏ - Lục, Lam - Cam, Vàng - Tím). Tương phản tối đa, rực rỡ, bắt mắt cho banner khuyến mãi và quảng cáo."
+      },
+      {
+        "id": "harmony_split_complementary",
+        "name": "Hòa sắc Bổ túc xen kẽ (Split Complementary)",
+        "rule": "1 màu chính + 2 màu kề màu đối diện. Tương phản cao nhưng mềm mại và bớt gắt hơn bổ túc trực tiếp."
+      },
+      {
+        "id": "harmony_analogous",
+        "name": "Hòa sắc Tương đồng (Analogous)",
+        "rule": "3 màu liền kề nhau trên bánh xe màu. Êm dịu, tự nhiên. Cần chọn 1 màu chủ đạo chiếm 60-70%, 2 màu còn lại làm điểm nhấn."
+      },
+      {
+        "id": "harmony_triadic",
+        "name": "Hòa sắc Tam giác (Triadic)",
+        "rule": "3 màu cách đều nhau 120 độ. Tương phản cao, sôi nổi, tràn đầy sức sống và cân bằng thị giác."
+      }
+    ],
+    "lighting_and_shadow": [
+      {
+        "id": "contact_shadow",
+        "name": "Bóng tiếp xúc tách lớp (Contact Shadow)",
+        "rule": "Sản phẩm thương mại luôn cần lớp bóng mềm tách riêng (multiply, opacity 35-55%) phía dưới chân sản phẩm để đặt vật thể vững chắc trên mặt sàn."
+      },
+      {
+        "id": "radial_backlight",
+        "name": "Ánh sáng nền làm nổi chủ thể (Radial Backlight Glow)",
+        "rule": "Dùng lớp Radial Glow riêng (screen, opacity 40-70%) phía sau sản phẩm trên nền tối/công nghệ để tách lớp vật thể với nền."
+      },
+      {
+        "id": "cast_shadow",
+        "name": "Bóng đổ định hướng (Cast Shadow)",
+        "rule": "Góc đổ bóng phải thống nhất với hướng nguồn sáng chính của toàn bộ bố cục, độ nhòe tăng dần theo khoảng cách xa vật thể."
+      }
+    ],
+    "art_movements": [
+      {
+        "id": "movement_bauhaus",
+        "name": "Trường phái Bauhaus (1919-1933)",
+        "style": "Form follows function. Khối hình học cơ bản (vuông, tròn, tam giác), màu cơ bản (đỏ, vàng, lam, đen, trắng), kiểu chữ sans-serif tinh gọn không chân, bố cục lưới bất đối xứng khúc chiết."
+      },
+      {
+        "id": "movement_pop_art",
+        "name": "Nghệ thuật Đại chúng Pop Art (1958-1972)",
+        "style": "Màu sắc neon rực rỡ, tương phản bùng nổ, hoa văn chấm hạt Ben-Day, cảm hứng từ văn hóa tiêu dùng đại chúng và truyện tranh comic."
+      },
+      {
+        "id": "movement_art_deco",
+        "name": "Phong cách Art Deco (1920-1939)",
+        "style": "Xa hoa, lộng lẫy, cấu trúc hình học đối xứng sắc sảo, đường ziggurat bậc thang, ánh kim vàng/bạc trên nền đen/navy sang trọng."
+      },
+      {
+        "id": "movement_de_stijl",
+        "name": "Phong cách De Stijl (1917-1931)",
+        "style": "Giản lược tuyệt đối: chỉ dùng đường thẳng ngang/dọc màu đen kết hợp mảng màu cơ bản (Đỏ, Vàng, Xanh lam) và màu phi-màu (Trắng, Xám)."
+      },
+      {
+        "id": "movement_constructivism",
+        "name": "Chủ nghĩa Cấu tạo Constructivism (1917-1935)",
+        "style": "Hình học mạnh mẽ, góc nghiêng chéo động lực học, typography đậm nét, bảng màu công nghiệp tuyên truyền kinh điển: Đỏ - Đen - Trắng."
+      },
+      {
+        "id": "movement_memphis",
+        "name": "Phong trào Memphis (1981-1988)",
+        "style": "Phản thiết kế (Anti-design), nổi loạn chống chủ nghĩa tối giản; hình khối bất quy tắc, hoa văn lộn xộn (chấm bi, zic-zac), màu pastel kết hợp neon vui nhộn."
+      },
+      {
+        "id": "movement_art_nouveau",
+        "name": "Phong trào Tân Nghệ thuật Art Nouveau (1880-1910)",
+        "style": "Đường cong ngọn roi hữu cơ (Whiplash curve), cảm hứng hoa cỏ thiên nhiên uốn lượn, tính nữ thanh tao, phong cách tổng hòa."
+      },
+      {
+        "id": "movement_futurism",
+        "name": "Chủ nghĩa Vị lai Futurism (1909-1930)",
+        "style": "Tôn vinh công nghệ, máy móc, tốc độ, chuyển động cơ khí và sức mạnh bạo liệt thời đại mới bằng các vệt nét chéo năng động."
+      }
+    ]
+  },
+  "color_psychology": {
+    "red": {
+      "name": "Màu Đỏ",
+      "hex": "#ED2939",
+      "positive": "Quyền lực, năng lượng, tốc độ, lòng dũng cảm, phấn khích, kích thích thèm ăn",
+      "negative": "Nguy hiểm, hung hăng, bạo lực, cảnh báo, đau đớn",
+      "best_for": "F&B, Xe thể thao, Nút CTA mua hàng, Banner sale sốc"
+    },
+    "orange": {
+      "name": "Màu Cam",
+      "hex": "#FF7A00",
+      "positive": "Ấm áp, tiện nghi, vui tươi, tinh nghịch, sôi nổi, cởi mở, sáng tạo",
+      "negative": "Lạc lõng, tuyệt vọng, thiếu kiên nhẫn, cảnh giác",
+      "best_for": "Giới trẻ, Đồ uống giải khát, Thương hiệu thân thiện năng động"
+    },
+    "yellow": {
+      "name": "Màu Vàng",
+      "hex": "#FFD600",
+      "positive": "Lạc quan, tự tin, lòng tự tôn, niềm vui, trí tuệ sáng lạn",
+      "negative": "Sợ hãi, lo âu, mong manh, cảnh báo nguy hiểm",
+      "best_for": "Bán lẻ, Giáo dục trẻ em, Biển chỉ dẫn chú ý"
+    },
+    "green": {
+      "name": "Màu Xanh Lá",
+      "hex": "#10B981",
+      "positive": "Tươi mới, tái sinh, bình yên, sinh thái, thân thiện môi trường, phát triển bền vững",
+      "negative": "Đố kỵ, ghen ghét, trì trệ, suy kiệt",
+      "best_for": "Nông nghiệp sạch, Dược phẩm hữu cơ, Tài chính xanh, SafeDrive"
+    },
+    "blue": {
+      "name": "Màu Xanh Dương",
+      "hex": "#0066FF",
+      "positive": "Tin cậy, trí tuệ, thanh thản, an toàn, ổn định, chuyên nghiệp, bảo mật",
+      "negative": "Lạnh lẽo, u buồn, xa cách, trầm cảm",
+      "best_for": "Công nghệ cao, Ngân hàng, Bảo hiểm, Bệnh viện y tế"
+    },
+    "violet": {
+      "name": "Màu Tím",
+      "hex": "#9104D3",
+      "positive": "Tâm linh, chữa lành, hoàng gia quý tộc, sáng tạo đột phá, bí ẩn",
+      "negative": "Kiêu ngạo, hướng nội thái quá, suy đồi",
+      "best_for": "Mỹ phẩm cao cấp, Spa chăm sóc sức khỏe, Nghệ thuật sáng tạo"
+    },
+    "pink": {
+      "name": "Màu Hồng",
+      "hex": "#FB0FBF",
+      "positive": "Hạnh phúc, dịu dàng, ngọt ngào, lãng mạn, ấm áp, tình yêu",
+      "negative": "Yếu ớt, kiệt quệ cảm xúc, thiếu nghiêm túc",
+      "best_for": "Sản phẩm cho phái nữ, Trẻ em, Bánh ngọt, Thời trang mộng mơ"
+    },
+    "white": {
+      "name": "Màu Trắng",
+      "hex": "#FFFFFF",
+      "positive": "Đơn giản, sạch sẽ, rõ ràng, tinh khiết, tinh khôi, tối giản thượng đẳng",
+      "negative": "Vô trùng lạnh lẽo, cô lập, trống rỗng",
+      "best_for": "Phong cách Minimalism, Phòng khám, Công nghệ tối giản hiện đại"
+    },
+    "brown": {
+      "name": "Màu Nâu",
+      "hex": "#8B6400",
+      "positive": "Trầm ấm, nghiêm túc, mộc mạc của đất, đáng tin cậy, tự nhiên",
+      "negative": "Nặng nề, dơ bẩn, thô ráp, thiếu tinh tế",
+      "best_for": "Cà phê, Đồ da thủ công, Đồ gỗ nội thất, Nông sản truyền thống"
+    },
+    "black": {
+      "name": "Màu Đen",
+      "hex": "#0C090A",
+      "positive": "Sang trọng, quyền lực tối thượng, xa xỉ, bí ẩn, quyến rũ đẳng cấp",
+      "negative": "Tang tóc, áp bức, tội ác, sợ hãi, bóng tối",
+      "best_for": "Thời trang hàng hiệu xa xỉ, Xe cao cấp, Typography sắc nét"
+    }
+  },
+  "industry_styles": {
+    "tech_automotive": {
+      "label": "Công nghệ & Ô tô (SafeDrive / Smart Mobility)",
+      "palettes": [
+        {
+          "name": "Emerald Tech Dark",
+          "bg": "#071B14",
+          "bg_alt": "#0D3B2A",
+          "accent": "#10B981",
+          "text": "#FFFFFF",
+          "subtext": "#A7F3D0"
+        },
+        {
+          "name": "Canva Vibrant Green",
+          "bg": "#00E05A",
+          "bg_alt": "#00B848",
+          "accent": "#0B0B0B",
+          "text": "#FFFFFF",
+          "subtext": "#111827"
+        }
+      ],
+      "recommended_layout": "tech_dark_glow"
+    },
+    "commercial_product": {
+      "label": "Sản phẩm thương mại & Bán lẻ (E-commerce / Retail)",
+      "palettes": [
+        {
+          "name": "Amber Taxi / Promo",
+          "bg": "#FF9800",
+          "bg_alt": "#FFD54F",
+          "accent": "#111111",
+          "text": "#111111",
+          "subtext": "#FFFFFF"
+        },
+        {
+          "name": "Clean Studio Light",
+          "bg": "#F8FAFC",
+          "bg_alt": "#E2E8F0",
+          "accent": "#2563EB",
+          "text": "#0F172A",
+          "subtext": "#475569"
+        }
+      ],
+      "recommended_layout": "clean_card_modern"
+    },
+    "social_promo": {
+      "label": "Social Media / Quảng cáo Khuyến mãi (Promo Ads)",
+      "palettes": [
+        {
+          "name": "Midnight Gold Luxury",
+          "bg": "#0F172A",
+          "bg_alt": "#1E293B",
+          "accent": "#F59E0B",
+          "text": "#FFFFFF",
+          "subtext": "#CBD5E1"
+        },
+        {
+          "name": "Neon Pop Cyber",
+          "bg": "#120B24",
+          "bg_alt": "#2A0E4E",
+          "accent": "#FF007A",
+          "text": "#FFFFFF",
+          "subtext": "#00F0FF"
+        }
+      ],
+      "recommended_layout": "hero_split"
+    },
+    "branding_corporate": {
+      "label": "Nhận diện Thương hiệu & Doanh nghiệp (Corporate Identity)",
+      "palettes": [
+        {
+          "name": "Royal Navy & Platinum",
+          "bg": "#0A192F",
+          "bg_alt": "#172A45",
+          "accent": "#64FFDA",
+          "text": "#CCD6F6",
+          "subtext": "#8892B0"
+        }
+      ],
+      "recommended_layout": "balanced_grid_modern"
+    },
+    "packaging_organic": {
+      "label": "Bao bì Sản phẩm & Mỹ phẩm Sạch (Organic Packaging)",
+      "palettes": [
+        {
+          "name": "Earthy Olive & Sand",
+          "bg": "#F4F1EA",
+          "bg_alt": "#E7DFC6",
+          "accent": "#4A5D4E",
+          "text": "#2C3531",
+          "subtext": "#6B7A6E"
+        }
+      ],
+      "recommended_layout": "minimal_organic_frame"
+    },
+    "editorial_modern": {
+      "label": "Báo chí, Xuất bản & Tạp chí (Editorial & Publishing)",
+      "palettes": [
+        {
+          "name": "Swiss Modern Minimal",
+          "bg": "#FFFFFF",
+          "bg_alt": "#F3F4F6",
+          "accent": "#E11D48",
+          "text": "#111827",
+          "subtext": "#4B5563"
+        }
+      ],
+      "recommended_layout": "typographic_grid_layout"
+    }
+  },
+  "brands": [
+    {
+      "id": "safedrive",
+      "name": "SafeDrive",
+      "tagline": "CÔNG NGHỆ THÔNG MINH – HÀNH TRÌNH AN TOÀN",
+      "primary_color": "#10B981",
+      "dark_color": "#06281E",
+      "font_family": "FZ Poppins",
+      "rules": [
+        "Phân biệt rõ FREE (35 chức năng) và PRO (4 tính năng AI + 2 đặc quyền).",
+        "Không khẳng định 'chống tai nạn 100%'. Nhấn mạnh hỗ trợ quan sát và lái xe chủ động.",
+        "Luôn giữ logo SafeDrive ở góc trên hoặc trên nền tương phản cao."
+      ]
+    }
+  ],
+  "qa_lessons": [
+    {
+      "id": "lesson_white_bg_floodfill",
+      "status": "FAIL -> FIXED",
+      "issue": "Xóa màu trắng toàn cục làm thủng màn hình điện thoại, đèn xe và mắt.",
+      "fix": "Chỉ flood-fill nền trắng từ 4 cạnh viền ngoài, giữ nguyên vùng trắng khép kín bên trong vật thể."
+    },
+    {
+      "id": "lesson_text_tysh_visibility",
+      "status": "FAIL -> FIXED",
+      "issue": "Xuất Type Layer ag-psd không có imageData khiến một số trình xem PSD không hiển thị chữ.",
+      "fix": "Luôn render pixel sắc nét (imageData) cho mọi Text Layer hoặc giữ bản pixel hiển thị song song với Type Layer."
+    },
+    {
+      "id": "lesson_small_icon_upscale",
+      "status": "FAIL -> FIXED",
+      "issue": "Phóng to icon nhỏ từ ảnh 1x gây răng cưa và quầng halo màu nền.",
+      "fix": "Khử màu viền (color decontamination) hoặc vẽ lại bằng vector 4x supersampling."
+    },
+    {
+      "id": "lesson_hierarchy_contrast_dvf",
+      "status": "LEARNED",
+      "issue": "Headline và Subheadline có kích thước quá gần nhau (tỷ lệ < 1.5x) làm mất phân cấp thị giác.",
+      "fix": "Áp dụng nguyên lý Hierarchy từ DVF: Headline phải lớn hơn Subheadline tối thiểu 2.0x-2.5x và có trọng số nét đậm hơn."
+    },
+    {
+      "id": "lesson_whitespace_breathing_dvf",
+      "status": "LEARNED",
+      "issue": "Nhồi nhét chữ và hình chiếm > 85% diện tích canvas làm thiết kế bị ngộp thở và rối mắt.",
+      "fix": "Áp dụng nguyên lý Negative Space: Dành tối thiểu 20-30% diện tích cho khoảng trắng để tôn vinh chủ thể chính."
+    },
+    {
+      "id": "lesson_color_harmony_clash_dvf",
+      "status": "LEARNED",
+      "issue": "Sử dụng quá nhiều màu bậc 1 xung đột nhau không theo mô hình hòa sắc chuẩn.",
+      "fix": "Áp dụng 6 quy tắc hòa sắc DVF: Chọn 1 màu chủ đạo (60%), 1 màu phụ (30%) và 1 màu nhấn tương phản (10%) theo công thức 60-30-10."
+    },
+    {
+      "id": "lesson_retouch_non_destructive_stack",
+      "status": "VERIFIED",
+      "issue": "Chỉnh sửa ảnh sản phẩm kiểu phá hủy (gộp cứng) hoặc không phân tách vùng khiến phần kim loại bị xỉn vàng và vùng phát sáng (mắt kính/LED) không tách bật được.",
+      "fix": "Tách 4 Semantic Mask (Full Product, Metallic Lid, Emissive Lens Mat Sang, Inverse Radial Vignette) + Luminosity Mask (Albedo/Shading/Specular) kết hợp 13 live Photoshop Adjustment Layers (curv, blnc, hue2, vibA, selc) trong group Pass Through COLOR."
+    },
+    {
+      "id": "lesson_retouch_honeycomb_mask_precision",
+      "status": "FIXED -> V1.5",
+      "issue": "Ngưỡng HSV thô tạo viền răng cưa (staircase) trên Mat sang, đốt trắng mất vân tổ ong 3D trong thấu kính và elip 2D tràn màu xanh đục xuống cổ nắp lon.",
+      "fix": "Dùng SlimSAM-77 ROI zoom + 2x cubic contour anti-aliasing cho Mat sang & Top Lid 3D, kết hợp frequency separation (Mat sang copy modulated bởi high-freq honeycomb texture) để phát quang rực rỡ mà giữ nguyên vân tổ ong 3D và nắp nhôm titan."
+    },
+    {
+      "id": "lesson_banner_dual_typography",
+      "status": "IMPLEMENTED -> V1.5",
+      "issue": "Ảnh banner phẳng (JPG) đã nén cứng gradient/halftone/double dropShadow lên chữ tiêu đề; ép chỉ dùng Type Layer trơn làm mất chất lượng đồ họa gốc, trong khi chỉ giữ bitmap thì không gõ sửa chữ được.",
+      "fix": "Xuất song song 2 phiên bản chữ (Dual-Version Strategy): Layer 1 OrigFX Bitmap giữ nguyên 100% đồ họa Garena hiển thị mặc định + Layer 2 Editable Vector TySh ẩn dự phòng gắn sẵn live LayerFX (double dropShadow, stroke, gradientOverlay)."
+    }
+  ],
+  "retouch_layer_logic_4_blocks": {
+    "version": "1.5.0",
+    "reference_benchmark": "18-Layer Product Retouching Architecture (Before Raw -> After Studio Glow)",
+    "blocks": [
+      {
+        "block": "Block 1: Semantic Part Segmentation",
+        "module": "core/retouch_analyzer.py :: RetouchAnalyzer",
+        "outputs": [
+          "Layer 2 (Full Product Cutout RGBA via RMBG-1.4 + SlimSAM-77 wing pruning)",
+          "Curves 1 Mask (Full Product Silhouette)",
+          "Curves 4 & Color Balance 2 Mask (Top Metallic Lid / 3D Perspective Contour)",
+          "Mat sang & Mat sang copy Mask (SlimSAM ROI + Honeycomb Texture-Preserved Glow)",
+          "Curves 3 Mask (Contact-Shadow-Preserving Inverse Radial Spotlight Vignette)"
+        ]
+      },
+      {
+        "block": "Block 2: Intrinsic Image Decomposition & Luminosity Masks",
+        "module": "core/retouch_analyzer.py :: decompose_intrinsic_and_luminosity",
+        "outputs": [
+          "Albedo Reflectance Map",
+          "Illumination Shading Field",
+          "Chrome Specular Highlight Map",
+          "Curves 2 Self-Masking Luminosity Mask & Curves 2 copy Specular Mask"
+        ]
+      },
+      {
+        "block": "Block 3: Parametric Lighting & Color Reasoning",
+        "module": "core/retouch_analyzer.py :: run_product_retouch_pipeline",
+        "adjustment_stack": [
+          "Curves 3 (Spotlight Vignette)",
+          "Curves 1 (Product Lift)",
+          "Curves 2 [CLIP] (Luminosity Chrome Separation)",
+          "Curves 2 copy [CLIP] (Specular Boost)",
+          "Hue/Saturation 2 [CLIP] (Body Saturation)",
+          "Curves 4 (Top Lid Sculpt)",
+          "Hue/Saturation 1 [CLIP] (Titanium Clean)",
+          "Vibrance 1 (Global Vibrance)",
+          "Color Balance 1 (Global Studio Grade)",
+          "Color Balance 2 (Titanium Neutral Balance)",
+          "Mat sang (Texture-Preserved Visor Lift)",
+          "Mat sang copy [CLIP] (Honeycomb Bloom Multiplier)",
+          "Selective Color 1 [CLIP] (Final Print Color Finisher)"
+        ]
+      },
+      {
+        "block": "Block 4: Non-Destructive PSD Exporter & Live QA",
+        "module": "core/psd_bridge.js & core/qa_engine.py",
+        "capabilities": [
+          "Writes real ag-psd curv, blnc, hue2, vibA, selc adjustment blocks",
+          "Attaches 8-bit RLE grayscale Layer Masks (-2) and clipping flags",
+          "Sets Pass Through blend mode on COLOR folder group",
+          "Pre-renders full-resolution After composite into root psd.imageData and verifies binary round-trip"
+        ]
+      }
+    ]
+  },
+  "garena_banner_5_module_pipeline": {
+    "version": "1.5.0",
+    "reference_benchmark": "Banner Công bố.psd (Garena FC Online Student Cup 2024 — 1160x1080, Pyramid Hierarchy, Dual Typography, LayerFX)",
+    "modules": [
+      {
+        "module": "Module 1: Dual-Version Typography & Skewed Ribbons",
+        "handler": "BannerDecomposer._extract_typography_and_ribbons",
+        "details": "Tách giữ nguyên bitmap chữ gốc OrigFX (visible) + tạo bản sao vector TySh ẩn dự phòng gắn sẵn Double DropShadow, Stroke trắng, GradientOverlay (lmfx) cùng Ribbon ngày giờ và Ribbon địa điểm."
+      },
+      {
+        "module": "Module 2: Multi-Object Podiums & Prizes + Amodal Top-Face Fill",
+        "handler": "BannerDecomposer._decompose_podiums_and_prizes",
+        "details": "Tách riêng 3 Bục vinh quang Isometric 3D (Bục 1/2/3) và tự động vẽ bù mặt trên (Amodal Inpainting) nơi cọc xu/áo che khuất; tách riêng Burst vàng, Cọc xu FC, Huy hiệu giải, Áo/Nón/Vòng tay và Móc khóa bằng SlimSAM-77 ROI."
+      },
+      {
+        "module": "Module 3: Peripheral Decor, 3D Gaming Gear & Brand Logos",
+        "handler": "BannerDecomposer._extract_decor_logos_and_gear",
+        "details": "Bóc tách Logo EA Sports FC, Logo SVC Student Cup, Laptop 3D Cyan, Tay cầm Console 3D (DropShadow FX), Ngôi sao 4 cánh (InnerShadow FX), Paper bay và Confetti."
+      },
+      {
+        "module": "Module 4: Sequential LaMa Stadium Background Reconstruction",
+        "handler": "BannerDecomposer._reconstruct_clean_stadium_background",
+        "details": "Chạy LaMa 2025jan ONNX tuần tự theo từng vùng 512x512 để xóa sạch toàn bộ bục, giải thưởng, tiêu đề và decor, tái tạo sân vận động + mây anime liền mạch kèm Curves/ColorBalance bầu khí quyển tùy chọn."
+      },
+      {
+        "module": "Module 5: Structured Photoshop Group Tree & Live LayerFX (lmfx) PSD",
+        "handler": "psd_bridge.js & run_banner_decomposition_pipeline",
+        "details": "Đóng gói theo 6 Group chuẩn thiết kế kèm bảng đối chiếu 4-Step Progression Grid và Checkerboard Contact Sheet."
+      }
+    ]
+  }
+}

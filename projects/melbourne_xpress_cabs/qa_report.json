@@ -1,0 +1,381 @@
+{
+  "schema_valid": true,
+  "schema_errors": [],
+  "qa1_layers": {
+    "passed": true,
+    "checked_count": 39,
+    "issues": [],
+    "qa_sheet": "qa_layers_sheet.png",
+    "layers": [
+      {
+        "id": "lyr_e08678e1",
+        "name": "00_Original_Flattened_Ref",
+        "type": "background",
+        "ok": true,
+        "alpha_coverage_pct": 100.0,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_69bc508e",
+        "name": "01_Background_Sky_Twilight_Clean",
+        "type": "background",
+        "ok": true,
+        "alpha_coverage_pct": 100.0,
+        "ai_reconstructed": true
+      },
+      {
+        "id": "lyr_b1d3e76e",
+        "name": "02_Ferris_Wheel_Landmark_Right",
+        "type": "object",
+        "ok": true,
+        "alpha_coverage_pct": 96.21,
+        "ai_reconstructed": true
+      },
+      {
+        "id": "lyr_20cc5fd3",
+        "name": "03_Asphalt_Road_Curved_Track",
+        "type": "object",
+        "ok": true,
+        "alpha_coverage_pct": 84.39,
+        "ai_reconstructed": true
+      },
+      {
+        "id": "lyr_18ba461c",
+        "name": "04_Curves_Sky_Contrast",
+        "type": "adjustment",
+        "adjustment_type": "curves",
+        "has_mask": false,
+        "clipping": false,
+        "ok": true,
+        "alpha_coverage_pct": 100.0,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_ffa2ed81",
+        "name": "05_ColorBalance_Twilight_Grade",
+        "type": "adjustment",
+        "adjustment_type": "color balance",
+        "has_mask": false,
+        "clipping": false,
+        "ok": true,
+        "alpha_coverage_pct": 100.0,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_5e067dad",
+        "name": "06_iPhone_Mockup_Body_&_Map_Amodal",
+        "type": "object",
+        "ok": true,
+        "alpha_coverage_pct": 96.68,
+        "ai_reconstructed": true
+      },
+      {
+        "id": "lyr_a2e8eb51",
+        "name": "07_iPhone_Map_Screen_Only",
+        "type": "object",
+        "ok": true,
+        "alpha_coverage_pct": 94.64,
+        "ai_reconstructed": true
+      },
+      {
+        "id": "lyr_d974b3c5",
+        "name": "08_Taxi_Contact_Shadow_Road",
+        "type": "shadow",
+        "ok": true,
+        "alpha_coverage_pct": 39.86,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_87b8eb23",
+        "name": "09_Yellow_Taxi_Cab_Hero",
+        "type": "product",
+        "ok": true,
+        "alpha_coverage_pct": 67.49,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_e20327be",
+        "name": "10_Taxi_Checkered_Decal_Strip",
+        "type": "object",
+        "ok": true,
+        "alpha_coverage_pct": 19.07,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_149b0e1e",
+        "name": "11_Taxi_Front_License_Plate_Orange",
+        "type": "shape",
+        "ok": true,
+        "alpha_coverage_pct": 67.46,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_e96e049b",
+        "name": "12_GPS_Route_Path_Blue",
+        "type": "shape",
+        "ok": true,
+        "alpha_coverage_pct": 8.95,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_de92b4e6",
+        "name": "13_Pin_Origin_Red_Left",
+        "type": "icon",
+        "ok": true,
+        "alpha_coverage_pct": 57.92,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_82b87216",
+        "name": "14_Pin_Destination_Red_Glow",
+        "type": "icon",
+        "ok": true,
+        "alpha_coverage_pct": 60.58,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_0e8a537e",
+        "name": "15_Ribbon_Strip_WeAreAvailable_Clean",
+        "type": "shape",
+        "ok": true,
+        "alpha_coverage_pct": 89.05,
+        "ai_reconstructed": true
+      },
+      {
+        "id": "lyr_ac1f6c99",
+        "name": "16_Footer_Wedge_Blue_Left_Clean",
+        "type": "shape",
+        "ok": true,
+        "alpha_coverage_pct": 49.99,
+        "ai_reconstructed": true
+      },
+      {
+        "id": "lyr_bb255716",
+        "name": "17_Footer_Wedge_Orange_Right_Clean",
+        "type": "shape",
+        "ok": true,
+        "alpha_coverage_pct": 49.99,
+        "ai_reconstructed": true
+      },
+      {
+        "id": "lyr_82d804df",
+        "name": "18_Icon_Phone_Circle_BottomLeft",
+        "type": "icon",
+        "ok": true,
+        "alpha_coverage_pct": 47.99,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_dd321615",
+        "name": "19_Icon_Globe_Cursor_BottomRight",
+        "type": "icon",
+        "ok": true,
+        "alpha_coverage_pct": 55.06,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_681040cd",
+        "name": "20_Logo_Taxi_Silhouette_&_Wings",
+        "type": "logo",
+        "ok": true,
+        "alpha_coverage_pct": 16.36,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_4cc4eb92",
+        "name": "21_Text_Brand_Title_OrigFX",
+        "type": "object",
+        "ok": true,
+        "alpha_coverage_pct": 61.51,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_53361abf",
+        "name": "22_Text_Brand_Title_Editable",
+        "type": "text",
+        "ok": true,
+        "alpha_coverage_pct": 12.55,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_e61243e4",
+        "name": "23_Text_Brand_Sub_OrigFX",
+        "type": "object",
+        "ok": true,
+        "alpha_coverage_pct": 48.41,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_0ca25403",
+        "name": "24_Text_Brand_Sub_Editable",
+        "type": "text",
+        "ok": true,
+        "alpha_coverage_pct": 6.56,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_36153b1f",
+        "name": "25_Text_Headline_TaxiService_OrigFX",
+        "type": "object",
+        "ok": true,
+        "alpha_coverage_pct": 73.73,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_134d34e3",
+        "name": "26_Text_Headline_TaxiService_Editable",
+        "type": "text",
+        "ok": true,
+        "alpha_coverage_pct": 17.68,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_3bd65809",
+        "name": "27_Text_Subhead_MeCabs_OrigFX",
+        "type": "object",
+        "ok": true,
+        "alpha_coverage_pct": 71.39,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_5c4d3406",
+        "name": "28_Text_Subhead_MeCabs_Editable",
+        "type": "text",
+        "ok": true,
+        "alpha_coverage_pct": 16.36,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_724a878f",
+        "name": "29_Text_Badge_WeAreAvailable_OrigFX",
+        "type": "object",
+        "ok": true,
+        "alpha_coverage_pct": 14.35,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_66c0c301",
+        "name": "30_Text_Badge_WeAreAvailable_Editable",
+        "type": "text",
+        "ok": true,
+        "alpha_coverage_pct": 11.9,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_50c61cc8",
+        "name": "31_Text_CallUs_Label_OrigFX",
+        "type": "object",
+        "ok": true,
+        "alpha_coverage_pct": 40.44,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_d502087b",
+        "name": "32_Text_CallUs_Label_Editable",
+        "type": "text",
+        "ok": true,
+        "alpha_coverage_pct": 8.03,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_056569d1",
+        "name": "33_Text_Phone_Number_OrigFX",
+        "type": "object",
+        "ok": true,
+        "alpha_coverage_pct": 56.75,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_a38d9a25",
+        "name": "34_Text_Phone_Number_Editable",
+        "type": "text",
+        "ok": true,
+        "alpha_coverage_pct": 12.89,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_fa85c518",
+        "name": "35_Text_VisitWebsite_Label_OrigFX",
+        "type": "object",
+        "ok": true,
+        "alpha_coverage_pct": 45.28,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_968c19bb",
+        "name": "36_Text_VisitWebsite_Label_Editable",
+        "type": "text",
+        "ok": true,
+        "alpha_coverage_pct": 8.04,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_bb967bae",
+        "name": "37_Text_Website_URL_OrigFX",
+        "type": "object",
+        "ok": true,
+        "alpha_coverage_pct": 48.21,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_03e33b4c",
+        "name": "38_Text_Website_URL_Editable",
+        "type": "text",
+        "ok": true,
+        "alpha_coverage_pct": 12.13,
+        "ai_reconstructed": false
+      }
+    ]
+  },
+  "qa2_composite": {
+    "passed": true,
+    "composite_file": "qa_composite.png",
+    "transparent_hole_pct": 0.0,
+    "mae_vs_source": 2.21,
+    "aesthetic_checks": {
+      "hierarchy_ratio": {
+        "checked": false,
+        "ratio": null,
+        "passed": true,
+        "warning": ""
+      },
+      "negative_space": {
+        "occupied_pct": 71.29,
+        "negative_space_pct": 28.71,
+        "passed": true,
+        "warning": ""
+      },
+      "text_contrast": {
+        "passed": true,
+        "checked_layers": [],
+        "warnings": []
+      },
+      "warnings": []
+    },
+    "issues": []
+  },
+  "qa3_psd": {
+    "passed": true,
+    "psd_exists": true,
+    "psd_bytes": 4895835,
+    "width": 736,
+    "height": 736,
+    "color_mode": 3,
+    "group_count": 6,
+    "layer_count": 39,
+    "decoded_pixel_layers": 37,
+    "adjustment_layer_count": 2,
+    "masked_layer_count": 26,
+    "clipped_layer_count": 0,
+    "fx_layer_count": 11,
+    "composite_decoded": true,
+    "text_layer_count": 9,
+    "photoshop_installed": true,
+    "photoshop_gui_verified": false,
+    "photoshop_note": "Binary pixel + adjustment + mask + composite + group + TySh round-trip verified via ag-psd; Adobe Photoshop 2024 COM left for interactive GUI open.",
+    "issues": []
+  },
+  "overall_passed": true,
+  "psd_file": "melbourne_xpress_cabs_studio.psd",
+  "psd_path": "D:\\AI_Design_Studio\\projects\\melbourne_xpress_cabs\\melbourne_xpress_cabs_studio.psd"
+}

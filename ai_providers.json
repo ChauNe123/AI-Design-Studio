@@ -1,0 +1,58 @@
+{
+  "mode": "LOCAL_ONLY",
+  "monthly_budget_usd": 5.0,
+  "providers": {
+    "local_engine": {
+      "provider_id": "local_engine",
+      "provider_name": "Local CPU/ONNX Engine",
+      "model_name": "OpenCV + SlimSAM/RMBG + Tesseract.js",
+      "endpoint": "local://127.0.0.1",
+      "credential_ref": "none",
+      "enabled": true,
+      "is_cloud": false,
+      "timeout_s": 60,
+      "retry_max": 0,
+      "est_cost_per_call_usd": 0.0,
+      "privacy_note": "Runs 100% locally. No images leave your computer."
+    },
+    "openai_image": {
+      "provider_id": "openai_image",
+      "provider_name": "OpenAI Image API",
+      "model_name": "gpt-image-1",
+      "endpoint": "https://api.openai.com/v1/images/edits",
+      "credential_ref": "WindowsCredentialManager::AIDesignStudio/openai_image",
+      "enabled": false,
+      "is_cloud": true,
+      "timeout_s": 45,
+      "retry_max": 1,
+      "est_cost_per_call_usd": 0.04,
+      "privacy_note": "Sends selected image/mask region to api.openai.com only after explicit user confirmation."
+    },
+    "google_gemini": {
+      "provider_id": "google_gemini",
+      "provider_name": "Google Gemini API",
+      "model_name": "gemini-2.5-flash-image",
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta/models",
+      "credential_ref": "WindowsCredentialManager::AIDesignStudio/google_gemini",
+      "enabled": false,
+      "is_cloud": true,
+      "timeout_s": 45,
+      "retry_max": 1,
+      "est_cost_per_call_usd": 0.03,
+      "privacy_note": "Sends selected image/mask region to Google Gemini API only after explicit user confirmation."
+    },
+    "replicate": {
+      "provider_id": "replicate",
+      "provider_name": "Replicate API",
+      "model_name": "black-forest-labs/flux-fill-pro",
+      "endpoint": "https://api.replicate.com/v1/predictions",
+      "credential_ref": "WindowsCredentialManager::AIDesignStudio/replicate",
+      "enabled": false,
+      "is_cloud": true,
+      "timeout_s": 60,
+      "retry_max": 1,
+      "est_cost_per_call_usd": 0.05,
+      "privacy_note": "Sends selected image/mask region to Replicate API only after explicit user confirmation."
+    }
+  }
+}

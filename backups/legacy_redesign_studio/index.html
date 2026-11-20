@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Redesign Studio — Thay đổi toàn diện (Local Prototype)</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+  body { background: #18181b; color: #e4e4e7; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+  header {
+    height: 46px; background: #27272a; border-bottom: 1px solid #3f3f46;
+    display: flex; align-items: center; justify-content: space-between; padding: 0 14px;
+  }
+  .brand { font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 8px; color: #facc15; }
+  .actions { display: flex; gap: 8px; align-items: center; }
+  button, label.btn {
+    background: #3f3f46; color: #fff; border: 1px solid #52525b; padding: 6px 12px;
+    border-radius: 6px; font-size: 12px; cursor: pointer; font-weight: 500; display: inline-flex; align-items: center; gap: 5px;
+  }
+  button:hover, label.btn:hover { background: #52525b; }
+  button.primary { background: #eab308; color: #18181b; border-color: #eab308; font-weight: 700; }
+  button.primary:hover { background: #facc15; }
+  button.blue { background: #2563eb; border-color: #2563eb; }
+  button.blue:hover { background: #3b82f6; }
+  button.danger { background: #991b1b; border-color: #b91c1c; }
+  input[type="file"] { display: none; }
+
+  .workspace { flex: 1; display: flex; overflow: hidden; }
+  .toolbar {
+    width: 52px; background: #27272a; border-right: 1px solid #3f3f46;
+    display: flex; flex-direction: column; align-items: center; padding: 10px 0; gap: 8px;
+  }
+  .tool-btn {
+    width: 36px; height: 36px; border-radius: 6px; border: 1px solid transparent;
+    background: transparent; color: #a1a1aa; font-size: 16px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .tool-btn.active, .tool-btn:hover { background: #3f3f46; color: #fff; border-color: #52525b; }
+
+  .canvas-area {
+    flex: 1; background: #111113; display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: auto; padding: 20px;
+  }
+  .canvas-wrap {
+    box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+    background-image: linear-gradient(45deg, #27272a 25%, transparent 25%),
+      linear-gradient(-45deg, #27272a 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #27272a 75%),
+      linear-gradient(-45deg, transparent 75%, #27272a 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0;
+  }
+  canvas { display: block; max-width: 100%; max-height: calc(100vh - 90px); cursor: default; }
+
+  .sidebar {
+    width: 310px; background: #27272a; border-left: 1px solid #3f3f46;
+    display: flex; flex-direction: column; overflow: hidden;
+  }
+  .panel { border-bottom: 1px solid #3f3f46; padding: 12px; }
+  .panel-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: #a1a1aa; margin-bottom: 10px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+
+  .prop-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; gap: 8px; font-size: 12px; }
+  .prop-row input[type="range"] { flex: 1; accent-color: #eab308; }
+  .prop-row input[type="text"], .prop-row input[type="number"], .prop-row select {
+    background: #18181b; color: #fff; border: 1px solid #3f3f46; border-radius: 4px; padding: 4px 6px; font-size: 12px;
+  }
+  .prop-row input[type="color"] { width: 32px; height: 24px; border: none; background: transparent; cursor: pointer; }
+
+  .layers-list { flex: 1; overflow-y: auto; padding: 8px; display: flex; flex-direction: column-reverse; gap: 5px; }
+  .layer-item {
+    display: flex; align-items: center; gap: 8px; padding: 7px 8px; border-radius: 6px;
+    background: #1f1f23; border: 1px solid #323238; cursor: pointer; font-size: 12px;
+  }
+  .layer-item.selected { border-color: #eab308; background: #2d2a1e; }
+  .layer-thumb { width: 32px; height: 32px; object-fit: contain; background: #111; border-radius: 4px; border: 1px solid #3f3f46; }
+  .layer-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .layer-badge { font-size: 10px; padding: 1px 5px; border-radius: 4px; background: #3f3f46; color: #d4d4d8; }
+  .icon-btn { background: none; border: none; color: #a1a1aa; cursor: pointer; padding: 2px 4px; font-size: 13px; }
+  .icon-btn:hover { color: #fff; }
+  .status-bar { font-size: 11px; color: #a1a1aa; margin-left: 10px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <span>🎨 REDESIGN STUDIO</span>
+    <span class="status-bar" id="statusText">Đang tải layers...</span>
+  </div>
+  <div class="actions">
+    <label class="btn blue">
+      📂 Mở ảnh mới (Tự tách Layer)
+      <input type="file" id="uploadNewImage" accept="image/png,image/jpeg,image/webp">
+    </label>
+    <label class="btn">
+      ➕ Thêm sản phẩm/PNG
+      <input type="file" id="addOverlayImage" accept="image/png,image/jpeg,image/webp">
+    </label>
+    <button onclick="addTextLayer()">T+ Thêm Chữ</button>
+    <button onclick="downloadPSD()">💾 Tải .PSD (Mở PhoToSop)</button>
+    <button class="primary" onclick="exportPNG()">⬇️ Xuất PNG</button>
+  </div>
+</header>
+
+<div class="workspace">
+  <div class="toolbar">
+    <button class="tool-btn active" title="Di chuyển / Chọn Layer (V)" onclick="setTool('move', this)">✛</button>
+    <button class="tool-btn" title="Thêm Chữ (T)" onclick="addTextLayer()">T</button>
+    <button class="tool-btn" title="Đặt lại màu Layer" onclick="resetSelectedColors()">↺</button>
+    <button class="tool-btn" title="Xóa Layer đang chọn" onclick="deleteSelectedLayer()">🗑</button>
+  </div>
+
+  <div class="canvas-area">
+    <div class="canvas-wrap">
+      <canvas id="stage" width="736" height="736"></canvas>
+    </div>
+  </div>
+
+  <div class="sidebar">
+    <div class="panel" id="propsPanel">
+      <div class="panel-title">
+        <span>Thuộc tính Layer</span>
+        <span id="selLayerLabel" style="color:#facc15;">Chưa chọn</span>
+      </div>
+
+      <div class="prop-row">
+        <span>Độ mờ (Opacity)</span>
+        <input type="range" id="propOpacity" min="0" max="100" value="100" oninput="updateProp('opacity', this.value/100)">
+        <span id="valOpacity" style="width:34px;text-align:right;">100%</span>
+      </div>
+      <div class="prop-row">
+        <span>Tỉ lệ (Scale)</span>
+        <input type="range" id="propScale" min="10" max="250" value="100" oninput="updateProp('scale', this.value/100)">
+        <span id="valScale" style="width:34px;text-align:right;">100%</span>
+      </div>
+      <div class="prop-row">
+        <span>Đổi tông màu (Hue)</span>
+        <input type="range" id="propHue" min="-180" max="180" value="0" oninput="updateProp('hue', Number(this.value))">
+        <span id="valHue" style="width:34px;text-align:right;">0°</span>
+      </div>
+      <div class="prop-row">
+        <span>Độ rực (Saturate)</span>
+        <input type="range" id="propSat" min="0" max="250" value="100" oninput="updateProp('sat', Number(this.value))">
+        <span id="valSat" style="width:34px;text-align:right;">100%</span>
+      </div>
+      <div class="prop-row">
+        <span>Độ sáng (Bright)</span>
+        <input type="range" id="propBright" min="30" max="200" value="100" oninput="updateProp('bright', Number(this.value))">
+        <span id="valBright" style="width:34px;text-align:right;">100%</span>
+      </div>
+
+      <div id="textProps" style="display:none; border-top:1px solid #3f3f46; padding-top:8px; margin-top:8px;">
+        <div class="prop-row">
+          <span>Nội dung</span>
+          <input type="text" id="propText" style="flex:1;" oninput="updateProp('text', this.value)">
+        </div>
+        <div class="prop-row">
+          <span>Cỡ chữ</span>
+          <input type="number" id="propFontSize" value="48" min="10" max="200" style="width:65px;" oninput="updateProp('fontSize', Number(this.value))">
+          <span>Màu</span>
+          <input type="color" id="propColor" value="#ffffff" oninput="updateProp('color', this.value)">
+          <span>Viền</span>
+          <input type="color" id="propStroke" value="#000000" oninput="updateProp('stroke', this.value)">
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" style="padding:8px 12px; display:flex; justify-content:space-between; align-items:center;">
+      <span class="panel-title" style="margin:0;">Danh sách Layers</span>
+      <div style="display:flex; gap:4px;">
+        <button onclick="moveLayerOrder(1)" title="Đưa lên trên">▲</button>
+        <button onclick="moveLayerOrder(-1)" title="Đưa xuống dưới">▼</button>
+      </div>
+    </div>
+
+    <div class="layers-list" id="layersList"></div>
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById('stage');
+const ctx = canvas.getContext('2d');
+let layers = [];
+let selectedId = null;
+let dragging = false;
+let dragOffset = { x: 0, y: 0 };
+
+async function loadManifest() {
+  const res = await fetch('/manifest.json?t=' + Date.now());
+  const data = await res.json();
+  canvas.width = data.width;
+  canvas.height = data.height;
+  layers = [];
+  for (const item of data.layers) {
+    const img = new Image();
+    img.src = '/' + item.file + '?t=' + Date.now();
+    await new Promise(r => img.onload = r);
+    layers.push({
+      id: item.id,
+      name: item.name,
+      type: item.type,
+      kind: 'image',
+      img,
+      x: item.x,
+      y: item.y,
+      w: item.width,
+      h: item.height,
+      scale: 1,
+      opacity: 1,
+      hue: 0,
+      sat: 100,
+      bright: 100,
+      visible: item.visible
+    });
+  }
+  selectedId = layers.length ? layers[layers.length - 1].id : null;
+  document.getElementById('statusText').textContent = `Đã tách ${layers.length} layers (${data.width}×${data.height})`;
+  render();
+  renderLayerList();
+  syncPropsUI();
+}
+
+function render(showOutline = true) {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for (const l of layers) {
+    if (!l.visible) continue;
+    ctx.save();
+    ctx.globalAlpha = l.opacity;
+    ctx.filter = `hue-rotate(${l.hue}deg) saturate(${l.sat}%) brightness(${l.bright}%)`;
+    if (l.kind === 'image') {
+      const dw = l.w * l.scale;
+      const dh = l.h * l.scale;
+      ctx.drawImage(l.img, l.x, l.y, dw, dh);
+      if (showOutline && l.id === selectedId) {
+        ctx.filter = 'none';
+        ctx.strokeStyle = '#facc15';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([6, 4]);
+        ctx.strokeRect(l.x, l.y, dw, dh);
+      }
+    } else if (l.kind === 'text') {
+      ctx.font = `900 ${l.fontSize * l.scale}px 'Segoe UI', Arial, sans-serif`;
+      ctx.textBaseline = 'top';
+      ctx.lineJoin = 'round';
+      ctx.lineWidth = Math.max(4, (l.fontSize * l.scale) * 0.14);
+      ctx.strokeStyle = l.stroke;
+      ctx.strokeText(l.text, l.x, l.y);
+      ctx.fillStyle = l.color;
+      ctx.fillText(l.text, l.x, l.y);
+      const metrics = ctx.measureText(l.text);
+      l.w = metrics.width / l.scale;
+      l.h = l.fontSize * 1.15;
+      if (showOutline && l.id === selectedId) {
+        ctx.filter = 'none';
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([6, 4]);
+        ctx.strokeRect(l.x - 4, l.y - 4, metrics.width + 8, l.h * l.scale + 8);
+      }
+    }
+    ctx.restore();
+  }
+}
+
+function renderLayerList() {
+  const list = document.getElementById('layersList');
+  list.innerHTML = '';
+  layers.forEach((l) => {
+    const div = document.createElement('div');
+    div.className = 'layer-item' + (l.id === selectedId ? ' selected' : '');
+    div.onclick = () => { selectedId = l.id; render(); renderLayerList(); syncPropsUI(); };
+
+    const eye = document.createElement('button');
+    eye.className = 'icon-btn';
+    eye.textContent = l.visible ? '👁' : '🚫';
+    eye.onclick = (e) => { e.stopPropagation(); l.visible = !l.visible; render(); renderLayerList(); };
+
+    const thumb = document.createElement(l.kind === 'image' ? 'img' : 'span');
+    if (l.kind === 'image') {
+      thumb.src = l.img.src;
+      thumb.className = 'layer-thumb';
+    } else {
+      thumb.textContent = 'T';
+      thumb.className = 'layer-thumb';
+      thumb.style.display = 'flex';
+      thumb.style.alignItems = 'center';
+      thumb.style.justifyContent = 'center';
+      thumb.style.fontWeight = '900';
+    }
+
+    const name = document.createElement('span');
+    name.className = 'layer-name';
+    name.textContent = l.kind === 'text' ? l.text : l.name;
+
+    const badge = document.createElement('span');
+    badge.className = 'layer-badge';
+    badge.textContent = l.type;
+
+    div.append(eye, thumb, name, badge);
+    list.appendChild(div);
+  });
+}
+
+function getSelected() { return layers.find(l => l.id === selectedId); }
+
+function syncPropsUI() {
+  const l = getSelected();
+  if (!l) return;
+  document.getElementById('selLayerLabel').textContent = l.name;
+  document.getElementById('propOpacity').value = Math.round(l.opacity * 100);
+  document.getElementById('valOpacity').textContent = Math.round(l.opacity * 100) + '%';
+  document.getElementById('propScale').value = Math.round(l.scale * 100);
+  document.getElementById('valScale').textContent = Math.round(l.scale * 100) + '%';
+  document.getElementById('propHue').value = l.hue;
+  document.getElementById('valHue').textContent = l.hue + '°';
+  document.getElementById('propSat').value = l.sat;
+  document.getElementById('valSat').textContent = l.sat + '%';
+  document.getElementById('propBright').value = l.bright;
+  document.getElementById('valBright').textContent = l.bright + '%';
+
+  const tp = document.getElementById('textProps');
+  if (l.kind === 'text') {
+    tp.style.display = 'block';
+    document.getElementById('propText').value = l.text;
+    document.getElementById('propFontSize').value = l.fontSize;
+    document.getElementById('propColor').value = l.color;
+    document.getElementById('propStroke').value = l.stroke;
+  } else {
+    tp.style.display = 'none';
+  }
+}
+
+function updateProp(key, val) {
+  const l = getSelected();
+  if (!l) return;
+  l[key] = val;
+  syncPropsUI();
+  render();
+  if (key === 'text') renderLayerList();
+}
+
+function resetSelectedColors() {
+  const l = getSelected();
+  if (!l) return;
+  l.hue = 0; l.sat = 100; l.bright = 100; l.opacity = 1;
+  syncPropsUI();
+  render();
+}
+
+function addTextLayer() {
+  const id = 'text_' + Date.now();
+  layers.push({
+    id, name: 'Text_Moi', type: 'text', kind: 'text',
+    text: 'NHẬP CHỮ MỚI', x: 80, y: 120, w: 300, h: 60,
+    fontSize: 54, color: '#facc15', stroke: '#000000',
+    scale: 1, opacity: 1, hue: 0, sat: 100, bright: 100, visible: true
+  });
+  selectedId = id;
+  render(); renderLayerList(); syncPropsUI();
+}
+
+function deleteSelectedLayer() {
+  if (!selectedId) return;
+  layers = layers.filter(l => l.id !== selectedId);
+  selectedId = layers.length ? layers[layers.length - 1].id : null;
+  render(); renderLayerList(); syncPropsUI();
+}
+
+function moveLayerOrder(dir) {
+  const idx = layers.findIndex(l => l.id === selectedId);
+  if (idx < 0) return;
+  const target = idx + dir;
+  if (target < 0 || target >= layers.length) return;
+  [layers[idx], layers[target]] = [layers[target], layers[idx]];
+  render(); renderLayerList();
+}
+
+canvas.addEventListener('mousedown', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  const mx = (e.clientX - rect.left) * (canvas.width / rect.width);
+  const my = (e.clientY - rect.top) * (canvas.height / rect.height);
+  for (let i = layers.length - 1; i >= 0; i--) {
+    const l = layers[i];
+    if (!l.visible) continue;
+    const dw = l.w * l.scale, dh = l.h * l.scale;
+    if (mx >= l.x && mx <= l.x + dw && my >= l.y && my <= l.y + dh) {
+      selectedId = l.id;
+      dragging = true;
+      dragOffset = { x: mx - l.x, y: my - l.y };
+      render(); renderLayerList(); syncPropsUI();
+      return;
+    }
+  }
+});
+
+window.addEventListener('mousemove', (e) => {
+  if (!dragging) return;
+  const l = getSelected();
+  if (!l) return;
+  const rect = canvas.getBoundingClientRect();
+  const mx = (e.clientX - rect.left) * (canvas.width / rect.width);
+  const my = (e.clientY - rect.top) * (canvas.height / rect.height);
+  l.x = Math.round(mx - dragOffset.x);
+  l.y = Math.round(my - dragOffset.y);
+  render();
+});
+window.addEventListener('mouseup', () => { dragging = false; });
+
+document.getElementById('addOverlayImage').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    const img = new Image();
+    img.onload = () => {
+      const scale = Math.min(1, 300 / img.width);
+      const id = 'img_' + Date.now();
+      layers.push({
+        id, name: file.name, type: 'object', kind: 'image', img,
+        x: 60, y: 60, w: img.width, h: img.height,
+        scale, opacity: 1, hue: 0, sat: 100, bright: 100, visible: true
+      });
+      selectedId = id;
+      render(); renderLayerList(); syncPropsUI();
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+});
+
+document.getElementById('uploadNewImage').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  document.getElementById('statusText').textContent = 'Đang phân tích & tách layer...';
+  const buf = await file.arrayBuffer();
+  const res = await fetch('/api/decompose', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/octet-stream', 'X-Filename': encodeURIComponent(file.name) },
+    body: buf
+  });
+  if (res.ok) {
+    await loadManifest();
+  } else {
+    document.getElementById('statusText').textContent = 'Lỗi tách ảnh!';
+  }
+});
+
+function exportPNG() {
+  render(false);
+  const a = document.createElement('a');
+  a.download = 'redesign_export.png';
+  a.href = canvas.toDataURL('image/png');
+  a.click();
+  render(true);
+}
+
+function downloadPSD() {
+  window.open('/output_layers.psd', '_blank');
+}
+
+loadManifest();
+</script>
+</body>
+</html>

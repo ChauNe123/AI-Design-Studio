@@ -11,17 +11,47 @@ const STUDIO_ROOT = path.dirname(__dirname);
 const MODELS_DIR = path.join(STUDIO_ROOT, 'models');
 const TESS_CACHE = path.join(MODELS_DIR, 'tessdata');
 const HF_CACHE = path.join(MODELS_DIR, 'hf_cache');
+const PROVIDERS_CFG_PATH = path.join(STUDIO_ROOT, 'ai_providers.json');
 fs.mkdirSync(TESS_CACHE, { recursive: true });
 fs.mkdirSync(HF_CACHE, { recursive: true });
 
+function isLocalOnlyMode() {
+  if (process.env.AI_STUDIO_FORCE_OFFLINE === '1') return true;
+  try {
+    if (fs.existsSync(PROVIDERS_CFG_PATH)) {
+      const cfg = JSON.parse(fs.readFileSync(PROVIDERS_CFG_PATH, 'utf8'));
+      return (cfg.mode || 'LOCAL_ONLY') === 'LOCAL_ONLY';
+    }
+  } catch (_) {
+    // Fail closed to LOCAL_ONLY if config cannot be parsed
+  }
+  return true;
+}
+
+const LOCAL_ONLY = isLocalOnlyMode();
 env.cacheDir = HF_CACHE;
 env.allowLocalModels = true;
+env.allowRemoteModels = !LOCAL_ONLY;
 
 async function runOcr(imgPath, lang = 'vie+eng') {
-  const worker = await createWorker(lang, 1, {
+  if (LOCAL_ONLY) {
+    const langs = String(lang).split('+').map(s => s.trim()).filter(Boolean);
+    for (const lg of langs) {
+      const trainedPath = path.join(TESS_CACHE, `${lg}.traineddata`);
+      if (!fs.existsSync(trainedPath)) {
+        throw new Error(`LOCAL_ONLY mode blocked remote OCR download: missing local file ${trainedPath}`);
+      }
+    }
+  }
+  const workerOpts = {
     cachePath: TESS_CACHE,
     logger: () => {}
-  });
+  };
+  if (LOCAL_ONLY) {
+    workerOpts.langPath = TESS_CACHE;
+    workerOpts.gzip = false;
+  }
+  const worker = await createWorker(lang, 1, workerOpts);
   try {
     const ret = await worker.recognize(imgPath, {}, { blocks: true, text: true });
     const data = ret.data || {};

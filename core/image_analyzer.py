@@ -23,6 +23,153 @@ def _imread_unicode(img_path: str):
     return cv2.imdecode(data, cv2.IMREAD_COLOR)
 
 
+def inspect_input_quality(
+    img_path: str,
+    target_long_edge: int = 1920,
+    blur_laplacian_thresh: float = 110.0,
+) -> dict:
+    """Inspect input dimensions, aspect ratio, sharpness (Laplacian/Tenengrad), and JPEG blockiness."""
+    bgr = _imread_unicode(img_path)
+    if bgr is None:
+        raise ValueError(f"Cannot read input image: {img_path}")
+    h, w = bgr.shape[:2]
+    long_edge = max(w, h)
+    short_edge = min(w, h)
+    aspect_ratio = round(w / max(1, h), 4)
+
+    gray = cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY)
+    lap_var = round(float(cv2.Laplacian(gray, cv2.CV_64F).var()), 2)
+    gx = cv2.Sobel(gray, cv2.CV_32F, 1, 0, ksize=3)
+    gy = cv2.Sobel(gray, cv2.CV_32F, 0, 1, ksize=3)
+    tenengrad = round(float(np.mean(np.sqrt(gx * gx + gy * gy))), 2)
+
+    # Estimate 8x8 DCT boundary jump vs interior pixel diff (JPEG artifact indicator)
+    gf = gray.astype(np.float32)
+    if w > 16 and h > 16:
+        b_jump = float(np.mean(np.abs(gf[:, 7:-1:8] - gf[:, 8::8])))
+        i_jump = float(np.mean(np.abs(gf[:, 3:-1:8] - gf[:, 4::8])))
+        jpeg_blockiness_ratio = round(b_jump / max(1e-3, i_jump), 3)
+    else:
+        jpeg_blockiness_ratio = 1.0
+
+    is_low_res = long_edge < target_long_edge
+    is_blurry = lap_var < blur_laplacian_thresh
+    recommended_scale = round(target_long_edge / float(long_edge), 4) if is_low_res else 1.0
+
+    warnings = []
+    if is_low_res:
+        warnings.append(
+            f"Input resolution ({w}x{h}) is below target long edge ({target_long_edge}px); aspect-preserving upscale ({recommended_scale}x) will be applied."
+        )
+    if is_blurry:
+        warnings.append(
+            f"Input sharpness is low (Laplacian variance={lap_var} < {blur_laplacian_thresh}); fine textures may remain soft."
+        )
+    if jpeg_blockiness_ratio > 1.22:
+        warnings.append(
+            f"Noticeable 8x8 JPEG compression artifacts detected (blockiness={jpeg_blockiness_ratio}); mild edge-preserving denoise recommended."
+        )
+
+    return {
+        "width": int(w),
+        "height": int(h),
+        "long_edge": int(long_edge),
+        "short_edge": int(short_edge),
+        "aspect_ratio": aspect_ratio,
+        "laplacian_variance": lap_var,
+        "tenengrad_gradient": tenengrad,
+        "jpeg_blockiness_ratio": jpeg_blockiness_ratio,
+        "below_target_resolution": is_low_res,
+        "is_blurry": is_blurry,
+        "target_long_edge": int(target_long_edge),
+        "recommended_scale": recommended_scale,
+        "dedicated_sr_model_installed": False,
+        "available_local_upscaler": "lanczos4_bilateral_halo_clamped_unsharp (no dedicated ESRGAN/SwinIR ONNX installed)",
+        "warnings": warnings,
+    }
+
+
+def upscale_preserve_aspect_local(
+    input_path: str,
+    out_upscaled_path: str,
+    target_long_edge: int = 1920,
+    max_dim: int = 2048,
+) -> dict:
+    """Upscale low-res input preserving exact aspect ratio (never crops/stretches; keeps original file untouched).
+    Uses local Bilateral JPEG cleanup + Lanczos-4 + halo-clamped Unsharp Mask (overshoot limited to local 3x3 min/max).
+    """
+    diag = inspect_input_quality(input_path, target_long_edge=target_long_edge)
+    pil_in = Image.open(input_path)
+    has_alpha = pil_in.mode == "RGBA" and np.any(np.array(pil_in)[:, :, 3] < 250)
+
+    bgr_orig = _imread_unicode(input_path)
+    oh, ow = bgr_orig.shape[:2]
+    eff_target = min(int(target_long_edge), int(max_dim))
+
+    if max(ow, oh) < eff_target:
+        scale = eff_target / float(max(ow, oh))
+        method = "local_edge_preserved_lanczos4_clamped_unsharp"
+        upscaled = True
+    elif max(ow, oh) > max_dim:
+        scale = max_dim / float(max(ow, oh))
+        method = "local_lanczos4_downscale_cap"
+        upscaled = False
+    else:
+        scale = 1.0
+        method = "native_1to1_no_resize"
+        upscaled = False
+
+    nw = max(1, int(round(ow * scale)))
+    nh = max(1, int(round(oh * scale)))
+
+    if abs(scale - 1.0) > 1e-3:
+        # Mild chroma/block cleanup if JPEG artifacts exist, preserving crisp text/graphic edges
+        sigma_c = 20 if diag["jpeg_blockiness_ratio"] > 1.15 else 12
+        bgr_clean = cv2.bilateralFilter(bgr_orig, 5, sigma_c, 16) if upscaled else bgr_orig
+        bgr_up = cv2.resize(bgr_clean, (nw, nh), interpolation=cv2.INTER_LANCZOS4 if scale > 1.0 else cv2.INTER_AREA)
+
+        if upscaled:
+            # Halo-clamped unsharp mask: sharpens transitions without creating bright/dark ringing halos around text
+            blur = cv2.GaussianBlur(bgr_up.astype(np.float32), (0, 0), 1.15)
+            sharp = bgr_up.astype(np.float32) + (bgr_up.astype(np.float32) - blur) * 0.55
+            k3 = np.ones((3, 3), np.uint8)
+            loc_min = cv2.erode(bgr_up, k3).astype(np.float32) - 4.0
+            loc_max = cv2.dilate(bgr_up, k3).astype(np.float32) + 4.0
+            bgr_out = np.clip(np.minimum(np.maximum(sharp, loc_min), loc_max), 0, 255).astype(np.uint8)
+        else:
+            bgr_out = bgr_up
+    else:
+        bgr_out = bgr_orig.copy()
+
+    os.makedirs(os.path.dirname(out_upscaled_path), exist_ok=True)
+    rgb_out = cv2.cvtColor(bgr_out, cv2.COLOR_BGR2RGB)
+    if has_alpha:
+        a_orig = np.array(pil_in)[:, :, 3]
+        a_out = cv2.resize(a_orig, (nw, nh), interpolation=cv2.INTER_LANCZOS4) if (nw, nh) != (ow, oh) else a_orig
+        Image.fromarray(np.dstack([rgb_out, a_out]), "RGBA").save(out_upscaled_path)
+    else:
+        Image.fromarray(rgb_out, "RGB").save(out_upscaled_path)
+
+    honesty_warning = (
+        f"Upscaled {ow}x{oh} -> {nw}x{nh} ({round(scale, 4)}x, exact aspect ratio preserved) via {method}. "
+        "Note: Algorithmic upscaling sharpens edges cleanly without cropping/stretching, but does NOT guarantee recovery of lost optical micro-detail (no dedicated SR neural model installed)."
+        if upscaled else f"Processed at {nw}x{nh} ({method})."
+    )
+    return {
+        "original_path": input_path,
+        "processed_path": out_upscaled_path,
+        "input_size": [int(ow), int(oh)],
+        "output_size": [int(nw), int(nh)],
+        "scale_factor": round(scale, 4),
+        "aspect_ratio_preserved": abs((ow / max(1, oh)) - (nw / max(1, nh))) < 0.005,
+        "upscaled": upscaled,
+        "method": method,
+        "dedicated_sr_model_used": False,
+        "quality_inspection": diag,
+        "warning": honesty_warning,
+    }
+
+
 def extract_product_rgba(img_path: str, remove_white_bg: bool = True) -> Image.Image:
     """Load product/logo image preserving original pixels. Flood-fills outer white only if requested."""
     pil_in = Image.open(img_path)

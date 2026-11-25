@@ -1,0 +1,95 @@
+[
+  {
+    "version_id": "v001",
+    "seq": 1,
+    "file": "v001.json",
+    "created_at": "2026-11-25T13:48:25",
+    "note": "Initial v1.3 Auto Object-by-Object Semantic Redesign",
+    "layer_count": 9,
+    "groups": [
+      "1_Background_&_Scene",
+      "3_Foreground_Objects",
+      "4_Foreground_Hero_Parts",
+      "5_Logos_&_Typography",
+      "5_Original_Text_Raster"
+    ]
+  },
+  {
+    "version_id": "v002",
+    "seq": 2,
+    "file": "v002.json",
+    "created_at": "2026-11-25T14:29:12",
+    "note": "Refined Hera demo: deduplicated car, crisp asphalt rebuild, fixed OCR & text crops",
+    "layer_count": 9,
+    "groups": [
+      "1_Background_&_Scene",
+      "2_Hero_Vehicle",
+      "3_Original_Text_Raster",
+      "4_Editable_Typography"
+    ]
+  },
+  {
+    "version_id": "v003",
+    "seq": 3,
+    "file": "v003.json",
+    "created_at": "2026-11-25T15:14:09",
+    "note": "v003: 1920x1920 aspect-preserved upscale + full 29-layer decomposition + clipped adjustments",
+    "layer_count": 29,
+    "groups": [
+      "1_Background_&_Road_Scene",
+      "2_Polaroids_&_Hand",
+      "3_Hero_Vehicle_&_Lighting",
+      "4_Brand_Logo_&_CTA_Bar",
+      "5_Original_Text_Raster",
+      "6_Editable_Typography"
+    ]
+  },
+  {
+    "version_id": "v004",
+    "seq": 4,
+    "file": "v004.json",
+    "created_at": "2026-11-25T15:22:45",
+    "note": "v004: Clean seamless 1920x1920 background + crisp CTA/logo/polaroid/car/text layers",
+    "layer_count": 29,
+    "groups": [
+      "1_Background_&_Road_Scene",
+      "2_Polaroids_&_Hand",
+      "3_Hero_Vehicle_&_Lighting",
+      "4_Brand_Logo_&_CTA_Bar",
+      "5_Original_Text_Raster",
+      "6_Editable_Typography"
+    ]
+  },
+  {
+    "version_id": "v005",
+    "seq": 5,
+    "file": "v005.json",
+    "created_at": "2026-11-25T15:26:53",
+    "note": "v004: Clean seamless 1920x1920 background + crisp CTA/logo/polaroid/car/text layers",
+    "layer_count": 29,
+    "groups": [
+      "1_Background_&_Road_Scene",
+      "2_Polaroids_&_Hand",
+      "3_Hero_Vehicle_&_Lighting",
+      "4_Brand_Logo_&_CTA_Bar",
+      "5_Original_Text_Raster",
+      "6_Editable_Typography"
+    ]
+  },
+  {
+    "version_id": "v006",
+    "seq": 6,
+    "file": "v006.json",
+    "created_at": "2026-11-25T15:30:03",
+    "note": "v004: Clean seamless 1920x1920 background + crisp CTA/logo/polaroid/car/text layers",
+    "layer_count": 29,
+    "groups": [
+      "1_Background_&_Road_Scene",
+      "2_Polaroids_&_Hand",
+      "3_Hero_Vehicle_&_Lighting",
+      "4_Brand_Logo_&_CTA_Bar",
+      "5_Original_Text_Raster",
+      "6_Editable_Typography"
+    ]
+  }
+]

@@ -155,24 +155,25 @@ def run_qa_1_layers(doc: Dict[str, Any], project_dir: str) -> Dict[str, Any]:
             "ai_reconstructed": bool(lyr.get("ai_reconstructed", False)),
         })
 
-    # Render checkerboard contact sheet (up to 9 layers)
+    # Render checkerboard contact sheet (all layers, up to 36 cells so multi-layer projects are fully visible)
     qa_sheet_rel = "qa_layers_sheet.png"
     if previews:
-        cols = min(3, len(previews))
-        rows = (min(9, len(previews)) + cols - 1) // cols
-        cell = 340
+        shown = previews[:36]
+        cols = min(4 if len(shown) > 9 else 3, len(shown))
+        rows = (len(shown) + cols - 1) // cols
+        cell = 320
         sheet = Image.new("RGB", (cols * cell, rows * cell), (22, 22, 26))
         draw = ImageDraw.Draw(sheet)
-        for idx, (label, im) in enumerate(previews[:9]):
+        for idx, (label, im) in enumerate(shown):
             gx, gy = (idx % cols) * cell, (idx // cols) * cell
             cb = _make_checkerboard(cell, cell).convert("RGBA")
-            sc = min((cell - 24) / max(1, im.width), (cell - 40) / max(1, im.height))
+            sc = min((cell - 20) / max(1, im.width), (cell - 38) / max(1, im.height))
             nw, nh = max(1, int(im.width * sc)), max(1, int(im.height * sc))
             im_r = im.resize((nw, nh), Image.Resampling.LANCZOS)
-            cb.alpha_composite(im_r, ((cell - nw) // 2, 30 + (cell - 36 - nh) // 2))
+            cb.alpha_composite(im_r, ((cell - nw) // 2, 28 + (cell - 34 - nh) // 2))
             sheet.paste(cb.convert("RGB"), (gx, gy))
             draw.rectangle([gx, gy, gx + cell, gy + 24], fill=(16, 18, 22))
-            draw.text((gx + 8, gy + 6), label[:36], fill=(74, 222, 128))
+            draw.text((gx + 8, gy + 6), f"#{idx+1:02d} {label}"[:40], fill=(74, 222, 128))
         sheet.save(os.path.join(project_dir, qa_sheet_rel))
 
     return {
@@ -419,7 +420,10 @@ def export_and_qa_all(studio_root: str, project_dir: str) -> Dict[str, Any]:
         "qa1_layers": qa1,
         "qa2_composite": qa2,
         "qa3_psd": qa3,
+        "technical_checks_passed": (len(schema_errors) == 0 and qa1["passed"] and qa2["passed"] and qa3["passed"]),
         "overall_passed": (len(schema_errors) == 0 and qa1["passed"] and qa2["passed"] and qa3["passed"]),
+        "visual_qc_status": "PENDING_USER_PHOTOSHOP_REVIEW",
+        "visual_qc_note": "Automated checks verify binary PSD integrity, mask alignment, and non-empty layer buffers ONLY. Visual cleanliness and editability require human QC in Adobe Photoshop.",
         "psd_file": psd_name,
         "psd_path": psd_path,
     }

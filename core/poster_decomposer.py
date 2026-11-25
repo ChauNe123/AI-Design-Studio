@@ -27,7 +27,7 @@ from core.design_document import (
     save_document,
 )
 from core.project_manager import save_version
-from core.reconstruction_engine import _run_lama_local
+from core.reconstruction_engine import _match_background_grain, _run_lama_local
 from core.segmentation_engine import (
     _imread_unicode,
     segment_interactive,
@@ -421,23 +421,30 @@ class PosterDecomposer:
             },
         )
 
-        # 3. Taxi Contact Shadow on Asphalt directly underneath chassis & tires (z=12)
+        # 3. Taxi Contact Shadow on Asphalt directly underneath chassis & tires (z=12 < z=14, unbroken ground shadow)
         shadow_band = np.zeros((h, w), dtype=np.uint8)
         cv2.ellipse(shadow_band, (365, 608), (305, 58), 3, 0, 360, 255, -1)
         shadow_band[:538, :] = 0
         shadow_band[664:, :] = 0
         # Use RGB chroma instead of HSV S (which explodes near V=0 on black shadow [1, 4, 8])
         rgb_chroma = np.ptp(bgr.astype(np.int16), axis=2)
-        shadow_pixels = (shadow_band > 0) & (gray < 48) & (rgb_chroma < 24) & (taxi_bin == 0)
-        shad_alpha = cv2.GaussianBlur(np.where(shadow_pixels, 250, 0).astype(np.uint8), (7, 7), 0)
-        # Suppress faint residual outside elliptical ground band
+        shadow_vis = (shadow_band > 0) & (gray < 48) & (rgb_chroma < 24) & (taxi_bin == 0)
+        # Bridge under the tires/chassis horizontally & add continuous dark ground oval core so shadow has NO hole!
+        undercarriage_oval = np.zeros((h, w), dtype=np.uint8)
+        cv2.ellipse(undercarriage_oval, (356, 612), (245, 32), 2.5, 0, 360, 255, -1)
+        shad_combined = cv2.bitwise_or(np.where(shadow_vis, 255, 0).astype(np.uint8), undercarriage_oval)
+        shad_combined = _flood_seal_holes(cv2.morphologyEx(shad_combined, cv2.MORPH_CLOSE, np.ones((21, 9), np.uint8)))
+        shad_alpha = cv2.GaussianBlur(shad_combined, (15, 11), 0)
         shad_alpha = cv2.bitwise_and(shad_alpha, shadow_band)
+        shad_src_rgb = rgb.copy()
+        shad_fill_zone = (shad_combined > 0) & (~shadow_vis)
+        shad_src_rgb[shad_fill_zone] = np.array([10, 11, 14], dtype=np.uint8)
         if int(np.sum(shad_alpha > 20)) > 200:
             self._add_raster_layer(
                 name="08_Taxi_Contact_Shadow_Road",
                 layer_type="shadow",
                 group="2_Hero_Subjects_&_Mockup",
-                src_rgb=rgb,
+                src_rgb=shad_src_rgb,
                 mask_u8=shad_alpha,
                 cat="ground_shadow",
                 z_index=12,
@@ -734,15 +741,22 @@ class PosterDecomposer:
         strip_bgr = bgr[ry1:ry2, rx1:rx2].copy()
         strip_gray = gray[ry1:ry2, rx1:rx2]
         strip_sat = hsv[ry1:ry2, rx1:rx2, 1]
-        # Background around ribbon is pastel sky (`luma ~ 218..232`) while ribbon center is darker gray (`luma ~ 140..195`), white text is `luma > 205` inside text box
+        # Background around ribbon is pastel sky (`luma ~ 218..232`) while ribbon center is darker gray (`luma ~ 140..195`), white text sits cleanly above local gray ribbon
         avail_txt_local = np.zeros_like(strip_gray)
-        avail_txt_local[4:28, 34:246] = np.where(
-            (strip_gray[4:28, 34:246] > 202) & (strip_sat[4:28, 34:246] < 38),
-            255,
+        rib_bg_est = cv2.GaussianBlur(cv2.morphologyEx(strip_gray, cv2.MORPH_OPEN, np.ones((7, 7), np.uint8)), (9, 9), 0).astype(np.float32)
+        white_stroke_diff = strip_gray.astype(np.float32) - rib_bg_est
+        avail_txt_local[4:28, 34:240] = np.where(
+            (white_stroke_diff[4:28, 34:240] > 16.0)
+            & (strip_gray[4:28, 34:240] > 188)
+            & (strip_sat[4:28, 34:240] < 38),
+            np.clip((white_stroke_diff[4:28, 34:240] - 12.0) * 6.5, 0, 255),
             0,
         ).astype(np.uint8)
         avail_txt_mask_full = np.zeros((h, w), dtype=np.uint8)
         avail_txt_mask_full[ry1:ry2, rx1:rx2] = avail_txt_local
+        # Decontaminate white badge text pixels purely white so zero gray ribbon halo lingers around letters
+        avail_txt_clean_rgb = rgb.copy()
+        avail_txt_clean_rgb[avail_txt_mask_full > 15] = np.array([250, 252, 255], dtype=np.uint8)
 
         # Clean ribbon bar by inpainting white text out smoothly using per-column strip color
         clean_strip_bgr = cv2.inpaint(strip_bgr, cv2.dilate(avail_txt_local, np.ones((3, 3), np.uint8)), 5, cv2.INPAINT_TELEA)
@@ -788,42 +802,70 @@ class PosterDecomposer:
             confidence=0.94,
         )
 
-        # Globe icon (`x: 672..708, y: 686..724`) on orange wedge — keep teal/blue anti-aliased rings complete & holes clear
+        # Globe icon (`x: 672..708, y: 686..724`) on orange wedge — reject orange/yellow rim & preserve crisp blue/teal icon
         org_bg_med = np.median(bgr[685:705, 620:665], axis=(0, 1))
         globe_roi = bgr[686:724, 672:708]
         globe_hsv = hsv[686:724, 672:708]
         globe_dist = np.linalg.norm(globe_roi.astype(np.float32) - org_bg_med.astype(np.float32), axis=2)
-        not_pure_orange = ~((globe_hsv[:, :, 0] >= 12) & (globe_hsv[:, :, 0] <= 26) & (globe_hsv[:, :, 1] >= 165))
+        is_orange_or_warm = (globe_hsv[:, :, 0] >= 5) & (globe_hsv[:, :, 0] <= 38) & (globe_hsv[:, :, 1] >= 80)
+        is_blue_globe = (globe_hsv[:, :, 0] >= 78) & (globe_hsv[:, :, 0] <= 135) & (globe_hsv[:, :, 1] >= 45)
         globe_alpha_local = np.where(
-            not_pure_orange & (globe_dist > 18),
-            np.clip((globe_dist - 14.0) * 6.8, 0, 255),
+            (~is_orange_or_warm) & (is_blue_globe | (globe_dist > 34)),
+            np.clip((globe_dist - 22.0) * 7.2, 0, 255),
             0,
         ).astype(np.uint8)
+        # Decontaminate edge pixels strictly to clean interior blue globe hue (`zero yellow/amber halo ring`)
+        globe_rgb_clean = rgb.copy()
+        gl_crop_rgb = globe_rgb_clean[686:724, 672:708]
+        pure_blue_core = (globe_hsv[:, :, 0] >= 90) & (globe_hsv[:, :, 0] <= 125) & (globe_hsv[:, :, 1] >= 90)
+        if np.any(pure_blue_core):
+            blue_globe_med = np.median(gl_crop_rgb[pure_blue_core], axis=0).astype(np.uint8)
+        else:
+            blue_globe_med = np.array([75, 165, 225], dtype=np.uint8)
+        rim_decontam = (globe_alpha_local > 0) & ((globe_alpha_local < 245) | is_orange_or_warm | (~pure_blue_core))
+        gl_crop_rgb[rim_decontam] = blue_globe_med
+        globe_rgb_clean[686:724, 672:708] = gl_crop_rgb
         globe_mask_full = np.zeros((h, w), dtype=np.uint8)
         globe_mask_full[686:724, 672:708] = globe_alpha_local
         self._add_raster_layer(
             name="19_Icon_Globe_Cursor_BottomRight",
             layer_type="icon",
             group="4_Footer_Banners_&_Badges",
-            src_rgb=rgb,
+            src_rgb=globe_rgb_clean,
             mask_u8=globe_mask_full,
             cat="footer_icon",
             z_index=29,
-            confidence=0.94,
+            confidence=0.95,
+            decontaminate=False,
         )
 
-        # Helper to extract clean text alpha on uniform wedge or sky regions
-        def _text_mask_from_box(bx1: int, by1: int, bx2: int, by2: int, bg_ref: np.ndarray, thresh: float = 32.0) -> np.ndarray:
-            roi_f = bgr[by1:by2, bx1:bx2].astype(np.float32)
-            dist = np.linalg.norm(roi_f - bg_ref.astype(np.float32), axis=2)
+        # Helper to extract crystal-clean dark text alpha over gradient surfaces via 2D morphological local BG estimation
+        def _text_mask_from_box(bx1: int, by1: int, bx2: int, by2: int, bg_ref: np.ndarray, thresh: float = 34.0) -> np.ndarray:
+            roi = bgr[by1:by2, bx1:bx2]
+            band = roi.astype(np.float32)
+            # 2D median filter recovers the exact gradient wedge color underneath glyphs WITHOUT bright channel-max halo shift!
+            k_med = 19 if (by2 - by1) < 28 else 29
+            local_bg = cv2.medianBlur(roi, k_med).astype(np.float32)
+            luma_band = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY).astype(np.float32)
+            luma_bg = cv2.cvtColor(local_bg.astype(np.uint8), cv2.COLOR_BGR2GRAY).astype(np.float32)
+            dist_local = np.maximum(np.linalg.norm(band - local_bg, axis=2), (luma_bg - luma_band) * 1.45)
+            alpha_box = np.where(
+                dist_local >= 30.0,
+                np.clip((dist_local - 26.0) * (255.0 / 28.0), 0, 255),
+                0,
+            ).astype(np.uint8)
+            n_t, lbl_t, st_t, _ = cv2.connectedComponentsWithStats((alpha_box > 18).astype(np.uint8), 8)
+            for ti in range(1, n_t):
+                if int(st_t[ti, cv2.CC_STAT_AREA]) <= 3:
+                    alpha_box[lbl_t == ti] = 0
             m_full = np.zeros((h, w), dtype=np.uint8)
-            m_full[by1:by2, bx1:bx2] = np.clip((dist - thresh * 0.55) * (255.0 / max(12.0, thresh * 0.7)), 0, 255).astype(np.uint8)
+            m_full[by1:by2, bx1:bx2] = alpha_box
             return m_full
 
         m_call_lbl = _text_mask_from_box(68, 680, 224, 703, blue_bg_med, thresh=34.0)
         m_call_num = _text_mask_from_box(68, 700, 225, 730, blue_bg_med, thresh=34.0)
-        m_visit_lbl = _text_mask_from_box(542, 684, 664, 703, org_bg_med, thresh=38.0)
-        m_visit_url = _text_mask_from_box(421, 702, 664, 725, org_bg_med, thresh=38.0)
+        m_visit_lbl = _text_mask_from_box(542, 684, 664, 703, org_bg_med, thresh=36.0)
+        m_visit_url = _text_mask_from_box(421, 702, 664, 725, org_bg_med, thresh=36.0)
 
         # 3. Build Clean Blue Left Footer Wedge (`16_Footer_Wedge_Blue_Left_Clean`) & Orange Right Footer Wedge (`17_Footer_Wedge_Orange_Right_Clean`)
         # Straight diagonal edges measured geometrically:
@@ -873,56 +915,81 @@ class PosterDecomposer:
         claimed = cv2.bitwise_or(claimed, cv2.bitwise_or(blue_tri_mask, orange_tri_mask))
 
         # 4. Top-Left Brand Logo Taxi Silhouette & Wing Lines (`20_Logo_Taxi_Silhouette_&_Wings`, x: 30..300, y: 23..66)
-        sky_tl_med = np.median(bgr[10:22, 30:290], axis=(0, 1))
-        logo_roi_dist = np.linalg.norm(bgr[22:68, 30:300].astype(np.float32) - sky_tl_med.astype(np.float32), axis=2)
+        logo_local_bg = cv2.GaussianBlur(
+            cv2.morphologyEx(bgr[22:68, 30:300], cv2.MORPH_CLOSE, np.ones((17, 17), np.uint8)),
+            (17, 17),
+            0,
+        ).astype(np.float32)
+        logo_roi_dist = np.linalg.norm(bgr[22:68, 30:300].astype(np.float32) - logo_local_bg, axis=2)
         logo_mask_full = np.zeros((h, w), dtype=np.uint8)
-        logo_mask_full[22:68, 30:300] = np.clip((logo_roi_dist - 16.0) * 8.0, 0, 255).astype(np.uint8)
+        logo_mask_full[22:68, 30:300] = np.clip((logo_roi_dist - 16.0) * 7.5, 0, 255).astype(np.uint8)
+        logo_clean_rgb = rgb.copy()
+        logo_clean_rgb[(logo_mask_full > 10) & (logo_mask_full < 220)] = np.array([22, 24, 28], dtype=np.uint8)
         self._add_raster_layer(
             name="20_Logo_Taxi_Silhouette_&_Wings",
             layer_type="logo",
             group="5_Brand_Logo_TopLeft",
-            src_rgb=rgb,
+            src_rgb=logo_clean_rgb,
             mask_u8=logo_mask_full,
             cat="brand_logo",
             z_index=32,
             confidence=0.95,
+            decontaminate=False,
         )
         claimed = cv2.bitwise_or(claimed, np.where(logo_mask_full > 20, 255, 0).astype(np.uint8))
 
         # 5. Dual-Version Typography (`9` Visible OrigFX + `9` Hidden Editable Vector TySh in Group 6)
-        # Sample exact local sky color behind each top-left text band (column left/right borders) for zero background bleed
-        def _sky_text_mask(bx1: int, by1: int, bx2: int, by2: int, min_delta: float = 20.0) -> np.ndarray:
-            band = bgr[by1:by2, bx1:bx2].astype(np.float32)
-            row_sky = np.median(bgr[by1:by2, max(0, bx1 - 16):max(1, bx1)], axis=1, keepdims=True).astype(np.float32)
-            dist = np.linalg.norm(band - row_sky, axis=2)
+        # Use 2D morphological local sky closing so horizontal sky gradients have ZERO alpha bleed (no rectangular boxes!)
+        def _sky_text_mask(bx1: int, by1: int, bx2: int, by2: int, min_delta: float = 28.0) -> np.ndarray:
+            band_bgr = bgr[by1:by2, bx1:bx2]
+            band = band_bgr.astype(np.float32)
+            # 2D median blur recovers exact sky gradient behind letters without bright channel-max halo shift
+            k_med = 17 if (by2 - by1) < 26 else 29
+            local_sky_bg = cv2.medianBlur(band_bgr, k_med).astype(np.float32)
+            luma_fg = cv2.cvtColor(band_bgr, cv2.COLOR_BGR2GRAY).astype(np.float32)
+            luma_bg = cv2.cvtColor(local_sky_bg.astype(np.uint8), cv2.COLOR_BGR2GRAY).astype(np.float32)
+            dist = np.maximum(np.linalg.norm(band - local_sky_bg, axis=2), (luma_bg - luma_fg) * 1.45)
+            alpha_box = np.where(
+                dist >= min_delta,
+                np.clip((dist - (min_delta - 4.0)) * (255.0 / 26.0), 0, 255),
+                0,
+            ).astype(np.uint8)
+            n_t, lbl_t, st_t, _ = cv2.connectedComponentsWithStats((alpha_box > 18).astype(np.uint8), 8)
+            for ti in range(1, n_t):
+                if int(st_t[ti, cv2.CC_STAT_AREA]) <= 3:
+                    alpha_box[lbl_t == ti] = 0
             m_full = np.zeros((h, w), dtype=np.uint8)
-            m_full[by1:by2, bx1:bx2] = np.clip((dist - min_delta * 0.65) * (255.0 / max(10.0, min_delta * 0.75)), 0, 255).astype(np.uint8)
+            m_full[by1:by2, bx1:bx2] = alpha_box
             return m_full
 
-        m_brand_title = _sky_text_mask(30, 67, 300, 89, min_delta=22.0)
-        m_brand_sub = _sky_text_mask(131, 90, 204, 104, min_delta=22.0)
-        m_head_taxi = _sky_text_mask(24, 128, 276, 168, min_delta=20.0)
-        m_sub_mecabs = _sky_text_mask(58, 174, 248, 220, min_delta=20.0)
+        m_brand_title = _sky_text_mask(30, 67, 300, 89, min_delta=28.0)
+        m_brand_sub = _sky_text_mask(131, 90, 204, 104, min_delta=28.0)
+        m_head_taxi = _sky_text_mask(24, 128, 276, 168, min_delta=30.0)
+        m_sub_mecabs = _sky_text_mask(58, 174, 248, 220, min_delta=30.0)
 
         soft_dark_fx = {"dropShadow": [{"enabled": True, "size": 6, "distance": 3, "angle": 120, "color": [15, 25, 45], "opacity": 0.25}]}
 
         text_pairs = [
-            ("21_Text_Brand_Title_OrigFX", "22_Text_Brand_Title_Editable", "MELBOURNE XPRESS CABS", m_brand_title, 33, 68, 19, [18, 20, 24], 35, 36, False, None),
-            ("23_Text_Brand_Sub_OrigFX", "24_Text_Brand_Sub_Editable", "ME CABS", m_brand_sub, 134, 89, 13, [22, 24, 28], 37, 38, False, None),
-            ("25_Text_Headline_TaxiService_OrigFX", "26_Text_Headline_TaxiService_Editable", "Taxi Service", m_head_taxi, 26, 130, 38, [12, 14, 18], 39, 40, True, soft_dark_fx),
-            ("27_Text_Subhead_MeCabs_OrigFX", "28_Text_Subhead_MeCabs_Editable", "Me Cabs", m_sub_mecabs, 63, 177, 34, [15, 17, 22], 41, 42, True, soft_dark_fx),
-            ("29_Text_Badge_WeAreAvailable_OrigFX", "30_Text_Badge_WeAreAvailable_Editable", "We are available at:", avail_txt_mask_full, 36, 246, 17, [248, 250, 252], 43, 44, True, soft_dark_fx),
-            ("31_Text_CallUs_Label_OrigFX", "32_Text_CallUs_Label_Editable", "Call us More info", m_call_lbl, 72, 682, 14, [15, 32, 72], 45, 46, False, None),
-            ("33_Text_Phone_Number_OrigFX", "34_Text_Phone_Number_Editable", "1300012018", m_call_num, 72, 702, 20, [15, 32, 72], 47, 48, True, None),
-            ("35_Text_VisitWebsite_Label_OrigFX", "36_Text_VisitWebsite_Label_Editable", "Visit our website", m_visit_lbl, 545, 685, 14, [25, 20, 15], 49, 50, False, None),
-            ("37_Text_Website_URL_OrigFX", "38_Text_Website_URL_Editable", "www.mecabs.com.au", m_visit_url, 424, 703, 18, [18, 16, 14], 51, 52, True, None),
+            ("21_Text_Brand_Title_OrigFX", "22_Text_Brand_Title_Editable", "MELBOURNE XPRESS CABS", m_brand_title, 33, 68, 19, [18, 20, 24], 35, 36, False, None, rgb),
+            ("23_Text_Brand_Sub_OrigFX", "24_Text_Brand_Sub_Editable", "ME CABS", m_brand_sub, 134, 89, 13, [22, 24, 28], 37, 38, False, None, rgb),
+            ("25_Text_Headline_TaxiService_OrigFX", "26_Text_Headline_TaxiService_Editable", "Taxi Service", m_head_taxi, 26, 130, 38, [12, 14, 18], 39, 40, True, soft_dark_fx, rgb),
+            ("27_Text_Subhead_MeCabs_OrigFX", "28_Text_Subhead_MeCabs_Editable", "Me Cabs", m_sub_mecabs, 63, 177, 34, [15, 17, 22], 41, 42, True, soft_dark_fx, rgb),
+            ("29_Text_Badge_WeAreAvailable_OrigFX", "30_Text_Badge_WeAreAvailable_Editable", "We are available at:", avail_txt_mask_full, 36, 246, 17, [248, 250, 252], 43, 44, True, soft_dark_fx, avail_txt_clean_rgb),
+            ("31_Text_CallUs_Label_OrigFX", "32_Text_CallUs_Label_Editable", "Call us More info", m_call_lbl, 72, 682, 14, [15, 32, 72], 45, 46, False, None, rgb),
+            ("33_Text_Phone_Number_OrigFX", "34_Text_Phone_Number_Editable", "1300012018", m_call_num, 72, 702, 20, [15, 32, 72], 47, 48, True, None, rgb),
+            ("35_Text_VisitWebsite_Label_OrigFX", "36_Text_VisitWebsite_Label_Editable", "Visit our website", m_visit_lbl, 545, 685, 14, [25, 20, 15], 49, 50, False, None, rgb),
+            ("37_Text_Website_URL_OrigFX", "38_Text_Website_URL_Editable", "www.mecabs.com.au", m_visit_url, 424, 703, 18, [18, 16, 14], 51, 52, True, None, rgb),
         ]
-        for o_n, e_n, txt, tmsk, ex, ey, fsz, col, zo, ze, pbold, tfx in text_pairs:
+        for o_n, e_n, txt, tmsk, ex, ey, fsz, col, zo, ze, pbold, tfx, src_t_rgb in text_pairs:
+            clean_t_rgb = src_t_rgb.copy()
+            if o_n != "29_Text_Badge_WeAreAvailable_OrigFX":
+                # Fill dark text layer strictly with crisp target ink color wherever visible (`zero sky/wedge halo rim`)
+                clean_t_rgb[tmsk > 8] = np.array(col, dtype=np.uint8)
             self._add_dual_text_pair(
                 orig_name=o_n,
                 edit_name=e_n,
                 text_str=txt,
-                src_rgb=rgb,
+                src_rgb=clean_t_rgb,
                 orig_mask_u8=tmsk,
                 edit_x=ex,
                 edit_y=ey,
@@ -958,87 +1025,70 @@ class PosterDecomposer:
         h, w = bgr.shape[:2]
 
         # A. Reconstruct Clean Twilight Sky Gradient (`01_Background_Sky_Twilight_Clean`, z=1)
-        dil_sky = np.zeros((h, w), dtype=np.uint8)
-        top_left_ui = np.zeros((h, w), dtype=np.uint8)
-        top_left_ui[12:285, 0:312] = cv2.dilate(ui_claimed[12:285, 0:312], np.ones((17, 17), np.uint8), iterations=1)
-        dil_sky = cv2.bitwise_or(dil_sky, top_left_ui)
-        # Keep genuine twilight glow bands between TL UI rows as clean harmonic anchors
-        dil_sky[18:106, 22:308] = 255         # brand logo + MELBOURNE XPRESS CABS
-        dil_sky[122:222, 20:296] = 255        # Taxi Service + Me Cabs + pin halo
-        dil_sky[236:276, 0:260] = 255         # "We are available at:" ribbon bar
-        dil_sky[58:548, 370:666] = 255        # iPhone + drop-shadow halo
-        dil_sky[96:356, 635:w] = 255          # right Ferris wheel landmark + bridge
-        dil_sky = cv2.bitwise_or(
-            dil_sky,
-            cv2.dilate(cv2.bitwise_or(route_mask, pin_left_mask), np.ones((25, 25), np.uint8)),
-        )
-        dil_sky[352:h, 45:668] = 255          # hero yellow taxi & road contact zone
-        dil_sky[495:h, :] = 255               # road & footer wedges below horizon
+        # Zero np.interp(), zero rectangular murky smudges: 18px-22px rounded elliptical masks + 2D cubic twilight surface + full 2D NS PDE + wide 36px feather + grain match
+        k_ell20 = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (41, 41))
+        k_ell18 = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (37, 37))
+        fg_sky_items = cv2.bitwise_or(ui_claimed, cv2.bitwise_or(route_mask, cv2.bitwise_or(pin_left_mask, dest_mask)))
+        fg_sky_items = cv2.bitwise_or(fg_sky_items, phone_bin)
+        # Include the soft gray fade glow behind "We are available at:" cleanly without sharp rectangular corners
+        rib_glow_mask = np.zeros((h, w), dtype=np.uint8)
+        cv2.ellipse(rib_glow_mask, (118, 258), (155, 24), 0, 0, 360, 255, -1)
+        # Include exact curved Ferris wheel + pier silhouette so right twilight corner is uncontaminated
+        ferris_zone = np.zeros((h, w), dtype=np.uint8)
+        cv2.ellipse(ferris_zone, (702, 224), (82, 128), 0, 0, 360, 255, -1)
 
-        clean_sky = (dil_sky == 0) & (gray > 148) & (hsv[:, :, 1] < 85)
+        dil_sky = cv2.bitwise_or(
+            cv2.dilate(fg_sky_items, k_ell20, iterations=1),
+            cv2.dilate(rib_glow_mask, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (29, 29)), iterations=1),
+        )
+        dil_sky = cv2.bitwise_or(dil_sky, cv2.dilate(ferris_zone, k_ell18, iterations=1))
+        dil_sky = cv2.bitwise_or(dil_sky, cv2.dilate(taxi_bin, k_ell18, iterations=1))
+        dil_sky[490:h, :] = 255  # road & footer wedges below horizon
+
+        yy_s, xx_s = np.mgrid[0:h, 0:w].astype(np.float32)
+        xn = (xx_s / float(max(1, w - 1))) * 2.0 - 1.0
+        yn = (yy_s / float(max(1, h - 1))) * 2.0 - 1.0
+
+        clean_sky = (dil_sky == 0) & (gray > 145) & (hsv[:, :, 1] < 85) & (yy_s < 490)
         bgr_f = bgr.astype(np.float32)
 
-        # Warm-start altitude twilight profile + coarse-to-fine Harmonic/Laplace diffusion for C1 seamless sky
-        c0 = np.zeros((h, 3), dtype=np.float32)
-        c1 = np.zeros((h, 3), dtype=np.float32)
-        row_has_data = np.zeros(h, dtype=bool)
-        for ry in range(494):
-            ux = np.where(clean_sky[ry, :])[0]
-            if len(ux) >= 16:
-                x_norm = ux.astype(np.float32) / float(w)
-                x_mean = float(np.mean(x_norm))
-                dx = x_norm - x_mean
-                denom = float(np.sum(dx * dx))
-                for ch in range(3):
-                    vals = bgr_f[ry, ux, ch]
-                    v_mean = float(np.mean(vals))
-                    slope = float(np.sum(dx * (vals - v_mean)) / denom) if denom > 1e-4 and (ux.max() - ux.min()) > 120 else 0.0
-                    slope = float(np.clip(slope, -26.0, 26.0))
-                    c1[ry, ch] = slope
-                    c0[ry, ch] = v_mean - slope * x_mean
-                row_has_data[ry] = True
-
-        valid_rows = np.where(row_has_data)[0]
-        if len(valid_rows) > 0:
+        # Fit 2D cubic twilight polynomial surface strictly on ALL clean unmasked sky pixels
+        sy_idx, sx_idx = np.where(clean_sky)
+        sky_poly = bgr_f.copy()
+        if len(sx_idx) >= 200:
+            step_s = max(1, len(sx_idx) // 20000)
+            sx_sub = xn[sy_idx[::step_s], sx_idx[::step_s]]
+            sy_sub = yn[sy_idx[::step_s], sx_idx[::step_s]]
+            A_fit = np.column_stack([
+                np.ones_like(sx_sub), sx_sub, sy_sub,
+                sx_sub * sx_sub, sx_sub * sy_sub, sy_sub * sy_sub,
+                sx_sub ** 3, (sx_sub ** 2) * sy_sub, sx_sub * (sy_sub ** 2), sy_sub ** 3,
+            ])
+            grid_feats = [
+                np.ones_like(xn), xn, yn,
+                xn * xn, xn * yn, yn * yn,
+                xn ** 3, (xn ** 2) * yn, xn * (yn ** 2), yn ** 3,
+            ]
             for ch in range(3):
-                c0[:, ch] = np.interp(np.arange(h), valid_rows, c0[valid_rows, ch])
-                c1[:, ch] = np.interp(np.arange(h), valid_rows, c1[valid_rows, ch])
-        c0_sm = cv2.GaussianBlur(c0.reshape(h, 1, 3), (1, 15), 0).reshape(h, 3)
-        c1_sm = cv2.GaussianBlur(c1.reshape(h, 1, 3), (1, 25), 0).reshape(h, 3)
-        x_frac = (np.arange(w, dtype=np.float32) / float(w))[None, :, None]
-        sky_cur = np.clip(c0_sm[:, None, :] + c1_sm[:, None, :] * x_frac, 0.0, 255.0)
-        sky_cur[488:, :, :] = np.broadcast_to(sky_cur[487:488, :, :], (h - 488, w, 3))
+                coef, _, _, _ = np.linalg.lstsq(A_fit, bgr_f[sy_idx[::step_s], sx_idx[::step_s], ch], rcond=None)
+                pred = np.zeros((h, w), dtype=np.float32)
+                for ci, gf in enumerate(grid_feats):
+                    pred += float(coef[ci]) * gf
+                sky_poly[:, :, ch] = np.clip(pred, 0.0, 255.0)
+            sky_poly[488:, :, :] = np.broadcast_to(sky_poly[487:488, :, :], (h - 488, w, 3))
 
-        # Anchor valid horizon mist below y=488 during multiscale harmonic diffusion
-        valid_sky_mask = clean_sky.copy()
-        valid_sky_mask[490:, :] = True
-        anchor_f = bgr_f.copy()
-        anchor_f[490:, :, :] = sky_cur[490:, :, :]
-
-        for scale_sz, n_iter in [(92, 40), (184, 30), (368, 20), (w, 12)]:
-            if scale_sz != w:
-                cur_s = cv2.resize(sky_cur, (scale_sz, scale_sz), interpolation=cv2.INTER_LINEAR)
-                anc_s = cv2.resize(anchor_f, (scale_sz, scale_sz), interpolation=cv2.INTER_AREA)
-                val_s = cv2.resize(valid_sky_mask.astype(np.float32), (scale_sz, scale_sz), interpolation=cv2.INTER_AREA) > 0.75
-            else:
-                cur_s = sky_cur
-                anc_s = anchor_f
-                val_s = valid_sky_mask
-            for _ in range(n_iter):
-                cur_s = cv2.GaussianBlur(cur_s, (5, 5), 0)
-                cur_s[val_s] = anc_s[val_s]
-            sky_cur = cur_s if scale_sz == w else cv2.resize(cur_s, (w, h), interpolation=cv2.INTER_CUBIC)
-
-        # Gentle de-speckle on reconstructed sky holes + natural sensor micro-dither
-        sky_holes = (dil_sky > 0).astype(np.float32)
-        sky_blend_w = cv2.GaussianBlur(sky_holes, (15, 15), 0)[:, :, None]
-        rng_sky = np.random.default_rng(17)
-        sky_dither = rng_sky.normal(0.0, 0.65, (h, w, 3)).astype(np.float32)
-        sky_work = np.clip(
-            bgr_f * (1.0 - sky_blend_w) + (sky_cur + sky_dither) * sky_blend_w,
-            0,
-            255,
+        # Global 2D Navier-Stokes PDE inpainting across sky holes blended smoothly into 2D twilight polynomial surface
+        ns_sky_full = cv2.inpaint(bgr, dil_sky, 21, cv2.INPAINT_NS).astype(np.float32)
+        dist_edge = cv2.distanceTransform((dil_sky > 0).astype(np.uint8), cv2.DIST_L2, 5)
+        w_poly = np.clip((dist_edge - 8.0) / 36.0, 0.0, 1.0)[:, :, None]
+        sky_hole_blend = ns_sky_full * (1.0 - w_poly) + sky_poly * w_poly
+        hole_feather = np.clip(dist_edge / 18.0, 0.0, 1.0)[:, :, None]
+        sky_clean_base = np.where(
+            (dil_sky > 0)[:, :, None],
+            np.clip(bgr_f * (1.0 - hole_feather) + sky_hole_blend * hole_feather, 0.0, 255.0),
+            bgr_f,
         ).astype(np.uint8)
+        sky_work = _match_background_grain(sky_clean_base, bgr, dil_sky, seed=17)
 
         sky_rgb = cv2.cvtColor(sky_work, cv2.COLOR_BGR2RGB)
         sky_rel = "layers/01_Background_Sky_Twilight_Clean.png"
@@ -1054,16 +1104,22 @@ class PosterDecomposer:
             z_index=1,
             group="1_BG_&_Atmosphere",
             ai_reconstructed=True,
-            reconstruction_history=[{"timestamp": datetime.now().isoformat(timespec="seconds"), "pixel_origin": "2d_normalized_gaussian_twilight_surface", "engine": "twilight_sky_grad_v3"}],
+            reconstruction_history=[{"timestamp": datetime.now().isoformat(timespec="seconds"), "pixel_origin": "2d_cubic_surface_navier_stokes_grain_v1_6", "engine": "2d_ns_sky_inpaint_v1_6"}],
             confidence_score=0.96,
         ))
 
         # B. Ferris Wheel & Pier Landmark on Right Horizon (`02_Ferris_Wheel_Landmark_Right`, z=2)
-        # Strictly exclude iPhone's right metallic bezel & drop shadow (`x <= 657`, dark bezel at x=649..653)
+        # Extract ONLY crisp spokes/rim/gondolas/pier via high-pass local sky subtraction — ZERO purple sky haze box!
         ferris_work = bgr.copy()
-        fw_diff = np.linalg.norm(bgr.astype(np.float32) - sky_work.astype(np.float32), axis=2)
+        fw_crop = bgr[98:342, 658:w].astype(np.float32)
+        fw_local_sky = cv2.GaussianBlur(fw_crop, (33, 33), 0)
+        fw_struct_diff = np.linalg.norm(fw_crop - fw_local_sky, axis=2)
+        fw_hsv_r = hsv[98:342, 658:w]
+        # Structural spokes & glowing magenta/white lights (`high-pass structure > 14` or pier lower lit lights below y=275)
+        fw_struct = (fw_struct_diff > 13.5) | ((fw_hsv_r[:, :, 1] >= 65) & (fw_hsv_r[:, :, 2] >= 180) & (fw_struct_diff > 7.5))
+        fw_alpha_sub = np.where(fw_struct, np.clip((fw_struct_diff - 9.0) * 14.0, 95, 255), 0).astype(np.uint8)
         fw_alpha = np.zeros((h, w), dtype=np.uint8)
-        fw_alpha[98:342, 658:w] = np.clip((fw_diff[98:342, 658:w] - 8.0) * 6.5, 0, 255).astype(np.uint8)
+        fw_alpha[98:342, 658:w] = fw_alpha_sub
         # Reconstruct 22px left circular rim (`x: 636..657`) shifting downward smoothly along wheel tangent
         for col in range(636, 658):
             dist_l = 658 - col
@@ -1297,14 +1353,18 @@ def _render_poster_visual_reports(
     prog_rel = "Melbourne_Xpress_Cabs_Progression_Grid.jpg"
     grid.save(os.path.join(project_dir, prog_rel), quality=92)
 
-    # Checkerboard Sheet showcasing up to 20 key extracted + amodal layers
+    bg_clean_rel = "background_cleaned.jpg"
+    Image.fromarray(sky_clean_rgb, "RGB").save(os.path.join(project_dir, bg_clean_rel), quality=94)
+
+    # Checkerboard Audit Sheet showcasing EVERY extracted raster layer
     raster_all = [
         l for l in sorted(doc_layers, key=lambda x: x.get("z_index", 0))
         if l.get("type") in ("background", "product", "object", "shape", "icon", "logo", "shadow")
         and l.get("name") != "00_Original_Flattened_Ref"
         and l.get("source_file")
     ]
-    cols, rows = 4, max(1, (min(20, len(raster_all)) + 3) // 4)
+    cols = 4
+    rows = max(1, (len(raster_all) + cols - 1) // cols)
     cell = 280
     sheet = Image.new("RGB", (cols * cell, rows * cell), (22, 24, 30))
     sdr = ImageDraw.Draw(sheet)
@@ -1314,7 +1374,7 @@ def _render_poster_visual_reports(
             cb_tile[yy:yy + 16, xx:xx + 16] = 210 if ((xx // 16 + yy // 16) % 2 == 0) else 165
     cb_tpl = Image.fromarray(cb_tile, "RGB").convert("RGBA")
 
-    for i, lyr in enumerate(raster_all[:20]):
+    for i, lyr in enumerate(raster_all):
         gx, gy = (i % cols) * cell, (i // cols) * cell
         im = Image.open(os.path.join(project_dir, lyr["source_file"])).convert("RGBA")
         sc = min((cell - 20) / max(1, im.width), (cell - 38) / max(1, im.height))
@@ -1324,8 +1384,9 @@ def _render_poster_visual_reports(
         sheet.paste(cb.convert("RGB"), (gx, gy))
         sdr.rectangle([gx, gy, gx + cell, gy + 24], fill=(16, 20, 28))
         sdr.text((gx + 8, gy + 6), f"{lyr['name'][:27]} ({lyr['width']}x{lyr['height']})", fill=(147, 197, 253))
-    sheet_rel = "Melbourne_Xpress_Cabs_Layers_Sheet.jpg"
+    sheet_rel = "visual_audit_sheet.jpg"
     sheet.save(os.path.join(project_dir, sheet_rel), quality=92)
+    sheet.save(os.path.join(project_dir, "Melbourne_Xpress_Cabs_Layers_Sheet.jpg"), quality=92)
     return prog_rel, sheet_rel
 
 
@@ -1437,10 +1498,12 @@ def run_commercial_poster_decomposition_pipeline(
         ],
     )
     doc["composite_preview"] = comp_rel
+    doc["background_cleaned"] = "background_cleaned.jpg"
+    doc["visual_audit_sheet"] = sheet_rel
     doc["poster_progression_grid"] = prog_rel
     doc["poster_layers_sheet"] = sheet_rel
     save_document(doc, project_dir)
-    save_version(doc, project_dir, note="6-Group 39-Layer Commercial Poster Decomposition + Amodal Completion")
+    save_version(doc, project_dir, note="V1.6.0 Commercial Poster Decomposition + 2D Navier-Stokes Sky + Amodal Completion")
 
     return {
         "ok": True,
@@ -1450,6 +1513,8 @@ def run_commercial_poster_decomposition_pipeline(
         "layer_count": len(doc["layers"]),
         "text_layer_count": sum(1 for l in doc["layers"] if l.get("type") == "text"),
         "fx_layer_count": sum(1 for l in doc["layers"] if l.get("psd_effects")),
+        "background_cleaned": "background_cleaned.jpg",
+        "visual_audit_sheet": sheet_rel,
         "poster_progression_grid": prog_rel,
         "poster_layers_sheet": sheet_rel,
     }

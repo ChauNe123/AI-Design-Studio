@@ -1,0 +1,3439 @@
+{
+  "schema_version": "1.2.0",
+  "project_id": "hera_car_rental_v2_baseline",
+  "title": "Hera Automotive Centre - 1920x1920 Full Multi-Layer Editable Project",
+  "mode": "REDESIGN",
+  "width": 1920,
+  "height": 1920,
+  "dpi": 72,
+  "color_mode": "RGB",
+  "created_at": "2026-11-25T15:22:45",
+  "updated_at": "2026-11-25T15:22:45",
+  "source_image": "source_reference.png",
+  "brand": {
+    "extracted_palette": [
+      "#030304",
+      "#9E7A10",
+      "#F3EA79",
+      "#121418",
+      "#5F7793"
+    ],
+    "input_preprocess": {
+      "original_path": "D:\\AI_Design_Studio_V2\\projects\\hera_car_rental_v2_baseline\\input_hera_car_rental.jpg",
+      "processed_path": "D:\\AI_Design_Studio_V2\\projects\\hera_car_rental_v2_baseline\\input_upscaled_1920x1920.png",
+      "input_size": [
+        736,
+        736
+      ],
+      "output_size": [
+        1920,
+        1920
+      ],
+      "scale_factor": 2.6087,
+      "aspect_ratio_preserved": true,
+      "upscaled": true,
+      "method": "local_edge_preserved_lanczos4_clamped_unsharp",
+      "dedicated_sr_model_used": false,
+      "quality_inspection": {
+        "width": 736,
+        "height": 736,
+        "long_edge": 736,
+        "short_edge": 736,
+        "aspect_ratio": 1.0,
+        "laplacian_variance": 3314.72,
+        "tenengrad_gradient": 87.63,
+        "jpeg_blockiness_ratio": 1.101,
+        "below_target_resolution": true,
+        "is_blurry": false,
+        "target_long_edge": 1920,
+        "recommended_scale": 2.6087,
+        "dedicated_sr_model_installed": false,
+        "available_local_upscaler": "lanczos4_bilateral_halo_clamped_unsharp (no dedicated ESRGAN/SwinIR ONNX installed)",
+        "warnings": [
+          "Input resolution (736x736) is below target long edge (1920px); aspect-preserving upscale (2.6087x) will be applied."
+        ]
+      },
+      "warning": "Upscaled 736x736 -> 1920x1920 (2.6087x, exact aspect ratio preserved) via local_edge_preserved_lanczos4_clamped_unsharp. Note: Algorithmic upscaling sharpens edges cleanly without cropping/stretching, but does NOT guarantee recovery of lost optical micro-detail (no dedicated SR neural model installed)."
+    }
+  },
+  "notes": [
+    "Input inspected (736x736, Laplacian=3314.72) and upscaled 2.6087x -> 1920x1920 preserving exact 1:1 aspect ratio (input_hera_car_rental.jpg untouched; saved input_upscaled_1920x1920.png).",
+    "Separated 29 non-destructive layers across 6 groups: Sky, Midground City/Trees, Clean Road, 3 Polaroids, Hand, Leaves, Grounded 2-part Car Shadows + Hero Sedan + 2 Clipped Car Adjustments, Top-Left Badge + Gold Logo, Bottom CTA Button + Divider + Phone, and 5 Editable Vector TySh layers."
+  ],
+  "semantic_objects": [
+    {
+      "object_id": "obj_00_Original_Upscaled_Ref_Locked",
+      "object_name": "00_Original_Upscaled_Ref_Locked",
+      "object_category": "reference_original",
+      "bounding_box": [
+        0,
+        0,
+        1920,
+        1920
+      ],
+      "segmentation_mask": null,
+      "confidence_score": 1.0,
+      "z_index": 0,
+      "parent_object_id": null,
+      "overlap_relationships": [],
+      "source_asset": "layers/00_Original_Upscaled_Ref_Locked.png",
+      "reconstruction_status": "extracted_1to1",
+      "editability_status": "raster_editable",
+      "linked_layer_id": "lyr_0fba02d5"
+    },
+    {
+      "object_id": "obj_01_Sky_&_Horizon_Clean",
+      "object_name": "01_Sky_&_Horizon_Clean",
+      "object_category": "background_sky",
+      "bounding_box": [
+        0,
+        0,
+        1920,
+        1920
+      ],
+      "segmentation_mask": null,
+      "confidence_score": 0.93,
+      "z_index": 1,
+      "parent_object_id": null,
+      "overlap_relationships": [],
+      "source_asset": "layers/01_Sky_&_Horizon_Clean.png",
+      "reconstruction_status": "amodal_reconstructed",
+      "editability_status": "raster_editable",
+      "linked_layer_id": "lyr_3e1c1b8a"
+    },
+    {
+      "object_id": "obj_02_Midground_City_&_Trees",
+      "object_name": "02_Midground_City_&_Trees",
+      "object_category": "midground_city_trees",
+      "bounding_box": [
+        0,
+        854,
+        1920,
+        641
+      ],
+      "segmentation_mask": "masks/m_02_Midground_City_&_Trees.png",
+      "confidence_score": 0.86,
+      "z_index": 2,
+      "parent_object_id": null,
+      "overlap_relationships": [],
+      "source_asset": "layers/02_Midground_City_&_Trees.png",
+      "reconstruction_status": "amodal_reconstructed",
+      "editability_status": "mask_and_raster_editable",
+      "linked_layer_id": "lyr_517490c1"
+    },
+    {
+      "object_id": "obj_03_Road_Asphalt_Clean",
+      "object_name": "03_Road_Asphalt_Clean",
+      "object_category": "road_surface",
+      "bounding_box": [
+        0,
+        1326,
+        1920,
+        594
+      ],
+      "segmentation_mask": "masks/m_03_Road_Asphalt_Clean.png",
+      "confidence_score": 0.91,
+      "z_index": 3,
+      "parent_object_id": null,
+      "overlap_relationships": [],
+      "source_asset": "layers/03_Road_Asphalt_Clean.png",
+      "reconstruction_status": "amodal_reconstructed",
+      "editability_status": "mask_and_raster_editable",
+      "linked_layer_id": "lyr_4b89eafd"
+    },
+    {
+      "object_id": "obj_05_Polaroid_Back_Center",
+      "object_name": "05_Polaroid_Back_Center",
+      "object_category": "photo_frame_back",
+      "bounding_box": [
+        1150,
+        855,
+        262,
+        282
+      ],
+      "segmentation_mask": "masks/m_05_Polaroid_Back_Center.png",
+      "confidence_score": 0.84,
+      "z_index": 5,
+      "parent_object_id": null,
+      "overlap_relationships": [],
+      "source_asset": "layers/05_Polaroid_Back_Center.png",
+      "reconstruction_status": "amodal_reconstructed",
+      "editability_status": "mask_and_raster_editable",
+      "linked_layer_id": "lyr_5d4f999c"
+    },
+    {
+      "object_id": "obj_06_Polaroid_Right_Harbour",
+      "object_name": "06_Polaroid_Right_Harbour",
+      "object_category": "photo_frame_right",
+      "bounding_box": [
+        1340,
+        834,
+        485,
+        347
+      ],
+      "segmentation_mask": "masks/m_06_Polaroid_Right_Harbour.png",
+      "confidence_score": 0.9,
+      "z_index": 6,
+      "parent_object_id": null,
+      "overlap_relationships": [],
+      "source_asset": "layers/06_Polaroid_Right_Harbour.png",
+      "reconstruction_status": "amodal_reconstructed",
+      "editability_status": "mask_and_raster_editable",
+      "linked_layer_id": "lyr_06b98988"
+    },
+    {
+      "object_id": "obj_07_Polaroid_Left_SydneyOpera",
+      "object_name": "07_Polaroid_Left_SydneyOpera",
+      "object_category": "photo_frame_left",
+      "bounding_box": [
+        139,
+        721,
+        811,
+        627
+      ],
+      "segmentation_mask": "masks/m_07_Polaroid_Left_SydneyOpera.png",
+      "confidence_score": 0.93,
+      "z_index": 7,
+      "parent_object_id": null,
+      "overlap_relationships": [],
+      "source_asset": "layers/07_Polaroid_Left_SydneyOpera.png",
+      "reconstruction_status": "amodal_reconstructed",
+      "editability_status": "mask_and_raster_editable",
+      "linked_layer_id": "lyr_bdfe772e"
+    },
+    {
+      "object_id": "obj_08_Hand_Holding_Polaroid",
+      "object_name": "08_Hand_Holding_Polaroid",
+      "object_category": "human_hand",
+      "bounding_box": [
+        0,
+        223,
+        475,
+        650
+      ],
+      "segmentation_mask": "masks/m_08_Hand_Holding_Polaroid.png",
+      "confidence_score": 0.96,
+      "z_index": 8,
+      "parent_object_id": null,
+      "overlap_relationships": [],
+      "source_asset": "layers/08_Hand_Holding_Polaroid.png",
+      "reconstruction_status": "extracted_1to1",
+      "editability_status": "mask_and_raster_editable",
+      "linked_layer_id": "lyr_d3d8e253"
+    },
+    {
+      "object_id": "obj_09_Floating_Green_Leaves",
+      "object_name": "09_Floating_Green_Leaves",
+      "object_category": "foreground_leaves",
+      "bounding_box": [
+        158,
+        1051,
+        1762,
+        200
+      ],
+      "segmentation_mask": "masks/m_09_Floating_Green_Leaves.png",
+      "confidence_score": 0.85,
+      "z_index": 9,
+      "parent_object_id": null,
+      "overlap_relationships": [],
+      "source_asset": "layers/09_Floating_Green_Leaves.png",
+      "reconstruction_status": "extracted_1to1",
+      "editability_status": "mask_and_raster_editable",
+      "linked_layer_id": "lyr_395e63cc"
+    },
+    {
+      "object_id": "obj_10_Car_Ground_Ambient_Shadow",
+      "object_name": "10_Car_Ground_Ambient_Shadow",
+      "object_category": "ambient_shadow",
+      "bounding_box": [
+        406,
+        1526,
+        1122,
+        251
+      ],
+      "segmentation_mask": null,
+      "confidence_score": 0.91,
+      "z_index": 10,
+      "parent_object_id": null,
+      "overlap_relationships": [],
+      "source_asset": "layers/10_Car_Ground_Ambient_Shadow.png",
+      "reconstruction_status": "extracted_1to1",
+      "editability_status": "raster_editable",
+      "linked_layer_id": "lyr_767a7701"
+    },
+    {
+      "object_id": "obj_11_Car_Tire_Contact_Shadow",
+      "object_name": "11_Car_Tire_Contact_Shadow",
+      "object_category": "contact_shadow",
+      "bounding_box": [
+        452,
+        1511,
+        1079,
+        278
+      ],
+      "segmentation_mask": null,
+      "confidence_score": 0.94,
+      "z_index": 11,
+      "parent_object_id": null,
+      "overlap_relationships": [],
+      "source_asset": "layers/11_Car_Tire_Contact_Shadow.png",
+      "reconstruction_status": "extracted_1to1",
+      "editability_status": "raster_editable",
+      "linked_layer_id": "lyr_697832f6"
+    },
+    {
+      "object_id": "obj_12_Hero_Car_Sedan",
+      "object_name": "12_Hero_Car_Sedan",
+      "object_category": "hero_vehicle",
+      "bounding_box": [
+        374,
+        1166,
+        1144,
+        616
+      ],
+      "segmentation_mask": "masks/m_12_Hero_Car_Sedan.png",
+      "confidence_score": 0.97,
+      "z_index": 12,
+      "parent_object_id": null,
+      "overlap_relationships": [],
+      "source_asset": "layers/12_Hero_Car_Sedan.png",
+      "reconstruction_status": "extracted_1to1",
+      "editability_status": "mask_and_raster_editable",
+      "linked_layer_id": "lyr_9a0ae3ab"
+    },
+    {
+      "object_id": "obj_15_TopLeft_Badge_Black_Shape",
+      "object_name": "15_TopLeft_Badge_Black_Shape",
+      "object_category": "brand_badge_bg",
+      "bounding_box": [
+        0,
+        0,
+        387,
+        197
+      ],
+      "segmentation_mask": "masks/m_15_TopLeft_Badge_Black_Shape.png",
+      "confidence_score": 0.97,
+      "z_index": 15,
+      "parent_object_id": null,
+      "overlap_relationships": [],
+      "source_asset": "layers/15_TopLeft_Badge_Black_Shape.png",
+      "reconstruction_status": "extracted_1to1",
+      "editability_status": "mask_and_raster_editable",
+      "linked_layer_id": "lyr_74523bc3"
+    },
+    {
+      "object_id": "obj_16_Logo_Hera_Gold_Emblem",
+      "object_name": "16_Logo_Hera_Gold_Emblem",
+      "object_category": "brand_logo_emblem",
+      "bounding_box": [
+        42,
+        35,
+        340,
+        157
+      ],
+      "segmentation_mask": "masks/m_16_Logo_Hera_Gold_Emblem.png",
+      "confidence_score": 0.96,
+      "z_index": 16,
+      "parent_object_id": null,
+      "overlap_relationships": [],
+      "source_asset": "layers/16_Logo_Hera_Gold_Emblem.png",
+      "reconstruction_status": "extracted_1to1",
+      "editability_status": "mask_and_raster_editable",
+      "linked_layer_id": "lyr_cf8d3c59"
+    },
+    {
+      "object_id": "obj_17_CTA_Button_Yellow_Plate",
+      "object_name": "17_CTA_Button_Yellow_Plate",
+      "object_category": "cta_button_shape",
+      "bounding_box": [
+        686,
+        1803,
+        231,
+        53
+      ],
+      "segmentation_mask": "masks/m_17_CTA_Button_Yellow_Plate.png",
+      "confidence_score": 0.96,
+      "z_index": 17,
+      "parent_object_id": null,
+      "overlap_relationships": [],
+      "source_asset": "layers/17_CTA_Button_Yellow_Plate.png",
+      "reconstruction_status": "extracted_1to1",
+      "editability_status": "mask_and_raster_editable",
+      "linked_layer_id": "lyr_143c9b3f"
+    },
+    {
+      "object_id": "obj_18_CTA_BookNow_OrigRaster",
+      "object_name": "18_CTA_BookNow_OrigRaster",
+      "object_category": "cta_button_text_raster",
+      "bounding_box": [
+        735,
+        1815,
+        165,
+        29
+      ],
+      "segmentation_mask": null,
+      "confidence_score": 0.95,
+      "z_index": 18,
+      "parent_object_id": null,
+      "overlap_relationships": [],
+      "source_asset": "layers/18_CTA_BookNow_OrigRaster.png",
+      "reconstruction_status": "extracted_1to1",
+      "editability_status": "raster_editable",
+      "linked_layer_id": "lyr_d57c370d"
+    },
+    {
+      "object_id": "obj_19_CTA_Vertical_Divider",
+      "object_name": "19_CTA_Vertical_Divider",
+      "object_category": "cta_divider",
+      "bounding_box": [
+        943,
+        1797,
+        9,
+        84
+      ],
+      "segmentation_mask": null,
+      "confidence_score": 0.95,
+      "z_index": 19,
+      "parent_object_id": null,
+      "overlap_relationships": [],
+      "source_asset": "layers/19_CTA_Vertical_Divider.png",
+      "reconstruction_status": "extracted_1to1",
+      "editability_status": "raster_editable",
+      "linked_layer_id": "lyr_2ac74e25"
+    },
+    {
+      "object_id": "obj_20_CTA_Phone_OrigRaster",
+      "object_name": "20_CTA_Phone_OrigRaster",
+      "object_category": "cta_phone_raster",
+      "bounding_box": [
+        965,
+        1810,
+        265,
+        39
+      ],
+      "segmentation_mask": null,
+      "confidence_score": 0.96,
+      "z_index": 20,
+      "parent_object_id": null,
+      "overlap_relationships": [],
+      "source_asset": "layers/20_CTA_Phone_OrigRaster.png",
+      "reconstruction_status": "extracted_1to1",
+      "editability_status": "raster_editable",
+      "linked_layer_id": "lyr_04b7d824"
+    },
+    {
+      "object_id": "obj_23_Text_OrigRaster_Headline",
+      "object_name": "23_Text_OrigRaster_Headline",
+      "object_category": "headline_raster",
+      "bounding_box": [
+        570,
+        267,
+        1206,
+        207
+      ],
+      "segmentation_mask": null,
+      "confidence_score": 0.97,
+      "z_index": 23,
+      "parent_object_id": null,
+      "overlap_relationships": [],
+      "source_asset": "layers/23_Text_OrigRaster_Headline.png",
+      "reconstruction_status": "extracted_1to1",
+      "editability_status": "raster_editable",
+      "linked_layer_id": "lyr_505d206f"
+    },
+    {
+      "object_id": "obj_24_Text_OrigRaster_Subhead",
+      "object_name": "24_Text_OrigRaster_Subhead",
+      "object_category": "subhead_raster",
+      "bounding_box": [
+        653,
+        492,
+        1052,
+        86
+      ],
+      "segmentation_mask": null,
+      "confidence_score": 0.97,
+      "z_index": 24,
+      "parent_object_id": null,
+      "overlap_relationships": [],
+      "source_asset": "layers/24_Text_OrigRaster_Subhead.png",
+      "reconstruction_status": "extracted_1to1",
+      "editability_status": "raster_editable",
+      "linked_layer_id": "lyr_aa36a48e"
+    },
+    {
+      "object_id": "obj_25_Text_OrigRaster_Tagline",
+      "object_name": "25_Text_OrigRaster_Tagline",
+      "object_category": "tagline_raster",
+      "bounding_box": [
+        852,
+        557,
+        645,
+        151
+      ],
+      "segmentation_mask": null,
+      "confidence_score": 0.96,
+      "z_index": 25,
+      "parent_object_id": null,
+      "overlap_relationships": [],
+      "source_asset": "layers/25_Text_OrigRaster_Tagline.png",
+      "reconstruction_status": "extracted_1to1",
+      "editability_status": "raster_editable",
+      "linked_layer_id": "lyr_37b8dc30"
+    }
+  ],
+  "layers": [
+    {
+      "id": "lyr_0fba02d5",
+      "name": "00_Original_Upscaled_Ref_Locked",
+      "type": "reference",
+      "source_file": "layers/00_Original_Upscaled_Ref_Locked.png",
+      "original_source_file": "layers/00_Original_Upscaled_Ref_Locked.png",
+      "x": 0,
+      "y": 0,
+      "width": 1920,
+      "height": 1920,
+      "z_index": 0,
+      "opacity": 1.0,
+      "visible": false,
+      "locked": true,
+      "rotation": 0.0,
+      "crop": null,
+      "blend_mode": "normal",
+      "clipping": false,
+      "mask_file": null,
+      "mask_x": null,
+      "mask_y": null,
+      "mask_default_color": 0,
+      "adjustment_data": null,
+      "psd_effects": null,
+      "ai_reconstructed": false,
+      "adjustments": {
+        "hue": 0.0,
+        "sat": 100.0,
+        "bright": 100.0,
+        "contrast": 100.0,
+        "exposure": 0.0,
+        "temperature": 0.0,
+        "shadow": 0.0,
+        "highlight": 0.0
+      },
+      "effects": {
+        "feather": 0,
+        "blur": 0.0,
+        "glow": {
+          "enabled": false,
+          "color": [
+            16,
+            185,
+            129
+          ],
+          "radius": 14,
+          "opacity": 0.75
+        },
+        "drop_shadow": {
+          "enabled": false,
+          "dx": 6,
+          "dy": 8,
+          "blur": 12,
+          "color": [
+            0,
+            0,
+            0
+          ],
+          "opacity": 0.55
+        },
+        "color_overlay": {
+          "enabled": false,
+          "color": [
+            255,
+            255,
+            255
+          ],
+          "opacity": 0.5
+        },
+        "gradient_overlay": {
+          "enabled": false,
+          "c1": [
+            16,
+            185,
+            129
+          ],
+          "c2": [
+            6,
+            95,
+            70
+          ],
+          "angle": 90,
+          "opacity": 0.6
+        }
+      },
+      "text_data": null,
+      "text_reconstruction": null,
+      "reconstruction_history": [
+        {
+          "timestamp": "2026-11-25T15:22:43",
+          "pixel_origin": "original_extracted",
+          "note": "Upscaled 736x736 -> 1920x1920 (2.6087x, exact aspect ratio preserved) via local_edge_preserved_lanczos4_clamped_unsharp. Note: Algorithmic upscaling sharpens edges cleanly without cropping/stretching, but does NOT guarantee recovery of lost optical micro-detail (no dedicated SR neural model installed)."
+        }
+      ],
+      "confidence_score": 1.0,
+      "warnings": [],
+      "group": "1_Background_&_Road_Scene",
+      "metadata": {}
+    },
+    {
+      "id": "lyr_3e1c1b8a",
+      "name": "01_Sky_&_Horizon_Clean",
+      "type": "background",
+      "source_file": "layers/01_Sky_&_Horizon_Clean.png",
+      "original_source_file": "layers/01_Sky_&_Horizon_Clean.png",
+      "x": 0,
+      "y": 0,
+      "width": 1920,
+      "height": 1920,
+      "z_index": 1,
+      "opacity": 1.0,
+      "visible": true,
+      "locked": false,
+      "rotation": 0.0,
+      "crop": null,
+      "blend_mode": "normal",
+      "clipping": false,
+      "mask_file": null,
+      "mask_x": null,
+      "mask_y": null,
+      "mask_default_color": 0,
+      "adjustment_data": null,
+      "psd_effects": null,
+      "ai_reconstructed": true,
+      "adjustments": {
+        "hue": 0.0,
+        "sat": 100.0,
+        "bright": 100.0,
+        "contrast": 100.0,
+        "exposure": 0.0,
+        "temperature": 0.0,
+        "shadow": 0.0,
+        "highlight": 0.0
+      },
+      "effects": {
+        "feather": 0,
+        "blur": 0.0,
+        "glow": {
+          "enabled": false,
+          "color": [
+            16,
+            185,
+            129
+          ],
+          "radius": 14,
+          "opacity": 0.75
+        },
+        "drop_shadow": {
+          "enabled": false,
+          "dx": 6,
+          "dy": 8,
+          "blur": 12,
+          "color": [
+            0,
+            0,
+            0
+          ],
+          "opacity": 0.55
+        },
+        "color_overlay": {
+          "enabled": false,
+          "color": [
+            255,
+            255,
+            255
+          ],
+          "opacity": 0.5
+        },
+        "gradient_overlay": {
+          "enabled": false,
+          "c1": [
+            16,
+            185,
+            129
+          ],
+          "c2": [
+            6,
+            95,
+            70
+          ],
+          "angle": 90,
+          "opacity": 0.6
+        }
+      },
+      "text_data": null,
+      "text_reconstruction": null,
+      "reconstruction_history": [
+        {
+          "timestamp": "2026-11-25T15:22:44",
+          "pixel_origin": "algorithmic_inpaint",
+          "note": "Clean sky & scene base reconstructed locally (badge, hand, text, polaroids, car, shadow, and CTA removed)."
+        }
+      ],
+      "confidence_score": 0.93,
+      "warnings": [],
+      "group": "1_Background_&_Road_Scene",
+      "metadata": {}
+    },
+    {
+      "id": "lyr_517490c1",
+      "name": "02_Midground_City_&_Trees",
+      "type": "architecture",
+      "source_file": "layers/02_Midground_City_&_Trees.png",
+      "original_source_file": "layers/02_Midground_City_&_Trees.png",
+      "x": 0,
+      "y": 854,
+      "width": 1920,
+      "height": 641,
+      "z_index": 2,
+      "opacity": 1.0,
+      "visible": true,
+      "locked": false,
+      "rotation": 0.0,
+      "crop": null,
+      "blend_mode": "normal",
+      "clipping": false,
+      "mask_file": "masks/m_02_Midground_City_&_Trees.png",
+      "mask_x": 0,
+      "mask_y": 854,
+      "mask_default_color": 0,
+      "adjustment_data": null,
+      "psd_effects": null,
+      "ai_reconstructed": true,
+      "adjustments": {
+        "hue": 0.0,
+        "sat": 100.0,
+        "bright": 100.0,
+        "contrast": 100.0,
+        "exposure": 0.0,
+        "temperature": 0.0,
+        "shadow": 0.0,
+        "highlight": 0.0
+      },
+      "effects": {
+        "feather": 0,
+        "blur": 0.0,
+        "glow": {
+          "enabled": false,
+          "color": [
+            16,
+            185,
+            129
+          ],
+          "radius": 14,
+          "opacity": 0.75
+        },
+        "drop_shadow": {
+          "enabled": false,
+          "dx": 6,
+          "dy": 8,
+          "blur": 12,
+          "color": [
+            0,
+            0,
+            0
+          ],
+          "opacity": 0.55
+        },
+        "color_overlay": {
+          "enabled": false,
+          "color": [
+            255,
+            255,
+            255
+          ],
+          "opacity": 0.5
+        },
+        "gradient_overlay": {
+          "enabled": false,
+          "c1": [
+            16,
+            185,
+            129
+          ],
+          "c2": [
+            6,
+            95,
+            70
+          ],
+          "angle": 90,
+          "opacity": 0.6
+        }
+      },
+      "text_data": null,
+      "text_reconstruction": null,
+      "reconstruction_history": [
+        {
+          "timestamp": "2026-11-25T15:22:44",
+          "pixel_origin": "algorithmic_inpaint",
+          "note": "Separated city skyline & foliage band with green-gated foliage restoration behind car canopy."
+        }
+      ],
+      "confidence_score": 0.86,
+      "warnings": [
+        "Horizon behind car roof was occluded in source image and reconstructed locally; mask can be refined via point/box tool if needed."
+      ],
+      "group": "1_Background_&_Road_Scene",
+      "metadata": {}
+    },
+    {
+      "id": "lyr_4b89eafd",
+      "name": "03_Road_Asphalt_Clean",
+      "type": "background",
+      "source_file": "layers/03_Road_Asphalt_Clean.png",
+      "original_source_file": "layers/03_Road_Asphalt_Clean.png",
+      "x": 0,
+      "y": 1326,
+      "width": 1920,
+      "height": 594,
+      "z_index": 3,
+      "opacity": 1.0,
+      "visible": true,
+      "locked": false,
+      "rotation": 0.0,
+      "crop": null,
+      "blend_mode": "normal",
+      "clipping": false,
+      "mask_file": "masks/m_03_Road_Asphalt_Clean.png",
+      "mask_x": 0,
+      "mask_y": 1326,
+      "mask_default_color": 0,
+      "adjustment_data": null,
+      "psd_effects": null,
+      "ai_reconstructed": true,
+      "adjustments": {
+        "hue": 0.0,
+        "sat": 100.0,
+        "bright": 100.0,
+        "contrast": 100.0,
+        "exposure": 0.0,
+        "temperature": 0.0,
+        "shadow": 0.0,
+        "highlight": 0.0
+      },
+      "effects": {
+        "feather": 0,
+        "blur": 0.0,
+        "glow": {
+          "enabled": false,
+          "color": [
+            16,
+            185,
+            129
+          ],
+          "radius": 14,
+          "opacity": 0.75
+        },
+        "drop_shadow": {
+          "enabled": false,
+          "dx": 6,
+          "dy": 8,
+          "blur": 12,
+          "color": [
+            0,
+            0,
+            0
+          ],
+          "opacity": 0.55
+        },
+        "color_overlay": {
+          "enabled": false,
+          "color": [
+            255,
+            255,
+            255
+          ],
+          "opacity": 0.5
+        },
+        "gradient_overlay": {
+          "enabled": false,
+          "c1": [
+            16,
+            185,
+            129
+          ],
+          "c2": [
+            6,
+            95,
+            70
+          ],
+          "angle": 90,
+          "opacity": 0.6
+        }
+      },
+      "text_data": null,
+      "text_reconstruction": null,
+      "reconstruction_history": [
+        {
+          "timestamp": "2026-11-25T15:22:44",
+          "pixel_origin": "algorithmic_inpaint",
+          "note": "Separated curving asphalt road with non-repeating pebble texture synthesis (car, shadow, and CTA removed)."
+        }
+      ],
+      "confidence_score": 0.91,
+      "warnings": [],
+      "group": "1_Background_&_Road_Scene",
+      "metadata": {}
+    },
+    {
+      "id": "lyr_1bea2ce1",
+      "name": "04_Adj_Scene_Atmosphere_Curves",
+      "type": "adjustment",
+      "source_file": null,
+      "original_source_file": null,
+      "x": 0,
+      "y": 0,
+      "width": 1920,
+      "height": 1920,
+      "z_index": 4,
+      "opacity": 0.2,
+      "visible": false,
+      "locked": false,
+      "rotation": 0.0,
+      "crop": null,
+      "blend_mode": "normal",
+      "clipping": false,
+      "mask_file": null,
+      "mask_x": null,
+      "mask_y": null,
+      "mask_default_color": 0,
+      "adjustment_data": {
+        "type": "curves",
+        "presetKind": 2,
+        "channels": [
+          [
+            {
+              "input": 0,
+              "output": 0
+            },
+            {
+              "input": 68,
+              "output": 60
+            },
+            {
+              "input": 188,
+              "output": 196
+            },
+            {
+              "input": 255,
+              "output": 255
+            }
+          ]
+        ]
+      },
+      "psd_effects": null,
+      "ai_reconstructed": false,
+      "adjustments": {
+        "hue": 0.0,
+        "sat": 100.0,
+        "bright": 100.0,
+        "contrast": 100.0,
+        "exposure": 0.0,
+        "temperature": 0.0,
+        "shadow": 0.0,
+        "highlight": 0.0
+      },
+      "effects": {
+        "feather": 0,
+        "blur": 0.0,
+        "glow": {
+          "enabled": false,
+          "color": [
+            16,
+            185,
+            129
+          ],
+          "radius": 14,
+          "opacity": 0.75
+        },
+        "drop_shadow": {
+          "enabled": false,
+          "dx": 6,
+          "dy": 8,
+          "blur": 12,
+          "color": [
+            0,
+            0,
+            0
+          ],
+          "opacity": 0.55
+        },
+        "color_overlay": {
+          "enabled": false,
+          "color": [
+            255,
+            255,
+            255
+          ],
+          "opacity": 0.5
+        },
+        "gradient_overlay": {
+          "enabled": false,
+          "c1": [
+            16,
+            185,
+            129
+          ],
+          "c2": [
+            6,
+            95,
+            70
+          ],
+          "angle": 90,
+          "opacity": 0.6
+        }
+      },
+      "text_data": null,
+      "text_reconstruction": null,
+      "reconstruction_history": [],
+      "confidence_score": 1.0,
+      "warnings": [],
+      "group": "1_Background_&_Road_Scene",
+      "metadata": {
+        "purpose": "Optional non-destructive background contrast control in Photoshop"
+      }
+    },
+    {
+      "id": "lyr_5d4f999c",
+      "name": "05_Polaroid_Back_Center",
+      "type": "object",
+      "source_file": "layers/05_Polaroid_Back_Center.png",
+      "original_source_file": "layers/05_Polaroid_Back_Center.png",
+      "x": 1150,
+      "y": 855,
+      "width": 262,
+      "height": 282,
+      "z_index": 5,
+      "opacity": 1.0,
+      "visible": true,
+      "locked": false,
+      "rotation": 0.0,
+      "crop": null,
+      "blend_mode": "normal",
+      "clipping": false,
+      "mask_file": "masks/m_05_Polaroid_Back_Center.png",
+      "mask_x": 1150,
+      "mask_y": 855,
+      "mask_default_color": 0,
+      "adjustment_data": null,
+      "psd_effects": null,
+      "ai_reconstructed": true,
+      "adjustments": {
+        "hue": 0.0,
+        "sat": 100.0,
+        "bright": 100.0,
+        "contrast": 100.0,
+        "exposure": 0.0,
+        "temperature": 0.0,
+        "shadow": 0.0,
+        "highlight": 0.0
+      },
+      "effects": {
+        "feather": 0,
+        "blur": 0.0,
+        "glow": {
+          "enabled": false,
+          "color": [
+            16,
+            185,
+            129
+          ],
+          "radius": 14,
+          "opacity": 0.75
+        },
+        "drop_shadow": {
+          "enabled": false,
+          "dx": 6,
+          "dy": 8,
+          "blur": 12,
+          "color": [
+            0,
+            0,
+            0
+          ],
+          "opacity": 0.55
+        },
+        "color_overlay": {
+          "enabled": false,
+          "color": [
+            255,
+            255,
+            255
+          ],
+          "opacity": 0.5
+        },
+        "gradient_overlay": {
+          "enabled": false,
+          "c1": [
+            16,
+            185,
+            129
+          ],
+          "c2": [
+            6,
+            95,
+            70
+          ],
+          "angle": 90,
+          "opacity": 0.6
+        }
+      },
+      "text_data": null,
+      "text_reconstruction": null,
+      "reconstruction_history": [
+        {
+          "timestamp": "2026-11-25T15:22:44",
+          "pixel_origin": "algorithmic_inpaint",
+          "note": "Faded background travel card with right-edge overlap healed."
+        }
+      ],
+      "confidence_score": 0.84,
+      "warnings": [
+        "Faded atmospheric card edge; refine mask via box/point tool if crisp rectangular border is desired."
+      ],
+      "group": "2_Polaroids_&_Hand",
+      "metadata": {}
+    },
+    {
+      "id": "lyr_06b98988",
+      "name": "06_Polaroid_Right_Harbour",
+      "type": "object",
+      "source_file": "layers/06_Polaroid_Right_Harbour.png",
+      "original_source_file": "layers/06_Polaroid_Right_Harbour.png",
+      "x": 1340,
+      "y": 834,
+      "width": 485,
+      "height": 347,
+      "z_index": 6,
+      "opacity": 1.0,
+      "visible": true,
+      "locked": false,
+      "rotation": 0.0,
+      "crop": null,
+      "blend_mode": "normal",
+      "clipping": false,
+      "mask_file": "masks/m_06_Polaroid_Right_Harbour.png",
+      "mask_x": 1340,
+      "mask_y": 834,
+      "mask_default_color": 0,
+      "adjustment_data": null,
+      "psd_effects": {
+        "dropShadow": [
+          {
+            "enabled": true,
+            "size": 18,
+            "distance": 6,
+            "angle": 120,
+            "color": [
+              15,
+              25,
+              40
+            ],
+            "opacity": 0.22
+          }
+        ]
+      },
+      "ai_reconstructed": true,
+      "adjustments": {
+        "hue": 0.0,
+        "sat": 100.0,
+        "bright": 100.0,
+        "contrast": 100.0,
+        "exposure": 0.0,
+        "temperature": 0.0,
+        "shadow": 0.0,
+        "highlight": 0.0
+      },
+      "effects": {
+        "feather": 0,
+        "blur": 0.0,
+        "glow": {
+          "enabled": false,
+          "color": [
+            16,
+            185,
+            129
+          ],
+          "radius": 14,
+          "opacity": 0.75
+        },
+        "drop_shadow": {
+          "enabled": false,
+          "dx": 6,
+          "dy": 8,
+          "blur": 12,
+          "color": [
+            0,
+            0,
+            0
+          ],
+          "opacity": 0.55
+        },
+        "color_overlay": {
+          "enabled": false,
+          "color": [
+            255,
+            255,
+            255
+          ],
+          "opacity": 0.5
+        },
+        "gradient_overlay": {
+          "enabled": false,
+          "c1": [
+            16,
+            185,
+            129
+          ],
+          "c2": [
+            6,
+            95,
+            70
+          ],
+          "angle": 90,
+          "opacity": 0.6
+        }
+      },
+      "text_data": null,
+      "text_reconstruction": null,
+      "reconstruction_history": [
+        {
+          "timestamp": "2026-11-25T15:22:44",
+          "pixel_origin": "algorithmic_inpaint",
+          "note": "Right harbour polaroid frame separated with floating leaf healed."
+        }
+      ],
+      "confidence_score": 0.9,
+      "warnings": [],
+      "group": "2_Polaroids_&_Hand",
+      "metadata": {}
+    },
+    {
+      "id": "lyr_bdfe772e",
+      "name": "07_Polaroid_Left_SydneyOpera",
+      "type": "object",
+      "source_file": "layers/07_Polaroid_Left_SydneyOpera.png",
+      "original_source_file": "layers/07_Polaroid_Left_SydneyOpera.png",
+      "x": 139,
+      "y": 721,
+      "width": 811,
+      "height": 627,
+      "z_index": 7,
+      "opacity": 1.0,
+      "visible": true,
+      "locked": false,
+      "rotation": 0.0,
+      "crop": null,
+      "blend_mode": "normal",
+      "clipping": false,
+      "mask_file": "masks/m_07_Polaroid_Left_SydneyOpera.png",
+      "mask_x": 139,
+      "mask_y": 721,
+      "mask_default_color": 0,
+      "adjustment_data": null,
+      "psd_effects": {
+        "dropShadow": [
+          {
+            "enabled": true,
+            "size": 22,
+            "distance": 8,
+            "angle": 120,
+            "color": [
+              15,
+              25,
+              40
+            ],
+            "opacity": 0.28
+          }
+        ]
+      },
+      "ai_reconstructed": true,
+      "adjustments": {
+        "hue": 0.0,
+        "sat": 100.0,
+        "bright": 100.0,
+        "contrast": 100.0,
+        "exposure": 0.0,
+        "temperature": 0.0,
+        "shadow": 0.0,
+        "highlight": 0.0
+      },
+      "effects": {
+        "feather": 0,
+        "blur": 0.0,
+        "glow": {
+          "enabled": false,
+          "color": [
+            16,
+            185,
+            129
+          ],
+          "radius": 14,
+          "opacity": 0.75
+        },
+        "drop_shadow": {
+          "enabled": false,
+          "dx": 6,
+          "dy": 8,
+          "blur": 12,
+          "color": [
+            0,
+            0,
+            0
+          ],
+          "opacity": 0.55
+        },
+        "color_overlay": {
+          "enabled": false,
+          "color": [
+            255,
+            255,
+            255
+          ],
+          "opacity": 0.5
+        },
+        "gradient_overlay": {
+          "enabled": false,
+          "c1": [
+            16,
+            185,
+            129
+          ],
+          "c2": [
+            6,
+            95,
+            70
+          ],
+          "angle": 90,
+          "opacity": 0.6
+        }
+      },
+      "text_data": null,
+      "text_reconstruction": null,
+      "reconstruction_history": [
+        {
+          "timestamp": "2026-11-25T15:22:44",
+          "pixel_origin": "algorithmic_inpaint",
+          "note": "Left Sydney Opera polaroid frame with thumb, leaf, and car-windshield corners amodally completed."
+        }
+      ],
+      "confidence_score": 0.93,
+      "warnings": [],
+      "group": "2_Polaroids_&_Hand",
+      "metadata": {}
+    },
+    {
+      "id": "lyr_d3d8e253",
+      "name": "08_Hand_Holding_Polaroid",
+      "type": "character",
+      "source_file": "layers/08_Hand_Holding_Polaroid.png",
+      "original_source_file": "layers/08_Hand_Holding_Polaroid.png",
+      "x": 0,
+      "y": 223,
+      "width": 475,
+      "height": 650,
+      "z_index": 8,
+      "opacity": 1.0,
+      "visible": true,
+      "locked": false,
+      "rotation": 0.0,
+      "crop": null,
+      "blend_mode": "normal",
+      "clipping": false,
+      "mask_file": "masks/m_08_Hand_Holding_Polaroid.png",
+      "mask_x": 0,
+      "mask_y": 223,
+      "mask_default_color": 0,
+      "adjustment_data": null,
+      "psd_effects": null,
+      "ai_reconstructed": false,
+      "adjustments": {
+        "hue": 0.0,
+        "sat": 100.0,
+        "bright": 100.0,
+        "contrast": 100.0,
+        "exposure": 0.0,
+        "temperature": 0.0,
+        "shadow": 0.0,
+        "highlight": 0.0
+      },
+      "effects": {
+        "feather": 0,
+        "blur": 0.0,
+        "glow": {
+          "enabled": false,
+          "color": [
+            16,
+            185,
+            129
+          ],
+          "radius": 14,
+          "opacity": 0.75
+        },
+        "drop_shadow": {
+          "enabled": false,
+          "dx": 6,
+          "dy": 8,
+          "blur": 12,
+          "color": [
+            0,
+            0,
+            0
+          ],
+          "opacity": 0.55
+        },
+        "color_overlay": {
+          "enabled": false,
+          "color": [
+            255,
+            255,
+            255
+          ],
+          "opacity": 0.5
+        },
+        "gradient_overlay": {
+          "enabled": false,
+          "c1": [
+            16,
+            185,
+            129
+          ],
+          "c2": [
+            6,
+            95,
+            70
+          ],
+          "angle": 90,
+          "opacity": 0.6
+        }
+      },
+      "text_data": null,
+      "text_reconstruction": null,
+      "reconstruction_history": [
+        {
+          "timestamp": "2026-11-25T15:22:44",
+          "pixel_origin": "original_extracted",
+          "note": "Extracted via SlimSAM-77 interactive point+box segmentation at 1920x1920 (IoU=0.99)."
+        }
+      ],
+      "confidence_score": 0.96,
+      "warnings": [],
+      "group": "2_Polaroids_&_Hand",
+      "metadata": {}
+    },
+    {
+      "id": "lyr_395e63cc",
+      "name": "09_Floating_Green_Leaves",
+      "type": "decor",
+      "source_file": "layers/09_Floating_Green_Leaves.png",
+      "original_source_file": "layers/09_Floating_Green_Leaves.png",
+      "x": 158,
+      "y": 1051,
+      "width": 1762,
+      "height": 200,
+      "z_index": 9,
+      "opacity": 1.0,
+      "visible": true,
+      "locked": false,
+      "rotation": 0.0,
+      "crop": null,
+      "blend_mode": "normal",
+      "clipping": false,
+      "mask_file": "masks/m_09_Floating_Green_Leaves.png",
+      "mask_x": 158,
+      "mask_y": 1051,
+      "mask_default_color": 0,
+      "adjustment_data": null,
+      "psd_effects": null,
+      "ai_reconstructed": false,
+      "adjustments": {
+        "hue": 0.0,
+        "sat": 100.0,
+        "bright": 100.0,
+        "contrast": 100.0,
+        "exposure": 0.0,
+        "temperature": 0.0,
+        "shadow": 0.0,
+        "highlight": 0.0
+      },
+      "effects": {
+        "feather": 0,
+        "blur": 0.0,
+        "glow": {
+          "enabled": false,
+          "color": [
+            16,
+            185,
+            129
+          ],
+          "radius": 14,
+          "opacity": 0.75
+        },
+        "drop_shadow": {
+          "enabled": false,
+          "dx": 6,
+          "dy": 8,
+          "blur": 12,
+          "color": [
+            0,
+            0,
+            0
+          ],
+          "opacity": 0.55
+        },
+        "color_overlay": {
+          "enabled": false,
+          "color": [
+            255,
+            255,
+            255
+          ],
+          "opacity": 0.5
+        },
+        "gradient_overlay": {
+          "enabled": false,
+          "c1": [
+            16,
+            185,
+            129
+          ],
+          "c2": [
+            6,
+            95,
+            70
+          ],
+          "angle": 90,
+          "opacity": 0.6
+        }
+      },
+      "text_data": null,
+      "text_reconstruction": null,
+      "reconstruction_history": [],
+      "confidence_score": 0.85,
+      "warnings": [],
+      "group": "2_Polaroids_&_Hand",
+      "metadata": {}
+    },
+    {
+      "id": "lyr_767a7701",
+      "name": "10_Car_Ground_Ambient_Shadow",
+      "type": "shadow",
+      "source_file": "layers/10_Car_Ground_Ambient_Shadow.png",
+      "original_source_file": "layers/10_Car_Ground_Ambient_Shadow.png",
+      "x": 406,
+      "y": 1526,
+      "width": 1122,
+      "height": 251,
+      "z_index": 10,
+      "opacity": 0.68,
+      "visible": true,
+      "locked": false,
+      "rotation": 0.0,
+      "crop": null,
+      "blend_mode": "multiply",
+      "clipping": false,
+      "mask_file": null,
+      "mask_x": null,
+      "mask_y": null,
+      "mask_default_color": 0,
+      "adjustment_data": null,
+      "psd_effects": null,
+      "ai_reconstructed": false,
+      "adjustments": {
+        "hue": 0.0,
+        "sat": 100.0,
+        "bright": 100.0,
+        "contrast": 100.0,
+        "exposure": 0.0,
+        "temperature": 0.0,
+        "shadow": 0.0,
+        "highlight": 0.0
+      },
+      "effects": {
+        "feather": 0,
+        "blur": 0.0,
+        "glow": {
+          "enabled": false,
+          "color": [
+            16,
+            185,
+            129
+          ],
+          "radius": 14,
+          "opacity": 0.75
+        },
+        "drop_shadow": {
+          "enabled": false,
+          "dx": 6,
+          "dy": 8,
+          "blur": 12,
+          "color": [
+            0,
+            0,
+            0
+          ],
+          "opacity": 0.55
+        },
+        "color_overlay": {
+          "enabled": false,
+          "color": [
+            255,
+            255,
+            255
+          ],
+          "opacity": 0.5
+        },
+        "gradient_overlay": {
+          "enabled": false,
+          "c1": [
+            16,
+            185,
+            129
+          ],
+          "c2": [
+            6,
+            95,
+            70
+          ],
+          "angle": 90,
+          "opacity": 0.6
+        }
+      },
+      "text_data": null,
+      "text_reconstruction": null,
+      "reconstruction_history": [],
+      "confidence_score": 0.91,
+      "warnings": [],
+      "group": "3_Hero_Vehicle_&_Lighting",
+      "metadata": {}
+    },
+    {
+      "id": "lyr_697832f6",
+      "name": "11_Car_Tire_Contact_Shadow",
+      "type": "shadow",
+      "source_file": "layers/11_Car_Tire_Contact_Shadow.png",
+      "original_source_file": "layers/11_Car_Tire_Contact_Shadow.png",
+      "x": 452,
+      "y": 1511,
+      "width": 1079,
+      "height": 278,
+      "z_index": 11,
+      "opacity": 0.88,
+      "visible": true,
+      "locked": false,
+      "rotation": 0.0,
+      "crop": null,
+      "blend_mode": "multiply",
+      "clipping": false,
+      "mask_file": null,
+      "mask_x": null,
+      "mask_y": null,
+      "mask_default_color": 0,
+      "adjustment_data": null,
+      "psd_effects": null,
+      "ai_reconstructed": false,
+      "adjustments": {
+        "hue": 0.0,
+        "sat": 100.0,
+        "bright": 100.0,
+        "contrast": 100.0,
+        "exposure": 0.0,
+        "temperature": 0.0,
+        "shadow": 0.0,
+        "highlight": 0.0
+      },
+      "effects": {
+        "feather": 0,
+        "blur": 0.0,
+        "glow": {
+          "enabled": false,
+          "color": [
+            16,
+            185,
+            129
+          ],
+          "radius": 14,
+          "opacity": 0.75
+        },
+        "drop_shadow": {
+          "enabled": false,
+          "dx": 6,
+          "dy": 8,
+          "blur": 12,
+          "color": [
+            0,
+            0,
+            0
+          ],
+          "opacity": 0.55
+        },
+        "color_overlay": {
+          "enabled": false,
+          "color": [
+            255,
+            255,
+            255
+          ],
+          "opacity": 0.5
+        },
+        "gradient_overlay": {
+          "enabled": false,
+          "c1": [
+            16,
+            185,
+            129
+          ],
+          "c2": [
+            6,
+            95,
+            70
+          ],
+          "angle": 90,
+          "opacity": 0.6
+        }
+      },
+      "text_data": null,
+      "text_reconstruction": null,
+      "reconstruction_history": [],
+      "confidence_score": 0.94,
+      "warnings": [],
+      "group": "3_Hero_Vehicle_&_Lighting",
+      "metadata": {}
+    },
+    {
+      "id": "lyr_9a0ae3ab",
+      "name": "12_Hero_Car_Sedan",
+      "type": "vehicle",
+      "source_file": "layers/12_Hero_Car_Sedan.png",
+      "original_source_file": "layers/12_Hero_Car_Sedan.png",
+      "x": 374,
+      "y": 1166,
+      "width": 1144,
+      "height": 616,
+      "z_index": 12,
+      "opacity": 1.0,
+      "visible": true,
+      "locked": false,
+      "rotation": 0.0,
+      "crop": null,
+      "blend_mode": "normal",
+      "clipping": false,
+      "mask_file": "masks/m_12_Hero_Car_Sedan.png",
+      "mask_x": 374,
+      "mask_y": 1166,
+      "mask_default_color": 0,
+      "adjustment_data": null,
+      "psd_effects": null,
+      "ai_reconstructed": false,
+      "adjustments": {
+        "hue": 0.0,
+        "sat": 100.0,
+        "bright": 100.0,
+        "contrast": 100.0,
+        "exposure": 0.0,
+        "temperature": 0.0,
+        "shadow": 0.0,
+        "highlight": 0.0
+      },
+      "effects": {
+        "feather": 0,
+        "blur": 0.0,
+        "glow": {
+          "enabled": false,
+          "color": [
+            16,
+            185,
+            129
+          ],
+          "radius": 14,
+          "opacity": 0.75
+        },
+        "drop_shadow": {
+          "enabled": false,
+          "dx": 6,
+          "dy": 8,
+          "blur": 12,
+          "color": [
+            0,
+            0,
+            0
+          ],
+          "opacity": 0.55
+        },
+        "color_overlay": {
+          "enabled": false,
+          "color": [
+            255,
+            255,
+            255
+          ],
+          "opacity": 0.5
+        },
+        "gradient_overlay": {
+          "enabled": false,
+          "c1": [
+            16,
+            185,
+            129
+          ],
+          "c2": [
+            6,
+            95,
+            70
+          ],
+          "angle": 90,
+          "opacity": 0.6
+        }
+      },
+      "text_data": null,
+      "text_reconstruction": null,
+      "reconstruction_history": [
+        {
+          "timestamp": "2026-11-25T15:22:45",
+          "pixel_origin": "original_extracted",
+          "note": "RMBG-1.4 1920x1920 full sedan silhouette with edge decontamination."
+        }
+      ],
+      "confidence_score": 0.97,
+      "warnings": [],
+      "group": "3_Hero_Vehicle_&_Lighting",
+      "metadata": {}
+    },
+    {
+      "id": "lyr_7bbeb630",
+      "name": "13_Adj_Car_Lighting_Curves",
+      "type": "adjustment",
+      "source_file": null,
+      "original_source_file": null,
+      "x": 0,
+      "y": 0,
+      "width": 1920,
+      "height": 1920,
+      "z_index": 13,
+      "opacity": 0.35,
+      "visible": true,
+      "locked": false,
+      "rotation": 0.0,
+      "crop": null,
+      "blend_mode": "normal",
+      "clipping": true,
+      "mask_file": null,
+      "mask_x": null,
+      "mask_y": null,
+      "mask_default_color": 0,
+      "adjustment_data": {
+        "type": "curves",
+        "presetKind": 2,
+        "channels": [
+          [
+            {
+              "input": 0,
+              "output": 0
+            },
+            {
+              "input": 64,
+              "output": 60
+            },
+            {
+              "input": 192,
+              "output": 198
+            },
+            {
+              "input": 255,
+              "output": 255
+            }
+          ]
+        ]
+      },
+      "psd_effects": null,
+      "ai_reconstructed": false,
+      "adjustments": {
+        "hue": 0.0,
+        "sat": 100.0,
+        "bright": 100.0,
+        "contrast": 100.0,
+        "exposure": 0.0,
+        "temperature": 0.0,
+        "shadow": 0.0,
+        "highlight": 0.0
+      },
+      "effects": {
+        "feather": 0,
+        "blur": 0.0,
+        "glow": {
+          "enabled": false,
+          "color": [
+            16,
+            185,
+            129
+          ],
+          "radius": 14,
+          "opacity": 0.75
+        },
+        "drop_shadow": {
+          "enabled": false,
+          "dx": 6,
+          "dy": 8,
+          "blur": 12,
+          "color": [
+            0,
+            0,
+            0
+          ],
+          "opacity": 0.55
+        },
+        "color_overlay": {
+          "enabled": false,
+          "color": [
+            255,
+            255,
+            255
+          ],
+          "opacity": 0.5
+        },
+        "gradient_overlay": {
+          "enabled": false,
+          "c1": [
+            16,
+            185,
+            129
+          ],
+          "c2": [
+            6,
+            95,
+            70
+          ],
+          "angle": 90,
+          "opacity": 0.6
+        }
+      },
+      "text_data": null,
+      "text_reconstruction": null,
+      "reconstruction_history": [],
+      "confidence_score": 1.0,
+      "warnings": [],
+      "group": "3_Hero_Vehicle_&_Lighting",
+      "metadata": {
+        "purpose": "Clipped non-destructive specular/shadow curve for Hero Car"
+      }
+    },
+    {
+      "id": "lyr_aec33f4f",
+      "name": "14_Adj_Car_Paint_ColorBalance",
+      "type": "adjustment",
+      "source_file": null,
+      "original_source_file": null,
+      "x": 0,
+      "y": 0,
+      "width": 1920,
+      "height": 1920,
+      "z_index": 14,
+      "opacity": 1.0,
+      "visible": false,
+      "locked": false,
+      "rotation": 0.0,
+      "crop": null,
+      "blend_mode": "normal",
+      "clipping": true,
+      "mask_file": null,
+      "mask_x": null,
+      "mask_y": null,
+      "mask_default_color": 0,
+      "adjustment_data": {
+        "type": "color balance",
+        "shadows": {
+          "cyanRed": -3,
+          "magentaGreen": 0,
+          "yellowBlue": 4
+        },
+        "midtones": {
+          "cyanRed": -4,
+          "magentaGreen": 1,
+          "yellowBlue": 6
+        },
+        "highlights": {
+          "cyanRed": 0,
+          "magentaGreen": 0,
+          "yellowBlue": 2
+        },
+        "preserveLuminosity": true
+      },
+      "psd_effects": null,
+      "ai_reconstructed": false,
+      "adjustments": {
+        "hue": 0.0,
+        "sat": 100.0,
+        "bright": 100.0,
+        "contrast": 100.0,
+        "exposure": 0.0,
+        "temperature": 0.0,
+        "shadow": 0.0,
+        "highlight": 0.0
+      },
+      "effects": {
+        "feather": 0,
+        "blur": 0.0,
+        "glow": {
+          "enabled": false,
+          "color": [
+            16,
+            185,
+            129
+          ],
+          "radius": 14,
+          "opacity": 0.75
+        },
+        "drop_shadow": {
+          "enabled": false,
+          "dx": 6,
+          "dy": 8,
+          "blur": 12,
+          "color": [
+            0,
+            0,
+            0
+          ],
+          "opacity": 0.55
+        },
+        "color_overlay": {
+          "enabled": false,
+          "color": [
+            255,
+            255,
+            255
+          ],
+          "opacity": 0.5
+        },
+        "gradient_overlay": {
+          "enabled": false,
+          "c1": [
+            16,
+            185,
+            129
+          ],
+          "c2": [
+            6,
+            95,
+            70
+          ],
+          "angle": 90,
+          "opacity": 0.6
+        }
+      },
+      "text_data": null,
+      "text_reconstruction": null,
+      "reconstruction_history": [],
+      "confidence_score": 1.0,
+      "warnings": [],
+      "group": "3_Hero_Vehicle_&_Lighting",
+      "metadata": {
+        "purpose": "Clipped optional paint tint control for Hero Car"
+      }
+    },
+    {
+      "id": "lyr_74523bc3",
+      "name": "15_TopLeft_Badge_Black_Shape",
+      "type": "shape",
+      "source_file": "layers/15_TopLeft_Badge_Black_Shape.png",
+      "original_source_file": "layers/15_TopLeft_Badge_Black_Shape.png",
+      "x": 0,
+      "y": 0,
+      "width": 387,
+      "height": 197,
+      "z_index": 15,
+      "opacity": 1.0,
+      "visible": true,
+      "locked": false,
+      "rotation": 0.0,
+      "crop": null,
+      "blend_mode": "normal",
+      "clipping": false,
+      "mask_file": "masks/m_15_TopLeft_Badge_Black_Shape.png",
+      "mask_x": 0,
+      "mask_y": 0,
+      "mask_default_color": 0,
+      "adjustment_data": null,
+      "psd_effects": null,
+      "ai_reconstructed": false,
+      "adjustments": {
+        "hue": 0.0,
+        "sat": 100.0,
+        "bright": 100.0,
+        "contrast": 100.0,
+        "exposure": 0.0,
+        "temperature": 0.0,
+        "shadow": 0.0,
+        "highlight": 0.0
+      },
+      "effects": {
+        "feather": 0,
+        "blur": 0.0,
+        "glow": {
+          "enabled": false,
+          "color": [
+            16,
+            185,
+            129
+          ],
+          "radius": 14,
+          "opacity": 0.75
+        },
+        "drop_shadow": {
+          "enabled": false,
+          "dx": 6,
+          "dy": 8,
+          "blur": 12,
+          "color": [
+            0,
+            0,
+            0
+          ],
+          "opacity": 0.55
+        },
+        "color_overlay": {
+          "enabled": false,
+          "color": [
+            255,
+            255,
+            255
+          ],
+          "opacity": 0.5
+        },
+        "gradient_overlay": {
+          "enabled": false,
+          "c1": [
+            16,
+            185,
+            129
+          ],
+          "c2": [
+            6,
+            95,
+            70
+          ],
+          "angle": 90,
+          "opacity": 0.6
+        }
+      },
+      "text_data": null,
+      "text_reconstruction": null,
+      "reconstruction_history": [],
+      "confidence_score": 0.97,
+      "warnings": [],
+      "group": "4_Brand_Logo_&_CTA_Bar",
+      "metadata": {}
+    },
+    {
+      "id": "lyr_cf8d3c59",
+      "name": "16_Logo_Hera_Gold_Emblem",
+      "type": "logo",
+      "source_file": "layers/16_Logo_Hera_Gold_Emblem.png",
+      "original_source_file": "layers/16_Logo_Hera_Gold_Emblem.png",
+      "x": 42,
+      "y": 35,
+      "width": 340,
+      "height": 157,
+      "z_index": 16,
+      "opacity": 1.0,
+      "visible": true,
+      "locked": false,
+      "rotation": 0.0,
+      "crop": null,
+      "blend_mode": "normal",
+      "clipping": false,
+      "mask_file": "masks/m_16_Logo_Hera_Gold_Emblem.png",
+      "mask_x": 42,
+      "mask_y": 35,
+      "mask_default_color": 0,
+      "adjustment_data": null,
+      "psd_effects": null,
+      "ai_reconstructed": false,
+      "adjustments": {
+        "hue": 0.0,
+        "sat": 100.0,
+        "bright": 100.0,
+        "contrast": 100.0,
+        "exposure": 0.0,
+        "temperature": 0.0,
+        "shadow": 0.0,
+        "highlight": 0.0
+      },
+      "effects": {
+        "feather": 0,
+        "blur": 0.0,
+        "glow": {
+          "enabled": false,
+          "color": [
+            16,
+            185,
+            129
+          ],
+          "radius": 14,
+          "opacity": 0.75
+        },
+        "drop_shadow": {
+          "enabled": false,
+          "dx": 6,
+          "dy": 8,
+          "blur": 12,
+          "color": [
+            0,
+            0,
+            0
+          ],
+          "opacity": 0.55
+        },
+        "color_overlay": {
+          "enabled": false,
+          "color": [
+            255,
+            255,
+            255
+          ],
+          "opacity": 0.5
+        },
+        "gradient_overlay": {
+          "enabled": false,
+          "c1": [
+            16,
+            185,
+            129
+          ],
+          "c2": [
+            6,
+            95,
+            70
+          ],
+          "angle": 90,
+          "opacity": 0.6
+        }
+      },
+      "text_data": null,
+      "text_reconstruction": null,
+      "reconstruction_history": [],
+      "confidence_score": 0.96,
+      "warnings": [],
+      "group": "4_Brand_Logo_&_CTA_Bar",
+      "metadata": {}
+    },
+    {
+      "id": "lyr_143c9b3f",
+      "name": "17_CTA_Button_Yellow_Plate",
+      "type": "shape",
+      "source_file": "layers/17_CTA_Button_Yellow_Plate.png",
+      "original_source_file": "layers/17_CTA_Button_Yellow_Plate.png",
+      "x": 686,
+      "y": 1803,
+      "width": 231,
+      "height": 53,
+      "z_index": 17,
+      "opacity": 1.0,
+      "visible": true,
+      "locked": false,
+      "rotation": 0.0,
+      "crop": null,
+      "blend_mode": "normal",
+      "clipping": false,
+      "mask_file": "masks/m_17_CTA_Button_Yellow_Plate.png",
+      "mask_x": 686,
+      "mask_y": 1803,
+      "mask_default_color": 0,
+      "adjustment_data": null,
+      "psd_effects": null,
+      "ai_reconstructed": false,
+      "adjustments": {
+        "hue": 0.0,
+        "sat": 100.0,
+        "bright": 100.0,
+        "contrast": 100.0,
+        "exposure": 0.0,
+        "temperature": 0.0,
+        "shadow": 0.0,
+        "highlight": 0.0
+      },
+      "effects": {
+        "feather": 0,
+        "blur": 0.0,
+        "glow": {
+          "enabled": false,
+          "color": [
+            16,
+            185,
+            129
+          ],
+          "radius": 14,
+          "opacity": 0.75
+        },
+        "drop_shadow": {
+          "enabled": false,
+          "dx": 6,
+          "dy": 8,
+          "blur": 12,
+          "color": [
+            0,
+            0,
+            0
+          ],
+          "opacity": 0.55
+        },
+        "color_overlay": {
+          "enabled": false,
+          "color": [
+            255,
+            255,
+            255
+          ],
+          "opacity": 0.5
+        },
+        "gradient_overlay": {
+          "enabled": false,
+          "c1": [
+            16,
+            185,
+            129
+          ],
+          "c2": [
+            6,
+            95,
+            70
+          ],
+          "angle": 90,
+          "opacity": 0.6
+        }
+      },
+      "text_data": null,
+      "text_reconstruction": null,
+      "reconstruction_history": [],
+      "confidence_score": 0.96,
+      "warnings": [],
+      "group": "4_Brand_Logo_&_CTA_Bar",
+      "metadata": {}
+    },
+    {
+      "id": "lyr_d57c370d",
+      "name": "18_CTA_BookNow_OrigRaster",
+      "type": "object",
+      "source_file": "layers/18_CTA_BookNow_OrigRaster.png",
+      "original_source_file": "layers/18_CTA_BookNow_OrigRaster.png",
+      "x": 735,
+      "y": 1815,
+      "width": 165,
+      "height": 29,
+      "z_index": 18,
+      "opacity": 1.0,
+      "visible": true,
+      "locked": false,
+      "rotation": 0.0,
+      "crop": null,
+      "blend_mode": "normal",
+      "clipping": false,
+      "mask_file": null,
+      "mask_x": null,
+      "mask_y": null,
+      "mask_default_color": 0,
+      "adjustment_data": null,
+      "psd_effects": null,
+      "ai_reconstructed": false,
+      "adjustments": {
+        "hue": 0.0,
+        "sat": 100.0,
+        "bright": 100.0,
+        "contrast": 100.0,
+        "exposure": 0.0,
+        "temperature": 0.0,
+        "shadow": 0.0,
+        "highlight": 0.0
+      },
+      "effects": {
+        "feather": 0,
+        "blur": 0.0,
+        "glow": {
+          "enabled": false,
+          "color": [
+            16,
+            185,
+            129
+          ],
+          "radius": 14,
+          "opacity": 0.75
+        },
+        "drop_shadow": {
+          "enabled": false,
+          "dx": 6,
+          "dy": 8,
+          "blur": 12,
+          "color": [
+            0,
+            0,
+            0
+          ],
+          "opacity": 0.55
+        },
+        "color_overlay": {
+          "enabled": false,
+          "color": [
+            255,
+            255,
+            255
+          ],
+          "opacity": 0.5
+        },
+        "gradient_overlay": {
+          "enabled": false,
+          "c1": [
+            16,
+            185,
+            129
+          ],
+          "c2": [
+            6,
+            95,
+            70
+          ],
+          "angle": 90,
+          "opacity": 0.6
+        }
+      },
+      "text_data": null,
+      "text_reconstruction": null,
+      "reconstruction_history": [],
+      "confidence_score": 0.95,
+      "warnings": [],
+      "group": "4_Brand_Logo_&_CTA_Bar",
+      "metadata": {}
+    },
+    {
+      "id": "lyr_2ac74e25",
+      "name": "19_CTA_Vertical_Divider",
+      "type": "shape",
+      "source_file": "layers/19_CTA_Vertical_Divider.png",
+      "original_source_file": "layers/19_CTA_Vertical_Divider.png",
+      "x": 943,
+      "y": 1797,
+      "width": 9,
+      "height": 84,
+      "z_index": 19,
+      "opacity": 1.0,
+      "visible": true,
+      "locked": false,
+      "rotation": 0.0,
+      "crop": null,
+      "blend_mode": "normal",
+      "clipping": false,
+      "mask_file": null,
+      "mask_x": null,
+      "mask_y": null,
+      "mask_default_color": 0,
+      "adjustment_data": null,
+      "psd_effects": null,
+      "ai_reconstructed": false,
+      "adjustments": {
+        "hue": 0.0,
+        "sat": 100.0,
+        "bright": 100.0,
+        "contrast": 100.0,
+        "exposure": 0.0,
+        "temperature": 0.0,
+        "shadow": 0.0,
+        "highlight": 0.0
+      },
+      "effects": {
+        "feather": 0,
+        "blur": 0.0,
+        "glow": {
+          "enabled": false,
+          "color": [
+            16,
+            185,
+            129
+          ],
+          "radius": 14,
+          "opacity": 0.75
+        },
+        "drop_shadow": {
+          "enabled": false,
+          "dx": 6,
+          "dy": 8,
+          "blur": 12,
+          "color": [
+            0,
+            0,
+            0
+          ],
+          "opacity": 0.55
+        },
+        "color_overlay": {
+          "enabled": false,
+          "color": [
+            255,
+            255,
+            255
+          ],
+          "opacity": 0.5
+        },
+        "gradient_overlay": {
+          "enabled": false,
+          "c1": [
+            16,
+            185,
+            129
+          ],
+          "c2": [
+            6,
+            95,
+            70
+          ],
+          "angle": 90,
+          "opacity": 0.6
+        }
+      },
+      "text_data": null,
+      "text_reconstruction": null,
+      "reconstruction_history": [],
+      "confidence_score": 0.95,
+      "warnings": [],
+      "group": "4_Brand_Logo_&_CTA_Bar",
+      "metadata": {}
+    },
+    {
+      "id": "lyr_04b7d824",
+      "name": "20_CTA_Phone_OrigRaster",
+      "type": "object",
+      "source_file": "layers/20_CTA_Phone_OrigRaster.png",
+      "original_source_file": "layers/20_CTA_Phone_OrigRaster.png",
+      "x": 965,
+      "y": 1810,
+      "width": 265,
+      "height": 39,
+      "z_index": 20,
+      "opacity": 1.0,
+      "visible": true,
+      "locked": false,
+      "rotation": 0.0,
+      "crop": null,
+      "blend_mode": "normal",
+      "clipping": false,
+      "mask_file": null,
+      "mask_x": null,
+      "mask_y": null,
+      "mask_default_color": 0,
+      "adjustment_data": null,
+      "psd_effects": null,
+      "ai_reconstructed": false,
+      "adjustments": {
+        "hue": 0.0,
+        "sat": 100.0,
+        "bright": 100.0,
+        "contrast": 100.0,
+        "exposure": 0.0,
+        "temperature": 0.0,
+        "shadow": 0.0,
+        "highlight": 0.0
+      },
+      "effects": {
+        "feather": 0,
+        "blur": 0.0,
+        "glow": {
+          "enabled": false,
+          "color": [
+            16,
+            185,
+            129
+          ],
+          "radius": 14,
+          "opacity": 0.75
+        },
+        "drop_shadow": {
+          "enabled": false,
+          "dx": 6,
+          "dy": 8,
+          "blur": 12,
+          "color": [
+            0,
+            0,
+            0
+          ],
+          "opacity": 0.55
+        },
+        "color_overlay": {
+          "enabled": false,
+          "color": [
+            255,
+            255,
+            255
+          ],
+          "opacity": 0.5
+        },
+        "gradient_overlay": {
+          "enabled": false,
+          "c1": [
+            16,
+            185,
+            129
+          ],
+          "c2": [
+            6,
+            95,
+            70
+          ],
+          "angle": 90,
+          "opacity": 0.6
+        }
+      },
+      "text_data": null,
+      "text_reconstruction": null,
+      "reconstruction_history": [],
+      "confidence_score": 0.96,
+      "warnings": [],
+      "group": "4_Brand_Logo_&_CTA_Bar",
+      "metadata": {}
+    },
+    {
+      "id": "lyr_6dc7d606",
+      "name": "21_CTA_BookNow_Editable",
+      "type": "text",
+      "source_file": "layers/21_CTA_BookNow_Editable.png",
+      "original_source_file": "layers/21_CTA_BookNow_Editable.png",
+      "x": 735,
+      "y": 1815,
+      "width": 151,
+      "height": 22,
+      "z_index": 21,
+      "opacity": 1.0,
+      "visible": false,
+      "locked": false,
+      "rotation": 0.0,
+      "crop": null,
+      "blend_mode": "normal",
+      "clipping": false,
+      "mask_file": null,
+      "mask_x": null,
+      "mask_y": null,
+      "mask_default_color": 0,
+      "adjustment_data": null,
+      "psd_effects": null,
+      "ai_reconstructed": false,
+      "adjustments": {
+        "hue": 0.0,
+        "sat": 100.0,
+        "bright": 100.0,
+        "contrast": 100.0,
+        "exposure": 0.0,
+        "temperature": 0.0,
+        "shadow": 0.0,
+        "highlight": 0.0
+      },
+      "effects": {
+        "feather": 0,
+        "blur": 0.0,
+        "glow": {
+          "enabled": false,
+          "color": [
+            16,
+            185,
+            129
+          ],
+          "radius": 14,
+          "opacity": 0.75
+        },
+        "drop_shadow": {
+          "enabled": false,
+          "dx": 6,
+          "dy": 8,
+          "blur": 12,
+          "color": [
+            0,
+            0,
+            0
+          ],
+          "opacity": 0.55
+        },
+        "color_overlay": {
+          "enabled": false,
+          "color": [
+            255,
+            255,
+            255
+          ],
+          "opacity": 0.5
+        },
+        "gradient_overlay": {
+          "enabled": false,
+          "c1": [
+            16,
+            185,
+            129
+          ],
+          "c2": [
+            6,
+            95,
+            70
+          ],
+          "angle": 90,
+          "opacity": 0.6
+        }
+      },
+      "text_data": {
+        "text": "BOOK NOW",
+        "font": "FZ Poppins-Bold",
+        "font_file": "D:\\AI_Design_Studio_V2\\assets\\fonts\\FZ Poppins-Bold.ttf",
+        "font_size": 26,
+        "color": [
+          14,
+          15,
+          18
+        ],
+        "align": "center",
+        "tracking": 0,
+        "leading": 8,
+        "stroke_enabled": false,
+        "shadow_enabled": false,
+        "glow_enabled": false,
+        "gradient_enabled": false,
+        "extrude_3d_depth": 0
+      },
+      "text_reconstruction": null,
+      "reconstruction_history": [],
+      "confidence_score": 0.95,
+      "warnings": [],
+      "group": "4_Brand_Logo_&_CTA_Bar",
+      "metadata": {}
+    },
+    {
+      "id": "lyr_eeb304aa",
+      "name": "22_CTA_Phone_Editable",
+      "type": "text",
+      "source_file": "layers/22_CTA_Phone_Editable.png",
+      "original_source_file": "layers/22_CTA_Phone_Editable.png",
+      "x": 965,
+      "y": 1810,
+      "width": 271,
+      "height": 36,
+      "z_index": 22,
+      "opacity": 1.0,
+      "visible": false,
+      "locked": false,
+      "rotation": 0.0,
+      "crop": null,
+      "blend_mode": "normal",
+      "clipping": false,
+      "mask_file": null,
+      "mask_x": null,
+      "mask_y": null,
+      "mask_default_color": 0,
+      "adjustment_data": null,
+      "psd_effects": null,
+      "ai_reconstructed": false,
+      "adjustments": {
+        "hue": 0.0,
+        "sat": 100.0,
+        "bright": 100.0,
+        "contrast": 100.0,
+        "exposure": 0.0,
+        "temperature": 0.0,
+        "shadow": 0.0,
+        "highlight": 0.0
+      },
+      "effects": {
+        "feather": 0,
+        "blur": 0.0,
+        "glow": {
+          "enabled": false,
+          "color": [
+            16,
+            185,
+            129
+          ],
+          "radius": 14,
+          "opacity": 0.75
+        },
+        "drop_shadow": {
+          "enabled": false,
+          "dx": 6,
+          "dy": 8,
+          "blur": 12,
+          "color": [
+            0,
+            0,
+            0
+          ],
+          "opacity": 0.55
+        },
+        "color_overlay": {
+          "enabled": false,
+          "color": [
+            255,
+            255,
+            255
+          ],
+          "opacity": 0.5
+        },
+        "gradient_overlay": {
+          "enabled": false,
+          "c1": [
+            16,
+            185,
+            129
+          ],
+          "c2": [
+            6,
+            95,
+            70
+          ],
+          "angle": 90,
+          "opacity": 0.6
+        }
+      },
+      "text_data": {
+        "text": "1800 777 999",
+        "font": "FZ Poppins-Medium",
+        "font_file": "D:\\AI_Design_Studio_V2\\assets\\fonts\\FZ Poppins-Medium.ttf",
+        "font_size": 42,
+        "color": [
+          250,
+          251,
+          253
+        ],
+        "align": "center",
+        "tracking": 0,
+        "leading": 8,
+        "stroke_enabled": false,
+        "shadow_enabled": false,
+        "glow_enabled": false,
+        "gradient_enabled": false,
+        "extrude_3d_depth": 0
+      },
+      "text_reconstruction": null,
+      "reconstruction_history": [],
+      "confidence_score": 0.95,
+      "warnings": [],
+      "group": "4_Brand_Logo_&_CTA_Bar",
+      "metadata": {}
+    },
+    {
+      "id": "lyr_505d206f",
+      "name": "23_Text_OrigRaster_Headline",
+      "type": "object",
+      "source_file": "layers/23_Text_OrigRaster_Headline.png",
+      "original_source_file": "layers/23_Text_OrigRaster_Headline.png",
+      "x": 570,
+      "y": 267,
+      "width": 1206,
+      "height": 207,
+      "z_index": 23,
+      "opacity": 1.0,
+      "visible": true,
+      "locked": false,
+      "rotation": 0.0,
+      "crop": null,
+      "blend_mode": "normal",
+      "clipping": false,
+      "mask_file": null,
+      "mask_x": null,
+      "mask_y": null,
+      "mask_default_color": 0,
+      "adjustment_data": null,
+      "psd_effects": null,
+      "ai_reconstructed": false,
+      "adjustments": {
+        "hue": 0.0,
+        "sat": 100.0,
+        "bright": 100.0,
+        "contrast": 100.0,
+        "exposure": 0.0,
+        "temperature": 0.0,
+        "shadow": 0.0,
+        "highlight": 0.0
+      },
+      "effects": {
+        "feather": 0,
+        "blur": 0.0,
+        "glow": {
+          "enabled": false,
+          "color": [
+            16,
+            185,
+            129
+          ],
+          "radius": 14,
+          "opacity": 0.75
+        },
+        "drop_shadow": {
+          "enabled": false,
+          "dx": 6,
+          "dy": 8,
+          "blur": 12,
+          "color": [
+            0,
+            0,
+            0
+          ],
+          "opacity": 0.55
+        },
+        "color_overlay": {
+          "enabled": false,
+          "color": [
+            255,
+            255,
+            255
+          ],
+          "opacity": 0.5
+        },
+        "gradient_overlay": {
+          "enabled": false,
+          "c1": [
+            16,
+            185,
+            129
+          ],
+          "c2": [
+            6,
+            95,
+            70
+          ],
+          "angle": 90,
+          "opacity": 0.6
+        }
+      },
+      "text_data": null,
+      "text_reconstruction": null,
+      "reconstruction_history": [],
+      "confidence_score": 0.97,
+      "warnings": [],
+      "group": "5_Original_Text_Raster",
+      "metadata": {}
+    },
+    {
+      "id": "lyr_aa36a48e",
+      "name": "24_Text_OrigRaster_Subhead",
+      "type": "object",
+      "source_file": "layers/24_Text_OrigRaster_Subhead.png",
+      "original_source_file": "layers/24_Text_OrigRaster_Subhead.png",
+      "x": 653,
+      "y": 492,
+      "width": 1052,
+      "height": 86,
+      "z_index": 24,
+      "opacity": 1.0,
+      "visible": true,
+      "locked": false,
+      "rotation": 0.0,
+      "crop": null,
+      "blend_mode": "normal",
+      "clipping": false,
+      "mask_file": null,
+      "mask_x": null,
+      "mask_y": null,
+      "mask_default_color": 0,
+      "adjustment_data": null,
+      "psd_effects": null,
+      "ai_reconstructed": false,
+      "adjustments": {
+        "hue": 0.0,
+        "sat": 100.0,
+        "bright": 100.0,
+        "contrast": 100.0,
+        "exposure": 0.0,
+        "temperature": 0.0,
+        "shadow": 0.0,
+        "highlight": 0.0
+      },
+      "effects": {
+        "feather": 0,
+        "blur": 0.0,
+        "glow": {
+          "enabled": false,
+          "color": [
+            16,
+            185,
+            129
+          ],
+          "radius": 14,
+          "opacity": 0.75
+        },
+        "drop_shadow": {
+          "enabled": false,
+          "dx": 6,
+          "dy": 8,
+          "blur": 12,
+          "color": [
+            0,
+            0,
+            0
+          ],
+          "opacity": 0.55
+        },
+        "color_overlay": {
+          "enabled": false,
+          "color": [
+            255,
+            255,
+            255
+          ],
+          "opacity": 0.5
+        },
+        "gradient_overlay": {
+          "enabled": false,
+          "c1": [
+            16,
+            185,
+            129
+          ],
+          "c2": [
+            6,
+            95,
+            70
+          ],
+          "angle": 90,
+          "opacity": 0.6
+        }
+      },
+      "text_data": null,
+      "text_reconstruction": null,
+      "reconstruction_history": [],
+      "confidence_score": 0.97,
+      "warnings": [],
+      "group": "5_Original_Text_Raster",
+      "metadata": {}
+    },
+    {
+      "id": "lyr_37b8dc30",
+      "name": "25_Text_OrigRaster_Tagline",
+      "type": "object",
+      "source_file": "layers/25_Text_OrigRaster_Tagline.png",
+      "original_source_file": "layers/25_Text_OrigRaster_Tagline.png",
+      "x": 852,
+      "y": 557,
+      "width": 645,
+      "height": 151,
+      "z_index": 25,
+      "opacity": 1.0,
+      "visible": true,
+      "locked": false,
+      "rotation": 0.0,
+      "crop": null,
+      "blend_mode": "normal",
+      "clipping": false,
+      "mask_file": null,
+      "mask_x": null,
+      "mask_y": null,
+      "mask_default_color": 0,
+      "adjustment_data": null,
+      "psd_effects": null,
+      "ai_reconstructed": false,
+      "adjustments": {
+        "hue": 0.0,
+        "sat": 100.0,
+        "bright": 100.0,
+        "contrast": 100.0,
+        "exposure": 0.0,
+        "temperature": 0.0,
+        "shadow": 0.0,
+        "highlight": 0.0
+      },
+      "effects": {
+        "feather": 0,
+        "blur": 0.0,
+        "glow": {
+          "enabled": false,
+          "color": [
+            16,
+            185,
+            129
+          ],
+          "radius": 14,
+          "opacity": 0.75
+        },
+        "drop_shadow": {
+          "enabled": false,
+          "dx": 6,
+          "dy": 8,
+          "blur": 12,
+          "color": [
+            0,
+            0,
+            0
+          ],
+          "opacity": 0.55
+        },
+        "color_overlay": {
+          "enabled": false,
+          "color": [
+            255,
+            255,
+            255
+          ],
+          "opacity": 0.5
+        },
+        "gradient_overlay": {
+          "enabled": false,
+          "c1": [
+            16,
+            185,
+            129
+          ],
+          "c2": [
+            6,
+            95,
+            70
+          ],
+          "angle": 90,
+          "opacity": 0.6
+        }
+      },
+      "text_data": null,
+      "text_reconstruction": null,
+      "reconstruction_history": [],
+      "confidence_score": 0.96,
+      "warnings": [],
+      "group": "5_Original_Text_Raster",
+      "metadata": {}
+    },
+    {
+      "id": "lyr_f3fa72f9",
+      "name": "26_Text_Editable_Headline",
+      "type": "text",
+      "source_file": "layers/26_Text_Editable_Headline.png",
+      "original_source_file": "layers/26_Text_Editable_Headline.png",
+      "x": 570,
+      "y": 267,
+      "width": 1097,
+      "height": 131,
+      "z_index": 26,
+      "opacity": 1.0,
+      "visible": false,
+      "locked": false,
+      "rotation": 0.0,
+      "crop": null,
+      "blend_mode": "normal",
+      "clipping": false,
+      "mask_file": null,
+      "mask_x": null,
+      "mask_y": null,
+      "mask_default_color": 0,
+      "adjustment_data": null,
+      "psd_effects": null,
+      "ai_reconstructed": false,
+      "adjustments": {
+        "hue": 0.0,
+        "sat": 100.0,
+        "bright": 100.0,
+        "contrast": 100.0,
+        "exposure": 0.0,
+        "temperature": 0.0,
+        "shadow": 0.0,
+        "highlight": 0.0
+      },
+      "effects": {
+        "feather": 0,
+        "blur": 0.0,
+        "glow": {
+          "enabled": false,
+          "color": [
+            16,
+            185,
+            129
+          ],
+          "radius": 14,
+          "opacity": 0.75
+        },
+        "drop_shadow": {
+          "enabled": false,
+          "dx": 6,
+          "dy": 8,
+          "blur": 12,
+          "color": [
+            0,
+            0,
+            0
+          ],
+          "opacity": 0.55
+        },
+        "color_overlay": {
+          "enabled": false,
+          "color": [
+            255,
+            255,
+            255
+          ],
+          "opacity": 0.5
+        },
+        "gradient_overlay": {
+          "enabled": false,
+          "c1": [
+            16,
+            185,
+            129
+          ],
+          "c2": [
+            6,
+            95,
+            70
+          ],
+          "angle": 90,
+          "opacity": 0.6
+        }
+      },
+      "text_data": {
+        "text": "GOING SOMEWHERE?",
+        "font": "Anton-Regular",
+        "font_file": "D:\\AI_Design_Studio_V2\\assets\\fonts\\Anton-Regular.ttf",
+        "font_size": 146,
+        "color": [
+          158,
+          122,
+          16
+        ],
+        "align": "center",
+        "tracking": 0,
+        "leading": 8,
+        "stroke_enabled": false,
+        "shadow_enabled": false,
+        "glow_enabled": false,
+        "gradient_enabled": false,
+        "extrude_3d_depth": 0
+      },
+      "text_reconstruction": null,
+      "reconstruction_history": [],
+      "confidence_score": 0.95,
+      "warnings": [],
+      "group": "6_Editable_Typography",
+      "metadata": {}
+    },
+    {
+      "id": "lyr_d2b40ed6",
+      "name": "27_Text_Editable_Subhead",
+      "type": "text",
+      "source_file": "layers/27_Text_Editable_Subhead.png",
+      "original_source_file": "layers/27_Text_Editable_Subhead.png",
+      "x": 653,
+      "y": 492,
+      "width": 944,
+      "height": 43,
+      "z_index": 27,
+      "opacity": 1.0,
+      "visible": false,
+      "locked": false,
+      "rotation": 0.0,
+      "crop": null,
+      "blend_mode": "normal",
+      "clipping": false,
+      "mask_file": null,
+      "mask_x": null,
+      "mask_y": null,
+      "mask_default_color": 0,
+      "adjustment_data": null,
+      "psd_effects": null,
+      "ai_reconstructed": false,
+      "adjustments": {
+        "hue": 0.0,
+        "sat": 100.0,
+        "bright": 100.0,
+        "contrast": 100.0,
+        "exposure": 0.0,
+        "temperature": 0.0,
+        "shadow": 0.0,
+        "highlight": 0.0
+      },
+      "effects": {
+        "feather": 0,
+        "blur": 0.0,
+        "glow": {
+          "enabled": false,
+          "color": [
+            16,
+            185,
+            129
+          ],
+          "radius": 14,
+          "opacity": 0.75
+        },
+        "drop_shadow": {
+          "enabled": false,
+          "dx": 6,
+          "dy": 8,
+          "blur": 12,
+          "color": [
+            0,
+            0,
+            0
+          ],
+          "opacity": 0.55
+        },
+        "color_overlay": {
+          "enabled": false,
+          "color": [
+            255,
+            255,
+            255
+          ],
+          "opacity": 0.5
+        },
+        "gradient_overlay": {
+          "enabled": false,
+          "c1": [
+            16,
+            185,
+            129
+          ],
+          "c2": [
+            6,
+            95,
+            70
+          ],
+          "angle": 90,
+          "opacity": 0.6
+        }
+      },
+      "text_data": {
+        "text": "RELY ON OUR CAR RENTAL SERVICE",
+        "font": "FZ Poppins-Bold",
+        "font_file": "D:\\AI_Design_Studio_V2\\assets\\fonts\\FZ Poppins-Bold.ttf",
+        "font_size": 55,
+        "color": [
+          18,
+          20,
+          24
+        ],
+        "align": "center",
+        "tracking": 0,
+        "leading": 8,
+        "stroke_enabled": false,
+        "shadow_enabled": false,
+        "glow_enabled": false,
+        "gradient_enabled": false,
+        "extrude_3d_depth": 0
+      },
+      "text_reconstruction": null,
+      "reconstruction_history": [],
+      "confidence_score": 0.95,
+      "warnings": [],
+      "group": "6_Editable_Typography",
+      "metadata": {}
+    },
+    {
+      "id": "lyr_f39e0cec",
+      "name": "28_Text_Editable_Tagline",
+      "type": "text",
+      "source_file": "layers/28_Text_Editable_Tagline.png",
+      "original_source_file": "layers/28_Text_Editable_Tagline.png",
+      "x": 852,
+      "y": 557,
+      "width": 744,
+      "height": 84,
+      "z_index": 28,
+      "opacity": 1.0,
+      "visible": false,
+      "locked": false,
+      "rotation": 0.0,
+      "crop": null,
+      "blend_mode": "normal",
+      "clipping": false,
+      "mask_file": null,
+      "mask_x": null,
+      "mask_y": null,
+      "mask_default_color": 0,
+      "adjustment_data": null,
+      "psd_effects": null,
+      "ai_reconstructed": false,
+      "adjustments": {
+        "hue": 0.0,
+        "sat": 100.0,
+        "bright": 100.0,
+        "contrast": 100.0,
+        "exposure": 0.0,
+        "temperature": 0.0,
+        "shadow": 0.0,
+        "highlight": 0.0
+      },
+      "effects": {
+        "feather": 0,
+        "blur": 0.0,
+        "glow": {
+          "enabled": false,
+          "color": [
+            16,
+            185,
+            129
+          ],
+          "radius": 14,
+          "opacity": 0.75
+        },
+        "drop_shadow": {
+          "enabled": false,
+          "dx": 6,
+          "dy": 8,
+          "blur": 12,
+          "color": [
+            0,
+            0,
+            0
+          ],
+          "opacity": 0.55
+        },
+        "color_overlay": {
+          "enabled": false,
+          "color": [
+            255,
+            255,
+            255
+          ],
+          "opacity": 0.5
+        },
+        "gradient_overlay": {
+          "enabled": false,
+          "c1": [
+            16,
+            185,
+            129
+          ],
+          "c2": [
+            6,
+            95,
+            70
+          ],
+          "angle": 90,
+          "opacity": 0.6
+        }
+      },
+      "text_data": {
+        "text": "for a smooth ride",
+        "font": "SegoeScript",
+        "font_file": "C:\\Windows\\Fonts\\segoesc.ttf",
+        "font_size": 78,
+        "color": [
+          18,
+          20,
+          22
+        ],
+        "align": "center",
+        "tracking": 0,
+        "leading": 8,
+        "stroke_enabled": false,
+        "shadow_enabled": false,
+        "glow_enabled": false,
+        "gradient_enabled": false,
+        "extrude_3d_depth": 0
+      },
+      "text_reconstruction": null,
+      "reconstruction_history": [],
+      "confidence_score": 0.95,
+      "warnings": [],
+      "group": "6_Editable_Typography",
+      "metadata": {}
+    }
+  ],
+  "api_tasks": [],
+  "warnings": [
+    "Upscaled 736x736 -> 1920x1920 (2.6087x, exact aspect ratio preserved) via local_edge_preserved_lanczos4_clamped_unsharp. Note: Algorithmic upscaling sharpens edges cleanly without cropping/stretching, but does NOT guarantee recovery of lost optical micro-detail (no dedicated SR neural model installed).",
+    "Uncertain occluded zones (horizon behind car roof & faded back polaroid border) were reconstructed locally; masks remain editable in Photoshop or via interactive point/box segmentation (/api/project/hera_car_rental_v2_baseline/segment).",
+    "Visual QC status: PENDING_USER_PHOTOSHOP_REVIEW — automated QA checks binary PSD structure only, not final aesthetic approval."
+  ],
+  "qa_status": null
+}

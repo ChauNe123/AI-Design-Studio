@@ -6,7 +6,7 @@ import numpy as np
 from PIL import Image
 
 from core.design_document import create_document, make_layer, make_semantic_object, save_document
-from core.image_analyzer import _estimate_local_background
+from core.image_analyzer import _estimate_local_background, inspect_input_quality, upscale_preserve_aspect_local
 from core.project_manager import save_version
 from core.reconstruction_engine import reconstruct_region
 from core.segmentation_engine import (
@@ -109,6 +109,7 @@ def run_semantic_redesign(
     title: str = "Semantic Redesign",
     upscale_2x: bool = True,
     max_dim: int = 2048,
+    target_long_edge: int = 1920,
     use_rmbg: bool = True,
     use_ocr: bool = True,
     auto_object_split: bool = True,
@@ -132,19 +133,39 @@ def run_semantic_redesign(
     bgr_orig = _imread_unicode(image_path)
     if bgr_orig is None:
         raise ValueError(f"Could not read input image: {image_path}")
-
     oh, ow = bgr_orig.shape[:2]
-    if max(ow, oh) > max_dim:
-        scale = max_dim / max(ow, oh)
-    elif upscale_2x and max(ow, oh) * 2 <= max_dim:
-        scale = 2.0
-    elif upscale_2x and max(ow, oh) < max_dim:
-        scale = max_dim / max(ow, oh)
-    else:
-        scale = 1.0
 
-    nw, nh = int(round(ow * scale)), int(round(oh * scale))
-    bgr = cv2.resize(bgr_orig, (nw, nh), interpolation=cv2.INTER_LANCZOS4) if scale != 1.0 else bgr_orig
+    input_diag = inspect_input_quality(image_path, target_long_edge=target_long_edge if upscale_2x else max(ow, oh))
+    warnings: List[str] = list(input_diag.get("warnings") or [])
+
+    if upscale_2x and max(ow, oh) < min(target_long_edge, max_dim):
+        up_tmp_name = f"input_upscaled_{min(target_long_edge, max_dim)}px.png"
+        up_info = upscale_preserve_aspect_local(
+            input_path=image_path,
+            out_upscaled_path=os.path.join(project_dir, up_tmp_name),
+            target_long_edge=target_long_edge,
+            max_dim=max_dim,
+        )
+        nw, nh = up_info["output_size"]
+        bgr = _imread_unicode(up_info["processed_path"])
+        warnings.append(up_info["warning"])
+    else:
+        scale = (max_dim / max(ow, oh)) if max(ow, oh) > max_dim else 1.0
+        nw, nh = int(round(ow * scale)), int(round(oh * scale))
+        bgr = cv2.resize(bgr_orig, (nw, nh), interpolation=cv2.INTER_AREA) if scale != 1.0 else bgr_orig
+        up_info = {
+            "original_path": image_path,
+            "processed_path": "source_reference.png",
+            "input_size": [ow, oh],
+            "output_size": [nw, nh],
+            "scale_factor": round(nw / max(1.0, float(ow)), 4),
+            "aspect_ratio_preserved": True,
+            "upscaled": False,
+            "method": "native_1to1_no_resize" if scale == 1.0 else "local_lanczos4_downscale_cap",
+            "dedicated_sr_model_used": False,
+            "quality_inspection": input_diag,
+        }
+
     rgb = cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB)
     lab = cv2.cvtColor(bgr, cv2.COLOR_BGR2LAB)
 
@@ -153,7 +174,6 @@ def run_semantic_redesign(
 
     doc_layers: List[Dict[str, Any]] = []
     semantic_objects: List[Dict[str, Any]] = []
-    warnings: List[str] = []
 
     # 1. Auto Object Discovery (DETR-ResNet-50) + RMBG-1.4 Salient Mask + OCR
     det_res = detect_objects(src_ref_path, threshold=0.62) if auto_object_split else {"ok": False, "objects": []}
@@ -410,6 +430,12 @@ def run_semantic_redesign(
                     # Keep cleanly inside dilated salient_mask & subtract already claimed objects so 0 duplicate pixels!
                     sal_clip = cv2.dilate(salient_mask, np.ones((5, 5), np.uint8), iterations=1)
                     m_obj = cv2.bitwise_and(m_sam, sal_clip)
+                    # If single non-overlapping foreground candidate matches >60% of RMBG salient island, adopt full crisp RMBG island so vehicle/subject is never torn in half!
+                    if len(fg_sorted) == 1:
+                        sal_area = max(1, int(np.sum(salient_mask > 120)))
+                        sam_in_sal = int(np.sum((m_obj > 90) & (salient_mask > 120)))
+                        if sam_in_sal / sal_area >= 0.55:
+                            m_obj = salient_mask.copy()
                     m_obj = cv2.subtract(m_obj, claimed_fg)
                     if int(np.sum(m_obj > 90)) >= 900:
                         cat_lbl = obj["label"].capitalize()
@@ -579,11 +605,14 @@ def run_semantic_redesign(
         height=nh,
         layers=doc_layers,
         source_image="source_reference.png",
-        brand={"extracted_palette": palette_hex},
+        brand={
+            "extracted_palette": palette_hex,
+            "input_preprocess": up_info,
+        },
         semantic_objects=semantic_objects,
         warnings=list(dict.fromkeys(warnings)),
         notes=[
-            f"Semantic Redesign v1.3 ({ow}x{oh} -> {nw}x{nh}).",
+            f"Semantic Redesign v1.3 ({ow}x{oh} -> {nw}x{nh}, method={up_info['method']}).",
             f"DETR Objects: {len(detr_objs)} | RMBG-1.4: {rmbg_used} | BG Engine: {recon.get('engine', 'lama')} | OCR lines: {len(typo_items)}.",
         ],
     )

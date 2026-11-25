@@ -1,0 +1,309 @@
+{
+  "schema_valid": true,
+  "schema_errors": [],
+  "qa1_layers": {
+    "passed": true,
+    "checked_count": 29,
+    "issues": [],
+    "qa_sheet": "qa_layers_sheet.png",
+    "layers": [
+      {
+        "id": "lyr_1effc6b4",
+        "name": "00_Original_Upscaled_Ref_Locked",
+        "type": "reference",
+        "ok": true,
+        "alpha_coverage_pct": 100.0,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_b16cffe0",
+        "name": "01_Sky_&_Horizon_Clean",
+        "type": "background",
+        "ok": true,
+        "alpha_coverage_pct": 100.0,
+        "ai_reconstructed": true
+      },
+      {
+        "id": "lyr_27855f69",
+        "name": "02_Midground_City_&_Trees",
+        "type": "architecture",
+        "ok": true,
+        "alpha_coverage_pct": 65.71,
+        "ai_reconstructed": true
+      },
+      {
+        "id": "lyr_698a2daa",
+        "name": "03_Road_Asphalt_Clean",
+        "type": "background",
+        "ok": true,
+        "alpha_coverage_pct": 84.56,
+        "ai_reconstructed": true
+      },
+      {
+        "id": "lyr_9718f2d9",
+        "name": "04_Adj_Scene_Atmosphere_Curves",
+        "type": "adjustment",
+        "adjustment_type": "curves",
+        "has_mask": false,
+        "clipping": false,
+        "ok": true,
+        "alpha_coverage_pct": 100.0,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_61c4abe1",
+        "name": "05_Polaroid_Back_Center",
+        "type": "object",
+        "ok": true,
+        "alpha_coverage_pct": 88.0,
+        "ai_reconstructed": true
+      },
+      {
+        "id": "lyr_10402e4c",
+        "name": "06_Polaroid_Right_Harbour",
+        "type": "object",
+        "ok": true,
+        "alpha_coverage_pct": 84.32,
+        "ai_reconstructed": true
+      },
+      {
+        "id": "lyr_aa2a589f",
+        "name": "07_Polaroid_Left_SydneyOpera",
+        "type": "object",
+        "ok": true,
+        "alpha_coverage_pct": 67.7,
+        "ai_reconstructed": true
+      },
+      {
+        "id": "lyr_3dd25a62",
+        "name": "08_Hand_Holding_Polaroid",
+        "type": "character",
+        "ok": true,
+        "alpha_coverage_pct": 57.6,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_c18ba0ef",
+        "name": "09_Floating_Green_Leaves",
+        "type": "decor",
+        "ok": true,
+        "alpha_coverage_pct": 5.14,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_a4ebfbf8",
+        "name": "10_Car_Ground_Ambient_Shadow",
+        "type": "shadow",
+        "ok": true,
+        "alpha_coverage_pct": 42.0,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_eea6c279",
+        "name": "11_Car_Tire_Contact_Shadow",
+        "type": "shadow",
+        "ok": true,
+        "alpha_coverage_pct": 27.88,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_f599d1e0",
+        "name": "12_Hero_Car_Sedan",
+        "type": "vehicle",
+        "ok": true,
+        "alpha_coverage_pct": 72.85,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_d17575b5",
+        "name": "13_Adj_Car_Lighting_Curves",
+        "type": "adjustment",
+        "adjustment_type": "curves",
+        "has_mask": false,
+        "clipping": true,
+        "ok": true,
+        "alpha_coverage_pct": 100.0,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_64d9ed9a",
+        "name": "14_Adj_Car_Paint_ColorBalance",
+        "type": "adjustment",
+        "adjustment_type": "color balance",
+        "has_mask": false,
+        "clipping": true,
+        "ok": true,
+        "alpha_coverage_pct": 100.0,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_f44a1f74",
+        "name": "15_TopLeft_Badge_Black_Shape",
+        "type": "shape",
+        "ok": true,
+        "alpha_coverage_pct": 98.11,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_32b54efc",
+        "name": "16_Logo_Hera_Gold_Emblem",
+        "type": "logo",
+        "ok": true,
+        "alpha_coverage_pct": 12.51,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_91d9b503",
+        "name": "17_CTA_Button_Yellow_Plate",
+        "type": "shape",
+        "ok": true,
+        "alpha_coverage_pct": 86.38,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_72cc711f",
+        "name": "18_CTA_BookNow_OrigRaster",
+        "type": "object",
+        "ok": true,
+        "alpha_coverage_pct": 35.38,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_d9d9eab1",
+        "name": "19_CTA_Vertical_Divider",
+        "type": "shape",
+        "ok": true,
+        "alpha_coverage_pct": 52.91,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_a5cda0de",
+        "name": "20_CTA_Phone_OrigRaster",
+        "type": "object",
+        "ok": true,
+        "alpha_coverage_pct": 32.22,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_9da68766",
+        "name": "21_CTA_BookNow_Editable",
+        "type": "text",
+        "ok": true,
+        "alpha_coverage_pct": 51.44,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_aa52cea1",
+        "name": "22_CTA_Phone_Editable",
+        "type": "text",
+        "ok": true,
+        "alpha_coverage_pct": 34.3,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_3e6ea044",
+        "name": "23_Text_OrigRaster_Headline",
+        "type": "object",
+        "ok": true,
+        "alpha_coverage_pct": 65.3,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_6b04ae34",
+        "name": "24_Text_OrigRaster_Subhead",
+        "type": "object",
+        "ok": true,
+        "alpha_coverage_pct": 41.31,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_c3031b01",
+        "name": "25_Text_OrigRaster_Tagline",
+        "type": "object",
+        "ok": true,
+        "alpha_coverage_pct": 14.47,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_97779803",
+        "name": "26_Text_Editable_Headline",
+        "type": "text",
+        "ok": true,
+        "alpha_coverage_pct": 66.58,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_1706eea3",
+        "name": "27_Text_Editable_Subhead",
+        "type": "text",
+        "ok": true,
+        "alpha_coverage_pct": 48.89,
+        "ai_reconstructed": false
+      },
+      {
+        "id": "lyr_b3b8b6b1",
+        "name": "28_Text_Editable_Tagline",
+        "type": "text",
+        "ok": true,
+        "alpha_coverage_pct": 16.6,
+        "ai_reconstructed": false
+      }
+    ]
+  },
+  "qa2_composite": {
+    "passed": true,
+    "composite_file": "qa_composite.png",
+    "transparent_hole_pct": 0.0,
+    "mae_vs_source": 7.15,
+    "aesthetic_checks": {
+      "hierarchy_ratio": {
+        "checked": false,
+        "ratio": null,
+        "passed": true,
+        "warning": ""
+      },
+      "negative_space": {
+        "occupied_pct": 100.0,
+        "negative_space_pct": 0.0,
+        "passed": false,
+        "warning": "DVF Negative Space Warning: Objects/Text occupy 100.0% (>80% canvas; negative space=0.0%)."
+      },
+      "text_contrast": {
+        "passed": true,
+        "checked_layers": [],
+        "warnings": []
+      },
+      "warnings": [
+        "DVF Negative Space Warning: Objects/Text occupy 100.0% (>80% canvas; negative space=0.0%)."
+      ]
+    },
+    "issues": []
+  },
+  "qa3_psd": {
+    "passed": true,
+    "psd_exists": true,
+    "psd_bytes": 40016285,
+    "width": 1920,
+    "height": 1920,
+    "color_mode": 3,
+    "group_count": 6,
+    "layer_count": 29,
+    "decoded_pixel_layers": 26,
+    "adjustment_layer_count": 3,
+    "masked_layer_count": 11,
+    "clipped_layer_count": 2,
+    "fx_layer_count": 2,
+    "composite_decoded": true,
+    "text_layer_count": 5,
+    "photoshop_installed": true,
+    "photoshop_gui_verified": false,
+    "photoshop_note": "Binary pixel + adjustment + mask + composite + group + TySh round-trip verified via ag-psd; Adobe Photoshop 2024 COM left for interactive GUI open.",
+    "issues": []
+  },
+  "technical_checks_passed": true,
+  "overall_passed": true,
+  "visual_qc_status": "PENDING_USER_PHOTOSHOP_REVIEW",
+  "visual_qc_note": "Automated checks verify binary PSD integrity, mask alignment, and non-empty layer buffers ONLY. Visual cleanliness and editability require human QC in Adobe Photoshop.",
+  "psd_file": "hera_car_rental_v2_baseline_studio.psd",
+  "psd_path": "D:\\AI_Design_Studio_V2\\projects\\hera_car_rental_v2_baseline\\hera_car_rental_v2_baseline_studio.psd"
+}
